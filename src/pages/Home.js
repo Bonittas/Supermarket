@@ -2,7 +2,7 @@ import React from 'react';
 
 export default function Home() {
   return (
-    <div className='flex justify-start'>
+    <div className='flex justify-start bg-black'>
       hello
     </div>
   );
