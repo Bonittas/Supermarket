@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes, faSearch, faUser,faCartShopping } from '@fortawesome/free-solid-svg-icons';
-import myImage from '../img/shopping-1165437.jpg';
 
 function Header({ handleMenuToggle, isMenuOpen }) {
   const [activePage, setActivePage] = useState('');
@@ -17,19 +16,14 @@ function Header({ handleMenuToggle, isMenuOpen }) {
     setActivePage(currentPath);
   }, [currentPath]);
   return (
-    <header className="relative flex justify-between items-center bg-white bg-opacity-1 mb-10">
-      <img
-        src={myImage}
-        alt="Background"
-        className="w-full  object-cover transform -scale-x-100"
-        style={{ maxHeight: '660px' }}
-      />
+    <header className="relative flex justify-between items-center z-20 bg-white bg-opacity-1 mb-10">
+     
       <div className="absolute top-0 left-0 p-4 w-full h-full bg-black bg-opacity-40 flex flex-col justify-center items-center">
       <div className="absolute top-0 right-0 p-4 w-1/3 h-full bg-white bg-opacity-10 flex flex-col justify-center items-center"/>
 
         <div className="absolute top-4 p-2 left-3  border-1 border-green-300 rounded-full w-24 h-24 bg-white bg-opacity-80 bg-gradient-to-r from-green-200 to-green-600">
-          <p className="text-xl text-center  text-white font-cursive"><FontAwesomeIcon icon={faCartShopping} className="w-12 h-12" />
-ushop</p>
+          <p className="text-xl text-center  text-gray-200 font-cursive"><FontAwesomeIcon icon={faCartShopping} className="w-12 h-12" />
+iShop</p>
         </div>
         <div className="flex items-center ml-auto space-x-4">
           <nav className="hidden sm:flex space-x-4 text-sm absolute top-10 right-48">

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faCartShopping,faSearch } from '@fortawesome/free-solid-svg-icons';
 import 'tailwindcss/tailwind.css';
+import myImage from '../img/shopping-1165437.jpg';
 
 import Header from '../components/Header3';
 import i1 from '../img/snacks.png';
@@ -72,6 +73,12 @@ const Home = () => {
     <>
     <Header/>
     <div className="bg-gray-100 min-h-screen">
+    <img
+        src={myImage}
+        alt="Background"
+        className="w-full  object-cover transform -scale-x-100"
+        style={{ maxHeight: '660px' }}
+      />
     <div className=" absolute right-2 top-64 flex flex-col justify-end items-end w-1/3 mx-2">
             <p className='text-white font-bold text-3xl text-center pb-3 w-full'>Elevate Your Shopping Experience with Our Vast Selection </p>
             <p className='text-white font-bold text-xl pb-4 text-center w-full'>Competitive Prices, Stellar and Fast Service</p>

@@ -5,21 +5,21 @@ import { faFacebook, faTwitter, faInstagram } from '@fortawesome/free-brands-svg
 
 function Footer() {
   return (
-    <footer className="bg-green-500 pt-12 pb-6">
+    <footer className="bg-green-500 pt-12 pb-6 mx-8 rounded-md">
       <div className="container mx-auto px-4">
         <div className="flex flex-wrap">
           <div className="w-full md:w-1/3 lg:w-1/4 mb-6">
             <h3 className="text-white text-lg font-bold mb-4">Contact Us</h3>
             <div className="flex items-start mb-2">
-              <FontAwesomeIcon icon={faMapMarkerAlt} className="text-white mr-2 mt-1" />
+              <FontAwesomeIcon icon={faMapMarkerAlt} className="text-white text-xl mr-2 mt-1" />
               <p className="text-white">Your Supermarket Address, City, State, ZIP</p>
             </div>
             <div className="flex items-start mb-2">
-              <FontAwesomeIcon icon={faPhone} className="text-white mr-2 mt-1" />
+              <FontAwesomeIcon icon={faPhone} className="text-white mr-2 text-xl mt-1" />
               <p className="text-white">123-456-7890</p>
             </div>
             <div className="flex items-start mb-2">
-              <FontAwesomeIcon icon={faEnvelope} className="text-white mr-2 mt-1" />
+              <FontAwesomeIcon icon={faEnvelope} className="text-white text-xl mr-2 mt-1" />
               <p className="text-white">info@supermarket.com</p>
             </div>
           </div>
