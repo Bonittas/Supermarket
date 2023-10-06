@@ -61,7 +61,7 @@ function Login() {
           </div>
 <div className='mx-2'>
           <div className="flex justify-center items-center  ">
-            <div className="w-full max-w-md  p-4 bg-green-50  shadow-lg rounded-lg absolute top-32">
+            <div className="w-full max-w-md  p-8 py-10 bg-white  shadow-lg rounded-lg absolute top-32">
               <div className="text-2xl font-bold mb-4 text-center text-black">Log In</div>
               {backendError.length > 0 && (
                 <div className="mb-4">
@@ -82,7 +82,7 @@ function Login() {
                     placeholder="Enter Email"
                     name="email"
                     onChange={handleInput}
-                    className="w-full px-3 py-2 rounded border border-orange-300 bg-white bg-opacity-90 text-black focus:outline-none focus:border-orange-500 "
+                    className="w-full px-3 py-2 rounded border border-green-300 bg-green-600 bg-opacity-10 text-black focus:outline-none focus:border-green-500 "
                   />
                   {errors.email && <span className="text-red-500">{errors.email}</span>}
                 </div>
@@ -95,11 +95,11 @@ function Login() {
                     placeholder="Enter Password"
                     name="password"
                     onChange={handleInput}
-                    className="w-full px-3 py-2 rounded border border-orange-300 bg-white bg-opacity-90 text-black focus:outline-none focus:border-orange-500 "
+                    className="w-full px-3 py-2 rounded border border-green-300  bg-green-600 bg-opacity-10 text-black z-30 focus:outline-none focus:border-green-500 "
                   />
                   {errors.password && <span className="text-red-500">{errors.password}</span>}
                 </div>
-                <button type="submit" className="w-full px-4 py-2 text-black bg-orange-600 rounded hover:bg-orange-800 focus:outline-none">
+                <button type="submit" className="w-full px-4 py-2 text-black bg-green-600 rounded hover:bg-green-800 focus:outline-none">
                   Log in
                 </button> 
                 <p className="mt-4 text-center text-black">
@@ -110,7 +110,7 @@ function Login() {
           </div>
         </div>
         </div>
-      <div className='bg-orange-600 p-4'>
+      <div className='bg-green-600 p-4'>
 </div>
     </>
   );

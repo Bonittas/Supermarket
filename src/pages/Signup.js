@@ -4,7 +4,7 @@ import Validation from './SignupValidation';
 import axios from 'axios';
 import myImage from '../img/shopping-1165437.jpg';
 import Header2 from '../components/Header3';
-import Footer from '../components/Footer';
+// import Footer from '../components/Footer';
 function Signup() {
   const [values, setValues] = useState({
     name: '',
@@ -44,11 +44,11 @@ function Signup() {
             <Header2 />
             
           <div className="flex justify-center items-center mx-2  ">
-        <div className="w-full max-w-md mx-2 p-4 bg-blue-600 bg-opacity-10 shadow-lg rounded-lg absolute top-32 ">
-          <h2 className="text-2xl font-bold mb-3 text-center text-white">Sign Up</h2>
+        <div className="w-full max-w-md mx-2 p-8 py-10 bg-white  shadow-lg rounded-lg absolute top-32 ">
+          <h2 className="text-2xl font-bold mb-3 text-center text-black">Sign Up</h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-6">
-              <label htmlFor="name" className="block mb-2 font-medium text-white">
+              <label htmlFor="name" className="block mb-2 font-medium text-black">
                 Name
               </label>
               <input
@@ -56,14 +56,14 @@ function Signup() {
                 placeholder="Enter Name"
                 name="name"
                 onChange={handleInput}
-                className="w-full px-3 py-2 rounded border border-blue-300 text-white bg-blue-950 bg-opacity-90 focus:outline-none focus:border-blue-500 "
+                className="w-full px-3 py-2 rounded border border-white-300 text-black bg-green-600 bg-opacity-10 focus:outline-none focus:border-white-500 "
               />
               {errors.name && (
                 <span className="text-red-500 text-sm">{errors.name}</span>
               )}
             </div>
             <div className="mb-6">
-              <label htmlFor="email" className="block mb-2 font-medium text-white">
+              <label htmlFor="email" className="block mb-2 font-medium text-black">
                 Email
               </label>
               <input
@@ -71,14 +71,14 @@ function Signup() {
                 placeholder="Enter Email"
                 name="email"
                 onChange={handleInput}
-                className="w-full px-3 py-2 rounded border border-blue-300 text-white bg-blue-950 bg-opacity-80 focus:outline-none focus:border-blue-500"
+                className="w-full px-3 py-2 rounded border border-white-300 text-black bg-green-600 bg-opacity-10 focus:outline-none focus:border-white-500"
               />
               {errors.email && (
                 <span className="text-red-500 text-sm">{errors.email}</span>
               )}
             </div>
             <div className="mb-6">
-              <label htmlFor="password" className="block mb-2 font-medium text-white">
+              <label htmlFor="password" className="block mb-2 font-medium text-black">
                 Password
               </label>
               <input
@@ -86,7 +86,7 @@ function Signup() {
                 placeholder="Enter Password"
                 name="password"
                 onChange={handleInput}
-                className="w-full px-3 py-2 text-white rounded border border-blue-300 bg-blue-950 bg-opacity-80 focus:outline-none focus:border-blue-500"
+                className="w-full px-3 py-2 text-black rounded border border-white-300 bg-green-600 bg-opacity-10 focus:outline-none focus:border-white-500"
               />
               {errors.password && (
                 <span className="text-red-500 text-sm">
@@ -97,13 +97,13 @@ function Signup() {
             <div className="flex justify-between items-center">
               <button
                 type="submit"
-                className="px-4 py-2 text-white bg-blue-600 rounded hover:bg-blue-700 focus:outline-none"
+                className="px-4 py-2 text-white bg-green-600 rounded hover:bg-green-700 focus:outline-none"
               >
                 Sign up
               </button>
-              <p className='text-white items-center'>
+              <p className='text-black items-center'>
                 
-                <Link to="/login" className="text-white  text-center">
+                <Link to="/login" className="text-black  text-center">
                 Already Have an Account?{' '}
                 </Link>
               </p>
@@ -113,8 +113,8 @@ function Signup() {
       </div>
       </div>
       </div>
-      <div className='bg-blue-600'><Footer/>
-      </div>
+      {/* <div className='bg-white-600'><Footer/>
+      </div> */}
     </>
   );
 }
