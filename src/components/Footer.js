@@ -19,7 +19,7 @@ function Footer() {
               <p className="text-white">123-456-7890</p>
             </div>
             <div className="flex items-start mb-2">
-              <FontAwesomeIcon icon={faEnvelope} className="text-white text-xl mr-2 mt-1" />
+              <FontAwesomeIcon icon={faEnvelope} className="text-white text-2xl mr-2 mt-1" />
               <p className="text-white">info@supermarket.com</p>
             </div>
           </div>

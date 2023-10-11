@@ -1,9 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Header from '../../components/Header3';
-import { categories } from './Category'; // Import the categories array from an external file
-
-const Fruits = ({ cartItems, setCartItems }) => {
+import { categories } from './Category'; 
+import { Link } from 'react-router-dom';
+const Dairy = ({ cartItems, setCartItems }) => {
   const handleAddToCart = (product) => {
     setCartItems([...cartItems, product]);
     console.log(`Added ${product.name} to cart`);
@@ -22,15 +21,15 @@ const Fruits = ({ cartItems, setCartItems }) => {
                   key={index}
                   className="cursor-pointer p-4 font-cursive font-bold text-lg hover:bg-green-200 transition-colors"
                 >
-               <Link to={`/${category.name}`}>{category.name}   </Link>            
+              <Link to={`/${category.name}`}>{category.name}   </Link>            
                 </li>
               ))}
             </ul>
           </div>
           <div className="w-3/4 p-4">
-            <h2 className="text-2xl font-bold mb-4">Fruits</h2>
+            <h2 className="text-2xl font-bold mb-4">Dairy Products</h2>
             <div className="grid grid-cols-3 gap-4 h-3/4">
-              {categories[0].products.map((product, index) => (
+              {categories[2].products.map((product, index) => (
                 <div
                   key={index}
                   className="border p-4 rounded-lg hover:shadow-lg transition-shadow"
@@ -58,4 +57,4 @@ const Fruits = ({ cartItems, setCartItems }) => {
   );
 };
 
-export default Fruits;
+export default Dairy;
