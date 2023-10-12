@@ -26,9 +26,9 @@ const Cart = ({ cartItems, onDeleteItem }) => {
   };
 
   return (
-    <div className="relative">
+    <div className="">
       <button
-        className="absolute top-10 z-30 right-10 bg-blue-500 text-white px-3 py-1 rounded-md"
+        className="absolute  z-30 right-10 bg-blue-500 text-white px-3 py-1 rounded-md"
         onClick={toggleCart}
       >
         {isOpen ? 'Close Cart' : 'Open Cart'}

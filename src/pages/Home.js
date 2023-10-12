@@ -118,41 +118,39 @@ const Home = () => {
             </div>
           </div>
         </div>
-        <div className="container mx-auto py-6">
-  <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-    {filteredCategories.map((category) => (
-      <div
-        key={category.name}
-        className="flex flex-col justify-center items-center bg-white rounded-lg shadow-lg py-6 px-4 hover:shadow-xl transition duration-300"
-      >
-        <Link to={`/${category.name}`}>
-          <div className="relative w-32 h-32">
-            <img
-              src={category.image}
-              alt={category.name}
-              className="w-full h-full object-cover rounded-full"
-            />
-            <div className="absolute inset-0 bg-black bg-opacity-30 rounded-full"></div>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <p className="text-white text-xl font-bold">{category.name}</p>
-            </div>
-          </div>
-        </Link>
-      </div>
-    ))}
-  </div>
 
-<div className="text-2xl font-bold mt-12 mb-8 text-center">Featured Products</div>
+        <div className="container mx-auto py-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {filteredCategories.map((category) => (
+              <div
+                key={category.name}
+                className="flex flex-col justify-center items-center bg-white rounded-full shadow-md py-10"
+              >
+               
+                <Link to={`/${category.name}`}>
+                  <img
+                    src={category.image}
+                    alt={category.name}
+                    className="w-full h-64 object-contain mb-4"
+                  />
+                  <p className="text-black  bg-green-300 px-1 py-1  font-bold rounded-full mb-2 w-full">
+                    {category.name}
+                  </p>
+                </Link>
+              </div>
+            ))}
+</div>
+              <span className="text-2xl font-bold mt-12 mb-8 text-center">Featured Products</span>
 
             <div className="flex  justify-center items-center bg-white rounded-lg shadow-md py-10">
 
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 ">
     {randomProducts.map((product) => (
-<div key={product.id} className={`border p-4 rounded-lg hover:shadow-lg transition-shadow ${ selectedCategory === product.product ? 'border-4 border-green-500' : '' }`} onClick={() => handleCategoryClick(product.product)} > 
+<div key={product.id} className={`rounded-lg overflow-hidden h-fit bg-green-50 shadow-md transform transition duration-500 hover:scale-105 ${ selectedCategory === product.product ? 'border-4 border-green-500' : '' }`} onClick={() => handleCategoryClick(product.product)} > 
 <div className="relative p-2 "> 
 <img src={product.product.image} alt={product.product.name} className="w-full h-64 object-cover" /> 
 </div> <div className="p-4 flex flex-col justify-items-center"> <h3 className="text-xl font-bold text-center mb-2">{product.product.name}</h3>
- <p className="text-gray-700 font-bold text-center mt-2">{product.product.price.toFixed(2)} Birr</p> <button className="bg-green-500 text-white px-4 py-2 rounded-md mt-4 w-48">Add to Cart<FontAwesomeIcon icon={faCartShopping} className="w-6 h-6 px-2 relative top-1" />
+ <p className="text-gray-700 font-bold text-center mt-2">{product.product.price.toFixed(2)} Birr</p> <button className="bg-green-500 text-white px-4 py-2 rounded-full mt-4 w-48">Add to Cart<FontAwesomeIcon icon={faCartShopping} className="w-6 h-6 px-2 relative top-1" />
  </button> 
  </div>
  

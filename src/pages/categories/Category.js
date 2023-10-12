@@ -110,17 +110,29 @@ export const categories = [
       { id: 32, name: 'Canned Tuna', price: 0.99, image: Canned },
     ],
   },
-    
+  {
+    name: 'Drinks',
+    products: [
+      { id: 33,name: 'Fanta Orange', price: 0.99, image:Fanta },
+      { id: 34,name: 'Aquaddis', price: 1.49, image: Aquadduis },
+      {id: 35, name: 'Prigat Mango Juice', price: 1.49, image: Prigat },
+      {id: 36, name: 'Ambo', price: 1.49, image:Ambo },
+      { id: 37,name: 'Sprite', price: 1.49, image: Sprite },
+      { id: 38,name: 'Coca', price: 1.49, image: Coca },
+      { id: 39,name: 'Fanta Pineapple flaviour', price: 1.49, image:Fanta1 },
+
+    ],
+  },
     {
       name: 'Sanitizers',
       products: [
-        { id: 33,name: 'Powder Soap', price: 0.99, image: Powder },
-        { id: 34,name: 'Lifebuoy', price: 1.49, image: Lifebuoy },
-        {id: 35, name: 'Soap', price: 1.49, image: Soap },
-        {id: 36, name: 'Bleach', price: 1.49, image: Bleach },
-        { id: 37,name: 'Liquid Hand Soap 5L', price: 1.49, image: Liquid },
-        { id: 38,name: 'Laundary Detergent', price: 1.49, image: Laundary },
-        { id: 39,name: 'Laundary Soap', price: 1.49, image: LaundaryS },
+        { id: 40,name: 'Powder Soap', price: 0.99, image: Powder },
+        { id: 41,name: 'Lifebuoy', price: 1.49, image: Lifebuoy },
+        {id: 42, name: 'Soap', price: 1.49, image: Soap },
+        {id: 43, name: 'Bleach', price: 1.49, image: Bleach },
+        { id: 44,name: 'Liquid Hand Soap 5L', price: 1.49, image: Liquid },
+        { id: 45,name: 'Laundary Detergent', price: 1.49, image: Laundary },
+        { id: 46,name: 'Laundary Soap', price: 1.49, image: LaundaryS },
   
       ],
     },

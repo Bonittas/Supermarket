@@ -1,17 +1,32 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
 import Header from '../../components/Header3';
-import { categories } from './Category'; // Import the categories array from an external file
+import { categories } from './Category';
+import { Link } from 'react-router-dom';
 
-const Fruits = ({ cartItems, setCartItems }) => {
+import Search from '../Search';
+const Fruit = ({ cartItems, setCartItems }) => {
   const handleAddToCart = (product) => {
     setCartItems([...cartItems, product]);
     console.log(`Added ${product.name} to cart`);
   };
 
+  const [searchQuery, setSearchQuery] = useState('');
+
+ 
+
+  const handleSearch = (query) => {
+    setSearchQuery(query);
+  };
+
+  const filteredProducts = categories[0].products.filter((product) =>
+    product.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
   return (
     <>
       <Header />
+      <div className="fixed top-4 left-48 lg:w-1/3 md:w-1/4 sm:w-1/4 z-20 my-2">
+        <Search onSearch={handleSearch} /> 
+      </div>
       <div className="bg-green-50 min-h-screen pt-6">
         <div className="flex">
           <div className="w-1/4 bg-green-100 p-4 m-8 rounded-md">
@@ -22,15 +37,15 @@ const Fruits = ({ cartItems, setCartItems }) => {
                   key={index}
                   className="cursor-pointer p-4 font-cursive font-bold text-lg hover:bg-green-200 transition-colors"
                 >
-               <Link to={`/${category.name}`}>{category.name}   </Link>            
+                  <Link to={`/${category.name}`}>{category.name} </Link>
                 </li>
               ))}
             </ul>
           </div>
           <div className="w-3/4 p-4">
-            <h2 className="text-2xl font-bold mb-4">Fruits</h2>
+            <h2 className="text-2xl font-bold mb-4">Fruit Products</h2>
             <div className="grid grid-cols-3 gap-4 h-3/4">
-              {categories[0].products.map((product, index) => (
+              {filteredProducts.map((product, index) => (
                 <div
                   key={index}
                   className="border p-4 rounded-lg hover:shadow-lg transition-shadow"
@@ -58,4 +73,4 @@ const Fruits = ({ cartItems, setCartItems }) => {
   );
 };
 
-export default Fruits;
+export default Fruit;
