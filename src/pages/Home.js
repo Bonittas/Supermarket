@@ -119,7 +119,7 @@ const Home = () => {
     />
     <button
       className="bg-green-700 rounded-r-md p-6 flex items-center justify-center"
-      style={{ minWidth: "2rem", marginLeft: "-2rem" }} 
+      style={{ minWidth: "3rem", marginLeft: "-2rem" }} 
     >
       <FontAwesomeIcon icon={faSearch} className="text-white " />
     </button>
@@ -133,17 +133,17 @@ const Home = () => {
     </div>
     <div>
   <p className="text-black text-center font-bold text-2xl">Top Categories</p>
-  <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ">
     {filteredCategories.map((category) => (
       <div
         key={category.name}
-        className="relative overflow-hidden rounded-full shadow-lg"
+        className="relative overflow-hidden m-2 rounded-full shadow-lg"
         style={{
           width: '200px',
           height: '200px',
         }}
       >
-        <div className="aspect-w-1 aspect-h-1">
+        <div className="aspect-w-1 aspect-h-1 m-4">
           <div className="rounded-full overflow-hidden">
             <Link to={`/${category.name}`}>
               <img
