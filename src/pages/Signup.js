@@ -4,7 +4,6 @@ import Validation from './SignupValidation';
 import axios from 'axios';
 import myImage from '../img/shopping-1165437.jpg';
 import Header2 from '../components/Header3';
-// import Footer from '../components/Footer';
 function Signup() {
   const [values, setValues] = useState({
     name: '',
@@ -36,15 +35,13 @@ function Signup() {
 <div className=" z-20">
         <div
           className="w-full h-screen bg-cover bg-center"
-          style={{ backgroundImage: `url(${myImage})` }}
+        
         >
-            <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-75 flex flex-col justify-center items-center"
-/>
-
+           
             <Header2 />
             
           <div className="flex justify-center items-center mx-2  ">
-        <div className="w-full max-w-md mx-2 p-8 py-10 bg-white  shadow-lg rounded-lg absolute top-32 ">
+        <div className="w-full max-w-md mx-2 p-8 py-10 bg-green-200  shadow-lg rounded-lg absolute top-32 ">
           <h2 className="text-2xl font-bold mb-3 text-center text-black">Sign Up</h2>
           <form onSubmit={handleSubmit}>
             <div className="mb-6">
@@ -56,7 +53,7 @@ function Signup() {
                 placeholder="Enter Name"
                 name="name"
                 onChange={handleInput}
-                className="w-full px-3 py-2 rounded border border-white-300 text-black bg-green-600 bg-opacity-10 focus:outline-none focus:border-white-500 "
+                className="w-full px-3 py-2 rounded border border-white-300 text-black bg-green-300  focus:outline-none focus:border-white-500 "
               />
               {errors.name && (
                 <span className="text-red-500 text-sm">{errors.name}</span>
@@ -71,14 +68,14 @@ function Signup() {
                 placeholder="Enter Email"
                 name="email"
                 onChange={handleInput}
-                className="w-full px-3 py-2 rounded border border-white-300 text-black bg-green-600 bg-opacity-10 focus:outline-none focus:border-white-500"
+                className="w-full px-3 py-2 rounded border border-white-300 text-black bg-green-300 focus:outline-none focus:border-white-500"
               />
               {errors.email && (
                 <span className="text-red-500 text-sm">{errors.email}</span>
               )}
             </div>
             <div className="mb-6">
-              <label htmlFor="password" className="block mb-2 font-medium text-black">
+              <label htmlFor="password" className="block mb-2 font-medium text-black font-bold">
                 Password
               </label>
               <input
@@ -86,7 +83,7 @@ function Signup() {
                 placeholder="Enter Password"
                 name="password"
                 onChange={handleInput}
-                className="w-full px-3 py-2 text-black rounded border border-white-300 bg-green-600 bg-opacity-10 focus:outline-none focus:border-white-500"
+                className="w-full px-3 py-2 text-black rounded border border-white-300 bg-green-300 focus:outline-none focus:border-green-500"
               />
               {errors.password && (
                 <span className="text-red-500 text-sm">
@@ -113,8 +110,7 @@ function Signup() {
       </div>
       </div>
       </div>
-      {/* <div className='bg-white-600'><Footer/>
-      </div> */}
+     
     </>
   );
 }

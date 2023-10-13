@@ -14,14 +14,14 @@ const Search = ({ onSearch }) => {
     <div className="flex items-center w-full">
       <input
         type="text"
-        className="rounded-l-full py-2 px-4 sm:pr-12 w-full text-black bg-white bg-opacity-50 focus:outline-none focus:border-green-900 border-2 border-green-700 leading-tight shadow-lg"
-        placeholder="Search Products"
+        className="rounded-l-md py-2 px-4 sm:pr-12 w-full text-black bg-white bg-opacity-50 border border-green-500 border-green-700  shadow-sm"
+        
         value={searchQuery}
         onChange={handleSearchChange}
       />
       <button
         type="submit"
-        className="bg-gray-100 text-black font-bold py-2 px-4 rounded-r-full"
+        className="bg-gray-100 text-black font-bold py-2 px-4 rounded-r-md"
       >
         <div className="whitespace-nowrap">
           <FontAwesomeIcon icon={faSearch} style={{ marginLeft: '0.5rem' }} />

@@ -1,8 +1,8 @@
 import React from 'react';
 import Header from '../components/Header3';
-import myimg from '../img/items/about.avif';
-import myimg2 from '../img/items/about1.avif';
-import Footer from '../components/Footer';
+import myimg from '../img/items/about.jpg';
+import myimg2 from '../img/items/about1.jpg';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faTimes, faSearch, faUser,faCartShopping } from '@fortawesome/free-solid-svg-icons';
 
@@ -10,23 +10,7 @@ const About = () => {
   return (
     <>
       <Header />
-      <div className="fixed  top-4 left-48  lg:w-1/3 md:w-1/4 sm:w-1/4 z-20  my-2">
-                <input
-                  type="text"
-                  className="rounded-l-full lg:h-12 md:h-10 sm:h-10 py-2 px-4 sm:pr-12 w-full relative right-10 text-white bg-white focus:outline-none focus:border-green-500 border-2 border-green-700 leading-tight shadow-lg mb-2 sm:mb-0"
-                  placeholder="Search Products"
-                />
-                <button
-                  type="submit"
-                  className="bg-gray-100  text-black font-bold lg:h-12 md:h-10 sm:h-8 py-2 px-4 rounded-r-full absolute right-0 top-0"
-                 
-                >
-                  <div className='whitespace-nowrap px-2'><FontAwesomeIcon
-  icon={faSearch}
-  style={{ marginLeft: '0.5rem' }}
-/></div>
-                </button>
-              </div>
+     
       <div className="container mx-auto px-4 py-8">
      
         <h1 className="text-3xl font-bold mb-6 text-gray-800">About Us</h1>
@@ -56,7 +40,7 @@ const About = () => {
             <p className="text-gray-600 mt-4">
               If you have any questions or feedback, please feel free to contact us. We would love to hear from you.
             </p>
-            <button className='bg-green-600 text-white hover:bg-green-700 p-2 rounded-md my-2'>Contact us</button>
+            <Link to ='/contact'><button className='bg-green-600 text-white hover:bg-green-700 p-2 rounded-md my-2'>Contact us</button></Link>
           </div>
           <div className='relative bottom-32'>
             <img src={myimg2} alt="About Us" className="rounded-lg" />

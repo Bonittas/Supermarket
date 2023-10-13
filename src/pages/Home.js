@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartShopping, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faCartShopping,faArrowCircleRight, faSearch } from '@fortawesome/free-solid-svg-icons';
+
 import 'tailwindcss/tailwind.css';
 import myImage from '../img/shopping-1165437.jpg';
-
+import ad from '../img/items/ad5.jpg';
 import Header from '../components/Header3';
 import i1 from '../img/snacks/snacks.png';
 import i2 from '../img/fruits/fruit.png';
@@ -14,37 +15,42 @@ import i5 from '../img/dairy/meat.png';
 import i6 from '../img/sanitizing/soap.png';
 import i7 from '../img/dairy/dairy.png';
 
-import p1 from '../img/dairy/whole fish.png';
-import p2 from '../img/vegetables/red onion.png';
-import p3 from '../img/dairy/whole chicken.png';
-import p4 from '../img/fruits/oranges.png';
+import p1 from '../img/dairy/eggs.png';
+import p2 from '../img/vegetables/tomato.png';
+import p3 from '../img/dairy/chicken drumsticks.png';
+import p4 from '../img/fruits/grapes.png';
 import p5 from '../img/drinks/coca 500ml.png';
 import p6 from '../img/snacks/sunchips blue.png';
+import p7 from '../img/sanitizing/laundry soap.png';
+import p8 from '../img/snacks/nutella.png';
 
 const categories = [
   { name: 'Fruits', image: i2 },
   { name: 'Vegetables', image: i3 },
-  { name: 'Dairy Products', image: i7 },
+  { name: 'Dairy', image: i7 },
   { name: 'Snacks', image: i1 },
   { name: 'Beverages', image: i4 },
-  { name: 'Meat and Seafood', image: i5 },
-  { name: 'Soap and Detergents', image: i6 },
+  { name: 'Meat', image: i5 },
+  { name: 'Sanitizers', image: i6 },
 ];
 
 const products = [
-  { name: 'Fish', image: p1, price: 10.99 },
-  { name: 'SunChips', image: p6, price: 2.49 },
-  { name: 'Chicken', image: p3, price: 7.99 },
-  { name: 'Orange', image: p4, price: 3.99 },
-  { name: 'Soap', image: p5, price: 1.99 },
-  { name: 'Onion', image: p2, price: 0.99 },
+  { name: 'Eggs', image: p1, price: 12,link:'/Dairy' },
+  { name: 'Sunchips', image: p6, price: 25,link:'/snacks' },
+  { name: 'Chicken Drumsticks', image: p3, price: 110,link:'/Dairy' },
+  { name: 'Grapes', image: p4, price: 60,link:'/fruits' },
+  { name: 'Drinks', image: p5, price: 25,link:'/drinks' },
+  { name: 'Tomato', image: p2, price: 45,link:'/vegetables' },
+  { name: 'Laundry Soap', image: p7, price: 30 ,link:'/vegetables'},
+  { name: 'Nutella', image: p8, price: 75 ,link:'/snacks' },
+
 ];
 
 const generateRandomProducts = () => {
   const randomProducts = [];
   const selectedImages = [];
 
-  for (let i = 1; i <= 6; i++) {
+  for (let i = 1; i <= 8; i++) {
     let randomProduct;
     do {
       randomProduct = products[Math.floor(Math.random() * products.length)];
@@ -59,7 +65,6 @@ const generateRandomProducts = () => {
       description: `Description of product ${i}.`,
     });
   }
-
   return randomProducts;
 };
 
@@ -95,7 +100,7 @@ const Home = () => {
         </div>
         <div className="bg-black bg-opacity-40 absolute top-0 h-full left-0 w-full py-4"></div>
 
-        <div className="absolute right-2 flex flex-col justify-end items-end bottom-48 mx-2">
+        <div className="absolute right-2 flex flex-col justify-end items-end bottom-32 mx-2">
           <p className="text-white font-bold text-3xl text-center pb-3 w-2/3">
             Elevate Your Shopping Experience with Our Vast Selection
           </p>
@@ -103,63 +108,91 @@ const Home = () => {
             Competitive Prices, Stellar and Fast Service
           </p>
           <div className="relative w-2/3 top-6 my-2">
-            <input
-              type="text"
-              className="rounded-l-full lg:h-16 md:h-16 sm:h-10 py-2 px-4 sm:pr-12 w-full relative right-10 text-white bg-white bg-opacity-10 focus:outline-none focus:border-green-500 border-green-500"
-              placeholder="Search for products..."
-              value={searchQuery}
-              onChange={handleSearchChange}
-            />
-            <div className="absolute right-0 top-0 mt-3 mr-3">
-              <FontAwesomeIcon
-                icon={faSearch}
-                className="text-white text-opacity-60"
+  <div className="flex">
+    <input
+      type="text"
+      className="rounded-l-md lg:h-16 md:h-16 sm:h-10 py-2 px-4 sm:pr-12 w-full relative right-8 text-white bg-white bg-opacity-40 focus:outline-none focus:border-green-500 border-green-500"
+      placeholder="Search for Categories..."
+      value={searchQuery}
+      onChange={handleSearchChange}
+      style={{ color: "black" }} 
+    />
+    <button
+      className="bg-green-700 rounded-r-md p-6 flex items-center justify-center"
+      style={{ minWidth: "2rem", marginLeft: "-2rem" }} 
+    >
+      <FontAwesomeIcon icon={faSearch} className="text-white " />
+    </button>
+  </div>
+</div>
+</div>
+<div className="container mx-auto py-6">
+  <div className="flex">
+    <div className="bg-green w-96 mr-8 border rounded-md flex items-start">
+      <img src={ad} alt="Your Image" className="w-full h-full rounded-md object-cover" />
+    </div>
+    <div>
+  <p className="text-black text-center font-bold text-2xl">Top Categories</p>
+  <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
+    {filteredCategories.map((category) => (
+      <div
+        key={category.name}
+        className="relative overflow-hidden rounded-full shadow-lg"
+        style={{
+          width: '200px',
+          height: '200px',
+        }}
+      >
+        <div className="aspect-w-1 aspect-h-1">
+          <div className="rounded-full overflow-hidden">
+            <Link to={`/${category.name}`}>
+              <img
+                src={category.image}
+                alt={category.name}
+                className="object-cover w-full h-full"
               />
-            </div>
+            </Link>
           </div>
         </div>
-
-        <div className="container mx-auto py-6">
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {filteredCategories.map((category) => (
-              <div
-                key={category.name}
-                className="flex flex-col justify-center items-center bg-white rounded-full shadow-md py-10"
-              >
-               
-                <Link to={`/${category.name}`}>
-                  <img
-                    src={category.image}
-                    alt={category.name}
-                    className="w-full h-64 object-contain mb-4"
-                  />
-                  <p className="text-black  bg-green-300 px-1 py-1  font-bold rounded-full mb-2 w-full">
-                    {category.name}
-                  </p>
-                </Link>
-              </div>
-            ))}
-</div>
-              <span className="text-2xl font-bold mt-12 mb-8 text-center">Featured Products</span>
-
-            <div className="flex  justify-center items-center bg-white rounded-lg shadow-md py-10">
-
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 ">
-    {randomProducts.map((product) => (
-<div key={product.id} className={`rounded-lg overflow-hidden h-fit bg-green-50 shadow-md transform transition duration-500 hover:scale-105 ${ selectedCategory === product.product ? 'border-4 border-green-500' : '' }`} onClick={() => handleCategoryClick(product.product)} > 
-<div className="relative p-2 "> 
-<img src={product.product.image} alt={product.product.name} className="w-full h-64 object-cover" /> 
-</div> <div className="p-4 flex flex-col justify-items-center"> <h3 className="text-xl font-bold text-center mb-2">{product.product.name}</h3>
- <p className="text-gray-700 font-bold text-center mt-2">{product.product.price.toFixed(2)} Birr</p> <button className="bg-green-500 text-white px-4 py-2 rounded-full mt-4 w-48">Add to Cart<FontAwesomeIcon icon={faCartShopping} className="w-6 h-6 px-2 relative top-1" />
- </button> 
- </div>
- 
- </div> ))} 
-</div> 
-</div>
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-green-700 to-transparent p-4">
+          <Link to={`/${category.name}`}>
+            <p className="text-white text-center text-lg font-semibold">{category.name}</p>
+          </Link>
         </div>
       </div>
-     
+    ))}
+  </div>
+</div>
+  </div>
+</div>
+<div className="mx-10">
+  <h2 className="text-2xl font-bold mt-12 mb-8 text-center">Featured Products</h2>
+  <div className="flex items-center justify-center">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      {products.map((product, index) => (
+        <div
+          key={index}
+          className={`product border p-4 m-4 mx-2 rounded-lg hover:shadow-lg transition-shadow ${
+            selectedCategory === product.name ? 'border-4 border-green-500' : ''
+          }`}
+          onClick={() => (window.location.href = product.link)}
+        >
+          <div className="relative w-full">
+            <img src={product.image} alt={product.name} className="w-full h-56 object-cover" />
+          </div>
+          <div className="p-4 flex justify-end items-end h-1 mt-6">
+            <h3 className="text-xl font-bold text-end mb-2">{product.name}</h3>
+            <button className="text-green-700 rounded-full px-2">
+              <FontAwesomeIcon icon={faArrowCircleRight} className="w-8 h-8 mt-2" />
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+</div>
+      
     </>
   );
 };

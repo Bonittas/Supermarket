@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import axios from 'axios';
 import Validation from './LoginValidation';
-// import myImage from '../img/s/sugg/hotte.jpg';
 import Header2 from '../components/Header3';
-// import Footer from '../components/Footer'
 
 function Login() {
   const [values, setValues] = useState({
@@ -51,17 +49,17 @@ function Login() {
   }
   return (
     <>
+       <Header2 />
       <div
           className="w-full h-screen bg-cover bg-center"
         >
-            <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-75 flex flex-col justify-center items-center"
-/>
+
           <div className="items-end z-20">
-            <Header2 />
+         
           </div>
 <div className='mx-2'>
           <div className="flex justify-center items-center  ">
-            <div className="w-full max-w-md  p-8 py-10 bg-white  shadow-lg rounded-lg absolute top-32">
+            <div className="w-full max-w-md  p-8 py-10 bg-green-200  shadow-lg rounded-lg absolute top-32">
               <div className="text-2xl font-bold mb-4 text-center text-black">Log In</div>
               {backendError.length > 0 && (
                 <div className="mb-4">
@@ -82,7 +80,7 @@ function Login() {
                     placeholder="Enter Email"
                     name="email"
                     onChange={handleInput}
-                    className="w-full px-3 py-2 rounded border border-green-300 bg-green-600 bg-opacity-10 text-black focus:outline-none focus:border-green-500 "
+                    className="w-full px-3 py-2 rounded bg-green-300 text-black focus:outline-none focus:border-green-500 "
                   />
                   {errors.email && <span className="text-red-500">{errors.email}</span>}
                 </div>
@@ -95,7 +93,7 @@ function Login() {
                     placeholder="Enter Password"
                     name="password"
                     onChange={handleInput}
-                    className="w-full px-3 py-2 rounded border border-green-300  bg-green-600 bg-opacity-10 text-black z-30 focus:outline-none focus:border-green-500 "
+                    className="w-full px-3 py-2 rounded   bg-green-300 text-black z-30 focus:outline-none focus:border-green-500 "
                   />
                   {errors.password && <span className="text-red-500">{errors.password}</span>}
                 </div>
@@ -110,8 +108,7 @@ function Login() {
           </div>
         </div>
         </div>
-      <div className='bg-green-600 p-4'>
-</div>
+      
     </>
   );
 }
