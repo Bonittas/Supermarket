@@ -18,7 +18,7 @@ const About = () => {
           <div>
             <img src={myimg} alt="About Us" className="rounded-lg" />
           </div>
-          <div className=' border-bottom rounded-md shadow-lg p-3 h-fit relative top-10'>
+          <div className=' border-bottom rounded-md shadow-lg p-3 h-fit relative top-10 mb-2'>
             <h2 className="text-2xl font-semibold mb-4 text-gray-800">Our Story</h2>
             <p className="text-gray-600">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
@@ -28,7 +28,7 @@ const About = () => {
             </p>
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 my-6">
           <div className=' border-top rounded-md shadow-lg p-3 h-fit'>
             <h2 className="text-2xl font-semibold mb-4 text-gray-800">Our Mission</h2>
             <p className="text-gray-600 ">
