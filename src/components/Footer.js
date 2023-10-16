@@ -63,7 +63,7 @@ function Footer() {
       <div className="bg-green-600 py-2">
         <div className="container mx-auto px-4">
           <p className="text-center text-white text-sm">
-            &copy; {new Date().getFullYear()} Your Supermarket. All rights reserved.
+            &copy; {new Date().getFullYear()} iShop. All rights reserved.
           </p>
         </div>
       </div>

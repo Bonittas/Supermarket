@@ -17,7 +17,7 @@ function Header({ handleMenuToggle, isMenuOpen }) {
   }, [currentPath]);
 
   return (
-    <header className="shadow-lg sticky top-0 flex justify-between items-center z-20 bg-green-700 lg:h-24 md:h-24 sm:h-32 ">
+    <header className="shadow-lg sticky top-0 flex justify-between items-center z-20 bg-green-700 md:h-24 lg:h-24 sm:h-32 h-24 ">
       <div className="absolute top-1 p-2 lg:left-3 md:left-3 sm:left-1  border-1 border-green-300 rounded-full w-20  ">
         <p className="text-xl text-center  text-white font-cursive">
           <FontAwesomeIcon icon={faCartShopping} className="w-12 h-12" />
@@ -60,7 +60,7 @@ function Header({ handleMenuToggle, isMenuOpen }) {
         </nav>
         <div className="sm:hidden">
           <button className="text-white hover:text-white focus:outline-none" onClick={handleMenuToggle}>
-            <div className="absolute top-2 right-8">
+            <div className="absolute top-4 right-8">
               {isMenuOpen ? (
                 <FontAwesomeIcon icon={faTimes} className="w-4 h-4" />
               ) : (
@@ -69,15 +69,13 @@ function Header({ handleMenuToggle, isMenuOpen }) {
             </div>
           </button>
         </div>
-       
         <div className="hidden sm:flex items-center space-x-4 absolute top-10 right-24">
-        <button className="bg-green-700 hover:bg-white w-20 h-7 text-bold text-white font-bold hover:text-green-900  px-4 pb-4 text-sm rounded-sm">
-            <Link to="/signup">Signup</Link>
-          </button>
-          <button className=" bg-green-900 w-20 h-7 font-bold text-bold text-white  px-4 py-1 text-sm rounded-sm">
+          <button className="bg-green-700  w-20 h-7 font-bold text-bold text-white  px-4 py-1 text-sm rounded-sm">
             <Link to="/login">Log In</Link>
           </button>
-          
+          <button className="bg-green-900 hover:bg-white w-20 h-7 text-bold text-white font-bold hover:text-green-900  px-4 py-1 text-sm rounded-sm">
+            <Link to="/signup">Signup</Link>
+          </button>
         </div>
       </div>
 

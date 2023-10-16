@@ -11,7 +11,7 @@ const Search = ({ onSearch }) => {
   };
 
   return (
-    <div className="flex items-center w-48  sm:w-32 md:w-96 lg:w-70 relative md:top-0  lg:top-4 sm:top-12 ">
+    <div className="flex items-center w-48  sm:w-32 md:w-96 lg:w-70 relative md:top-1  lg:top-1 sm:top-12 ">
       <input
         type="text"
         className="rounded-l-md  py-2 px-4 sm:pr-12 w-full text-black bg-white bg-opacity-50 border border-green-700  shadow-sm"

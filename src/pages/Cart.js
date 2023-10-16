@@ -32,14 +32,14 @@ const Cart = ({ cartItems, onDeleteItem }) => {
 
   return (
     <div className="z-30">
-      <button className="fixed sm:top-10 md:top-8 lg:top-8 z-30 right-2 text-green-950 px-3 py-1 rounded-md" onClick={toggleCart}>
+      <button className="fixed sm:top-10 md:top-8 lg:top-8 z-30 right-2 text-green-900 px-3 py-1 rounded-md" onClick={toggleCart}>
         {isOpen ? (
-          <FontAwesomeIcon icon={faTimes} className="w-5 h-5 absolute top-10 z-30" />
+          <FontAwesomeIcon icon={faTimes} className="w-8 h-8 absolute right-3 top-8 z-30" />
         ) : (
           <div className="relative">
             <FontAwesomeIcon icon={faCartShopping} className="w-10 h-10 ml-3" />
             {itemCount > 0 && (
-              <span className="absolute -top-1 -right-1 bg-green-300 text-black rounded-full w-5 h-5 flex items-center justify-center text-xs">
+              <span className="absolute -top-1 -right-1 bg-white text-green-900 rounded-full w-5 h-5 flex items-center justify-center text-xs">
                 {itemCount}
               </span>
             )}
@@ -64,7 +64,8 @@ const Cart = ({ cartItems, onDeleteItem }) => {
                     <span>
                       {item.name} {item.quantity > 1 ? `(${item.quantity})` : ''}
                     </span>
-                    <span className="ml-2 text-black">(${item.price.toFixed(2)})</span>
+                   
+                    <span className="ml-2 text-black">-{item.price.toFixed(2)} Birr</span>
                     <button
                       className="ml-2 text-white "
                       onClick={() => handleDeleteItem(item.id)}
@@ -76,7 +77,7 @@ const Cart = ({ cartItems, onDeleteItem }) => {
               </ul>
               <div className="my-4">
                 <p className="font-bold">
-                  Total Price: ${totalPrice.toFixed(2)}{' '}
+                  Total Price: {totalPrice.toFixed(2) } Birr{' '}
                   <Link to="/purchase">
                     <button className="bg-green-700 p-2 absolute right-2 mb-4 text-white rounded-md">
                       Purchase
