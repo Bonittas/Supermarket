@@ -88,44 +88,45 @@ const Home = () => {
 
   return (
     <>
-      <Header />
-      <div className="bg-gray-100">
-        <div className="relative top-0 left-0 mb-2 w-full h-fit">
-          <img
-            src={myImage}
-            alt="Background"
-            className="w-full h-fit object-cover transform -scale-x-100"
-            style={{ maxHeight: '660px' }}
-          />
-        </div>
-        <div className="bg-black bg-opacity-40 absolute top-0 h-full left-0 w-full py-4"></div>
-
-        <div className="absolute right-2 flex flex-col justify-end items-end bottom-32 mx-2">
-          <p className="text-white font-bold text-3xl text-center pb-3 w-2/3">
-            Elevate Your Shopping Experience with Our Vast Selection
-          </p>
-          <p className="text-white font-bold text-xl pb-4 text-center w-2/3">
-            Competitive Prices, Stellar and Fast Service
-          </p>
-          <div className="relative w-2/3 top-6 my-2">
-  <div className="flex">
-    <input
-      type="text"
-      className="rounded-l-md lg:h-16 md:h-16 sm:h-10 py-2 px-4 sm:pr-12 w-full relative right-8 text-white bg-white bg-opacity-40 focus:outline-none focus:border-green-500 border-green-500"
-      placeholder="Search for Categories..."
-      value={searchQuery}
-      onChange={handleSearchChange}
-      style={{ color: "black" }} 
+    <Header />
+<div className="bg-gray-100">
+  <div className="relative top-0 left-0 mb-2 w-full h-fit">
+    <img
+      src={myImage}
+      alt="Background"
+      className="w-full h-fit object-cover transform -scale-x-100"
+      style={{ maxHeight: '660px' }}
     />
-    <button
-      className="bg-green-700 rounded-r-md p-6 flex items-center justify-center"
-      style={{ minWidth: "3rem", marginLeft: "-2rem" }} 
-    >
-      <FontAwesomeIcon icon={faSearch} className="text-white " />
-    </button>
   </div>
-</div>
-</div>
+  <div className="bg-black bg-opacity-40 absolute top-0 h-full left-0 w-full py-4"></div>
+
+  <div className="absolute right-2 flex flex-col justify-end items-end top-32 sm:top-32 md:top-72 lg:top-80 mx-2">
+    <p className="text-white font-bold lg:text-3xl md:text-xl sm:text-lg text-center pb-1 sm:w-3/4 md:w-2/3 lg:w-2/3">
+      Elevate Your Shopping Experience with Our Vast Selection
+    </p>
+    <p className="text-white font-bold lg:text-xl md:text-lg sm:text-sm pb-1 text-center  sm:w-3/4 md:w-2/3 lg:w-2/3">
+      Competitive Prices, Stellar and Fast Service
+    </p>
+    <div className="relative  w-full lg:w-2/3 top-1  sm:top-0 h-auto mb-2">
+      <div className="flex sm:items-center sm:justify-center h-10 lg:h-16">
+        <input
+          type="text"
+          className="rounded-l-md  py-2 px-4 sm:pr-12 w-full text-white bg-white bg-opacity-40 focus:outline-none focus:border-green-500 border-green-500"
+          placeholder="Search for Categories..."
+          value={searchQuery}
+          onChange={handleSearchChange}
+          style={{ color: "black" }}
+        />
+        <button
+          className="bg-green-700   rounded-r-md p-5 sm:p-3 md:p-3 flex items-center justify-center"
+          style={{ minWidth: "3rem", marginLeft: "-2rem" }}
+        >
+          <FontAwesomeIcon icon={faSearch} className="text-white" />
+        </button>
+      </div>
+    </div>
+  </div>
+
 <div className="container mx-auto py-6">
   <div className="flex">
     <div className="bg-green w-96 mr-8 border rounded-md flex items-start">

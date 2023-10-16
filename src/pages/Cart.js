@@ -28,7 +28,6 @@ const Cart = ({ cartItems, onDeleteItem }) => {
     onDeleteItem(itemId);
   };
 
-  // Calculate the total number of items in the cart
   const itemCount = Object.values(groupedItems).reduce((total, item) => total + item.quantity, 0);
 
   return (
@@ -48,7 +47,7 @@ const Cart = ({ cartItems, onDeleteItem }) => {
         )}
       </button>
       {isOpen && (
-        <div className="fixed top-24 border rounded-sm right-4 bg-white w-1/4 p-4 z-30 shadow-md">
+        <div className="fixed top-24 border rounded-sm right-6 bg-white w-72 p-4 z-30 shadow-md">
           <h2 className="text-lg font-bold mb-2">Cart</h2>
           {cartItems.length === 0 ? (
             <p className="text-gray-500">Your cart is empty.</p>

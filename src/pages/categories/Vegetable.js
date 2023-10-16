@@ -29,7 +29,7 @@ const Vegetables = ({ cartItems, setCartItems }) => {
       </div>
       <div className="container mx-auto px-3">
         <div className="flex flex-col md:flex-row">
-          <div className="md:w-1/4 bg-green-100 p-4 m-4 rounded-md">
+          <div className="md:w-1/3 bg-green-100 p-4 m-4 rounded-md">
             <h2 className="text-2xl font-bold mb-4">Categories</h2>
             <ul className="space-y-2">
               {categories.map((category, index) => (
