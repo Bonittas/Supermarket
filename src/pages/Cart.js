@@ -32,9 +32,9 @@ const Cart = ({ cartItems, onDeleteItem }) => {
 
   return (
     <div className="z-30">
-      <button className="fixed top-8 z-30 right-8 text-green-200 px-3 py-1 rounded-md" onClick={toggleCart}>
+      <button className="fixed sm:top-10 md:top-8 lg:top-8 z-30 right-2 text-green-950 px-3 py-1 rounded-md" onClick={toggleCart}>
         {isOpen ? (
-          <FontAwesomeIcon icon={faTimes} className="w-6 h-6 absolute top-10 z-30" />
+          <FontAwesomeIcon icon={faTimes} className="w-5 h-5 absolute top-10 z-30" />
         ) : (
           <div className="relative">
             <FontAwesomeIcon icon={faCartShopping} className="w-10 h-10 ml-3" />

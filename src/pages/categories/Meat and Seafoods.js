@@ -24,12 +24,12 @@ const Meat = ({ cartItems, setCartItems }) => {
   return (
     <>
       <Header />
-      <div className="fixed lg:top-4 md:top-6 sm:top-4 left-32 lg:w-1/3 md:w-1/4 sm:w-1/4 z-20 my-2">
+      <div className="fixed top-4 left-24 lg:w-1/3 md:w-1/4 sm:w-1/2 z-20 my-2">
         <Search onSearch={handleSearch} /> 
       </div>
-      <div className="container mx-auto px-3">
+      <div className=" mx-auto px-3">
         <div className="flex flex-col md:flex-row">
-          <div className="md:w-1/4 bg-green-100 p-4 m-4 rounded-md">
+          <div className="md:w-1/4 flex flex-col items-center bg-green-100 p-4 m-4 rounded-md">
             <h2 className="text-2xl font-bold mb-4">Categories</h2>
             <ul className="space-y-2">
               {categories.map((category, index) => (
@@ -43,7 +43,7 @@ const Meat = ({ cartItems, setCartItems }) => {
             </ul>
           </div>
           <div className=" p-4">
-            <h2 className="text-2xl font-bold mb-4">Meat and Seafoods</h2>
+            <h2 className="text-2xl font-bold mb-4">Meat </h2>
             <div className="grid grid-cols-1  sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3  gap-4 ">
               {filteredProducts.map((product, index) => (
                 <div

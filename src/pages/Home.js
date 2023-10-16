@@ -36,13 +36,13 @@ const categories = [
 
 const products = [
   { name: 'Eggs', image: p1, price: 12,link:'/Dairy' },
-  { name: 'Sunchips', image: p6, price: 25,link:'/snacks' },
+  { name: 'Sunchips', image: p6, price: 25,link:'/Snacks' },
   { name: 'Chicken Drumsticks', image: p3, price: 110,link:'/Dairy' },
-  { name: 'Grapes', image: p4, price: 60,link:'/fruits' },
-  { name: 'Drinks', image: p5, price: 25,link:'/drinks' },
-  { name: 'Tomato', image: p2, price: 45,link:'/vegetables' },
-  { name: 'Laundry Soap', image: p7, price: 30 ,link:'/vegetables'},
-  { name: 'Nutella', image: p8, price: 75 ,link:'/snacks' },
+  { name: 'Grapes', image: p4, price: 60,link:'/Fruits' },
+  { name: 'Drinks', image: p5, price: 25,link:'/Drinks' },
+  { name: 'Tomato', image: p2, price: 45,link:'/Vegetables' },
+  { name: 'Laundry Soap', image: p7, price: 30 ,link:'/Vegetables'},
+  { name: 'Nutella', image: p8, price: 75 ,link:'/Snacks' },
 
 ];
 
@@ -89,8 +89,8 @@ const Home = () => {
   return (
     <>
     <Header />
-<div className="bg-gray-100">
-  <div className="relative top-0 left-0 mb-2 w-full h-fit">
+<div className="bg-gray-100  w-full">
+  <div className="relative top-0 left-0 mb-2  h-fit">
     <img
       src={myImage}
       alt="Background"
@@ -98,7 +98,7 @@ const Home = () => {
       style={{ maxHeight: '660px' }}
     />
   </div>
-  <div className="bg-black bg-opacity-40 absolute top-0 h-full left-0 w-full py-4"></div>
+  <div className="bg-black bg-opacity-40 absolute top-0 h-fit left-0 w-full py-4"></div>
 
   <div className="absolute right-2 flex flex-col justify-end items-end top-32 sm:top-32 md:top-72 lg:top-80 mx-2">
     <p className="text-white font-bold lg:text-3xl md:text-xl sm:text-lg text-center pb-1 sm:w-3/4 md:w-2/3 lg:w-2/3">
@@ -127,14 +127,14 @@ const Home = () => {
     </div>
   </div>
 
-<div className="container mx-auto py-6">
-  <div className="flex">
-    <div className="bg-green w-96 mr-8 border rounded-md flex items-start">
-      <img src={ad} alt="Your Image" className="w-full h-full rounded-md object-cover" />
+<div className=" w-full py-6">
+  <div className="flex flex-col md:flex-row mx-2">
+    <div className="bg-green flex flex-col relative left-10 justify-start w-80  border rounded-md ">
+      <img src={ad} alt="add" className="w-full h-full rounded-md object-cover" />
     </div>
-    <div>
+    <div className='flex flex-col justify-center items-center mx-4 relative left-10'>
   <p className="text-black text-center font-bold text-2xl">Top Categories</p>
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ">
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 p-4 ">
     {filteredCategories.map((category) => (
       <div
         key={category.name}
