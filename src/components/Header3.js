@@ -60,7 +60,7 @@ function Header({ handleMenuToggle, isMenuOpen }) {
         </nav>
         <div className="sm:hidden">
           <button className="text-white hover:text-white focus:outline-none" onClick={handleMenuToggle}>
-            <div className="absolute top-4 right-8">
+            <div className="absolute top-2 right-8">
               {isMenuOpen ? (
                 <FontAwesomeIcon icon={faTimes} className="w-4 h-4" />
               ) : (
