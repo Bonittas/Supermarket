@@ -5,7 +5,7 @@ import { faCartShopping,faArrowCircleRight, faSearch } from '@fortawesome/free-s
 
 import 'tailwindcss/tailwind.css';
 import myImage from '../img/shopping-1165437.jpg';
-import ad from '../img/items/ad5.jpg';
+import ad from '../img/items/ad.jpg';
 import Header from '../components/Header3';
 import i1 from '../img/snacks/snacks.png';
 import i2 from '../img/fruits/fruit.png';
