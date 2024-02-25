@@ -8,6 +8,19 @@ const app = express();
 //middlewares
 app.use(express.json());
 
-app.listen(4000, () => {
+app.use("/", (req, res, next) => {
+    console.log(req.method, req.path);
+    next();
+  });
 
-});
+  //connecting to the database
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    app.listen(process.env.PORT, () => {
+      console.log("Connected to DB & listening on port", process.env.PORT);
+    });
+  })
+  .catch((err) => {
+    console.log(`Error connecting to the database: ${err}`);
+  });
