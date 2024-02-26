@@ -3,7 +3,7 @@ import Header from '../../components/Header3';
 import { Link } from 'react-router-dom';
 import Search from '../Search';
 
-const Fruit = ({ cartItems, setCartItems }) => {
+const Admin = ({ cartItems, setCartItems }) => {
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [newProduct, setNewProduct] = useState({
@@ -119,4 +119,4 @@ const Fruit = ({ cartItems, setCartItems }) => {
   );
 };
 
-export default Fruit;
+export default Admin;
