@@ -1,7 +1,5 @@
 require("dotenv").config();
 const express = require("express");
-const mongoose = require("mongoose");
-const product = require('./routes/product');
 const userAuth = require("./routes/user.router");
 const connectToDatabase = require("./config/database");
 const app = express();
@@ -13,10 +11,8 @@ app.use("/", (req, res, next) => {
     console.log(req.method, req.path);
     next();
   });
-
-app.use('/api', product)
-  //connecting to the database
-
+ 
+// Connect to the database
 connectToDatabase()
 
 // Routes middleware for signIn and SignUp
@@ -37,3 +33,5 @@ app.use('/api/auth', userAuth);
   app.listen(process.env.PORT, () => {
     console.log("listening on port", process.env.PORT);
   });
+
+  
