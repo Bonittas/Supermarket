@@ -1,14 +1,17 @@
-const mongoose =  require('mongoose')
-const categorieSchema= new mongoose.Schema({
-    Catergory_id:{
-      type :Number,
-      required:true,
-      unique:true,
+const mongoose = require("mongoose");
+const categorieSchema = new mongoose.Schema(
+  {
+    Catergory_id: {
+      type: Number,
+      required: true,
+      unique: true,
     },
-    Category_name:{
-        type : String,
-        required: true,
-    }
-})
-const Category = mongoose.model('Category', categorieSchema);
-module.exports= Category;
+    Category_name: {
+      type: String,
+      required: true,
+    },
+  },
+  { timestamps: true }
+);
+const Category = mongoose.model("Category", categorieSchema);
+module.exports = Category;
