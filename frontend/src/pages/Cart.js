@@ -67,7 +67,7 @@ const Cart = ({ cartItems, onDeleteItem }) => {
                 <p className="font-bold">
                   Total Price: ${totalPrice.toFixed(2)}{' '}
                   <button className="bg-green-700 p-2 text-white rounded-md">
-                    Purchase
+                    <a href='/purchase'>Purchase</a>
                   </button>
                 </p>
               </div>

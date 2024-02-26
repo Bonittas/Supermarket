@@ -1,36 +1,33 @@
-const mongoose = reuire('mongoose')
-const productSchema = new mongoose.schema({
-    product_id:{
-        type:Number,
-        required: true,
-    },
-    product_name:{
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
+
+const productSchema = new Schema({
+
+    name:{
         type: String,
         required: true,
+        unique:true
     },
-    product_price:{
+    price:{
         type: Number,
         required: true,
     },
-    product_image: {
+    image: {
         type: String,
         required: true,
       },
-      categoryId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'category',
+      categoryName: {
+        type: String,
         required: true,
+        unique:true
+
       },
-      createdAt: {
-        type: Date,
-        default: Date.now,
-      },
-      updatedAt: {
-        type: Date,
-        default: Date.now,
-      },
+      quantity:{
+        type: Number,
+        required: true,
+      }
 
     
-})
+},{timestamps:true})
 const Product = mongoose.model('Product',productSchema);
 module.exports = Product;

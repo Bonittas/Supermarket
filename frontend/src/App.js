@@ -14,6 +14,8 @@ import About from './pages/About';
 import Contact from './pages/Contact'; 
 import Login from './pages/SignIn'
 import Signup from './pages/Signup'
+import Purchase from './pages/Purchase'
+import Admin from './pages/admin/product'
 const App = () => {
   const [cartItems, setCartItems] = useState([]);
 
@@ -32,6 +34,8 @@ const App = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
+          <Route path="/purchase" element={<Purchase />} />
+          <Route path="/admin" element={<Admin />} />
 
           <Route
             path="/fruits"

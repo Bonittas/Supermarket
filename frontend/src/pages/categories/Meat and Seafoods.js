@@ -61,8 +61,7 @@ const Meat  = ({ cartItems, setCartItems }) => {
                     className="bg-green-500 text-white px-4 py-2 mt-2 rounded-lg hover:bg-green-600 transition-colors"
                     onClick={() => handleAddToCart(product)}
                   >
-                    Add to Cart
-                  </button>
+Buy                  </button>
                 </div>
               ))}
             </div>
