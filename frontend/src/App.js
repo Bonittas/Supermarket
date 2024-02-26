@@ -12,7 +12,7 @@ import Cart from './pages/Cart';
 import Footer from './components/Footer'
 import About from './pages/About';
 import Contact from './pages/Contact'; 
-import Login from './pages/Login'
+import Login from './pages/SignIn'
 import Signup from './pages/Signup'
 import Purchase from './pages/Purchase'
 import Admin from './pages/admin/product'
@@ -28,7 +28,6 @@ const App = () => {
     <Router>
       <div>
        
-
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />

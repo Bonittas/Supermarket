@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header2 from "../components/Header3";
-import validate from "./SignupValidation"; // Import the validation function
 import myImage from "../img/shopping-1165437.jpg";
 
-function SignUp() {
+function SignIn() {
   const [formData, setFormData] = useState({});
   const [error, setError] = useState("");
   const navigate = useNavigate();
@@ -15,13 +14,12 @@ function SignUp() {
       ...formData,
       [e.target.id]: e.target.value,
     });
-    console.log(formData);
   };
-  // submit form to database here
+
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("/api/auth/signUp", formData, {
+      .post("/api/auth/signIn", formData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -33,9 +31,8 @@ function SignUp() {
           setError(data.message);
           return;
         }
-
         setError(null);
-        navigate("/login");
+        navigate("/dashboard");
       })
       .catch((error) => {
         setError(error.message);
@@ -43,7 +40,7 @@ function SignUp() {
   };
 
   return (
-    <div className=" z-20">
+    <div className="z-20">
       <div
         className="w-full h-screen bg-cover bg-center"
         style={{ backgroundImage: `url(${myImage})` }}
@@ -54,46 +51,32 @@ function SignUp() {
         <div className="flex justify-center items-center mx-2  ">
           <div className="w-full max-w-md mx-2 p-8 py-10 bg-white  shadow-lg rounded-lg absolute top-32 ">
             <h2 className="text-2xl font-bold mb-3 text-center text-black">
-              Sign Up
+              Sign In
             </h2>
             <form
               onSubmit={handleSubmit}
               className="flex flex-col justify-between gap-5"
             >
               <label
-                    htmlFor="username"
-                    className="block mb-2 font-medium text-black"
-                  >
-                    Name
-                  </label>
-              <input
-                className="w-full px-3 py-2 rounded border border-white-300 text-black bg-green-600 bg-opacity-10 focus:outline-none focus:border-white-500"
-                id="username"
-                type="text"
-                name="username"
-                placeholder="Username"
-                onChange={handleChange}
-              />
-              <label
-                    htmlFor="email"
-                    className="block mb-2 font-medium text-black"
-                  >
-                    Email
-                  </label>
+                htmlFor="email"
+                className="block mb-2 font-medium text-black"
+              >
+                Email
+              </label>
               <input
                 className="w-full px-3 py-2 rounded border border-white-300 text-black bg-green-600 bg-opacity-10 focus:outline-none focus:border-white-500"
                 id="email"
                 type="email"
                 name="email"
-                placeholder="email"
+                placeholder="Email"
                 onChange={handleChange}
               />
               <label
-                    htmlFor="password"
-                    className="block mb-2 font-medium text-black"
-                  >
-                    Password
-                  </label>
+                htmlFor="password"
+                className="block mb-2 font-medium text-black"
+              >
+                Password
+              </label>
               <input
                 className="w-full px-3 py-2 rounded border border-white-300 text-black bg-green-600 bg-opacity-10 focus:outline-none focus:border-white-500"
                 id="password"
@@ -103,13 +86,13 @@ function SignUp() {
                 onChange={handleChange}
               />
               <button className="px-4 py-2 text-white bg-green-600 rounded hover:bg-green-700 focus:outline-none">
-                Sign up
+                Sign In
               </button>
-          <p className="text-black items-center">
-            <Link to="/login" className="text-black  text-center">
-              Already Have an Account?{" "}
-            </Link>
-          </p>
+              <p className="text-black items-center">
+                <Link to="/signup" className="text-black  text-center">
+                  Don't have an account? Sign up here.
+                </Link>
+              </p>
             </form>
             {error && <p className="text-red-500 text-center mt-5">{error}</p>}
           </div>
@@ -119,4 +102,4 @@ function SignUp() {
   );
 }
 
-export default SignUp;
+export default SignIn;
