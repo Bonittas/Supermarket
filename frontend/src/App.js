@@ -16,10 +16,6 @@ import Login from './pages/SignIn'
 import Signup from './pages/Signup'
 import Purchase from './pages/Purchase'
 import Admin from './pages/admin/AdminDashboard'
-import CategoryForm from "./pages/admin/CategoryCreate";
-import CategoryList from "./pages/admin/CategoryList";
-import ProductForm from "./pages/admin/ProductCreate";
-import ProductList from "./pages/admin/ProductList";
 
 const App = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -42,10 +38,6 @@ const App = () => {
           <Route path="/purchase" element={<Purchase />} />
 
           <Route path="/admin" element={<Admin/>} />
-          <Route path="/admin/category" element={<CategoryForm />} />
-          <Route path="/admin/category-list" element={<CategoryList />} />
-          <Route path="/admin/products" element={<ProductForm />} />
-          <Route path="/admin/products-list" element={<ProductList />} />
          
           <Route
             path="/fruits"
