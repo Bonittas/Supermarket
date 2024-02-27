@@ -5,7 +5,7 @@ const {createProduct, updateProduct, deleteProduct, getProduct,upload} = require
 
 router.get('/products/list',getProduct );
 router.post('/product', upload.single('image'), createProduct);
-router.delete('/product:id', deleteProduct );
-router.patch('/product:id', updateProduct );
+router.delete('/product/:id', deleteProduct );
+router.patch('/product/:id', updateProduct );
 
 module.exports= router

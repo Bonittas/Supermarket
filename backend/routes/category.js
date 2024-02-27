@@ -5,8 +5,8 @@ const {createCategory, getCategories, updateCategory, deleteCategory} = require(
 
 router.post('/category',  createCategory);
 router.get('/category/list',  getCategories);
-router.patch('/category:id',  updateCategory);
-router.delete('/category:id',  deleteCategory);
+router.patch('/category/:id',  updateCategory);
+router.delete('/category/:id',  deleteCategory);
 
 
 module.exports= router

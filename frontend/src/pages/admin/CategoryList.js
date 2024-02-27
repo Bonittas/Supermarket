@@ -20,26 +20,32 @@ const CategoryList = () => {
   };
 
   const handleEditCategory = (categoryId) => {
-    // Set the category being edited
     const categoryToEdit = categories.find((category) => category._id === categoryId);
-    setEditingCategory(categoryToEdit);
+    setEditingCategory({ ...categoryToEdit });
   };
 
   const handleCancelEdit = () => {
-    // Cancel the edit mode
     setEditingCategory(null);
   };
 
-  const handleEditSave = (editedCategory) => {
-    // Update the categories list with the edited category
-    setCategories((prevCategories) =>
-      prevCategories.map((category) =>
-        category._id === editedCategory._id ? editedCategory : category
-      )
-    );
+  const handleEditSave = async () => {
+    try {
+      await axios.patch(`/api/category/${editingCategory._id}`, {
+        categoryName: editingCategory.categoryName,
+      });
 
-    // Cancel the edit mode
-    setEditingCategory(null);
+      // Update the categories list with the edited category
+      setCategories((prevCategories) =>
+        prevCategories.map((category) =>
+          category._id === editingCategory._id ? editingCategory : category
+        )
+      );
+
+      // Cancel the edit mode
+      setEditingCategory(null);
+    } catch (error) {
+      console.error("Error updating category:", error);
+    }
   };
 
   const handleDeleteCategory = async (categoryId) => {
@@ -66,13 +72,28 @@ const CategoryList = () => {
             <tbody>
               {categories.map((category) => (
                 <tr key={category._id}>
-                  <td className="py-2 px-4 border-b">{category.categoryName}</td>
+                  <td className="py-2 px-4 border-b">
+                    {editingCategory && editingCategory._id === category._id ? (
+                      <input
+                        type="text"
+                        value={editingCategory.categoryName}
+                        onChange={(e) =>
+                          setEditingCategory({
+                            ...editingCategory,
+                            categoryName: e.target.value,
+                          })
+                        }
+                      />
+                    ) : (
+                      category.categoryName
+                    )}
+                  </td>
                   <td className="py-2 px-4 border-b">
                     {editingCategory && editingCategory._id === category._id ? (
                       <>
                         <button
                           className="bg-yellow-500 text-white px-2 py-1 rounded-lg hover:bg-yellow-600 transition-colors"
-                          onClick={() => handleEditSave(editingCategory)}
+                          onClick={handleEditSave}
                         >
                           Save
                         </button>
