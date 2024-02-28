@@ -5,13 +5,18 @@ const connectToDatabase = require("./config/database");
 const app = express();
 const product = require("./routes/product")
 const category = require("./routes/category")
+const path = require("path");
 //   Middleware for parsing the request body
 app.use(express.json());
 
+
 app.use("/", (req, res, next) => {
-    console.log(req.method, req.path);
-    next();
-  });
+  console.log(req.method, req.path);
+  next();
+});
+
+app.use('/uploads/', express.static(path.join(__dirname, 'uploads')));
+
  
 // Connect to the database
 connectToDatabase()

@@ -8,8 +8,8 @@ import ProductList from "./ProductList";
 // Category Navigation Component
 const CategoryNavigation = ({ onSelectSection }) => {
   return (
-    <div className="relative lg:w-1/4 md:w-1/5 sm:w-1/5 z-20 my-2 bg-white p-4 shadow-md rounded-md">
-      <ul className="mt-4 space-y-2">
+    <div className="lg:w-1/4 md:w-1/5 sm:w-1/5 my-2 bg-white p-4 shadow-md rounded-md">
+      <ul className="space-y-1">
         <li
           className="cursor-pointer text-green-600 hover:text-green-800 font-semibold transition duration-300"
           onClick={() => onSelectSection("productList")}
@@ -63,11 +63,11 @@ const Admin = () => {
 
   return (
     <>
-      <div className="flex">
+      <div className="flex justify-between min-h-screen bg-green-50 p-4">
         <CategoryNavigation onSelectSection={handleSelectSection} />
         <div className="bg-green-50 min-h-screen w-full p-8">
           <h2 className="text-3xl font-bold mb-8">Admin Dashboard</h2>
-          <div className="bg-white p-6 rounded-md shadow-md">{renderAdminSection()}</div>
+          <div>{renderAdminSection()}</div>
         </div>
       </div>
     </>

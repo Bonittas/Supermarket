@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Header from "../../components/Header3";
 import axios from "axios";
 
 const CategoryList = () => {
@@ -65,14 +64,14 @@ const CategoryList = () => {
           <table className="min-w-full bg-white border border-gray-300">
             <thead>
               <tr>
-                <th className="py-2 px-4 border-b">Category Name</th>
-                <th className="py-2 px-4 border-b">Actions</th>
+                <th className="py-2 px-4 border-b text-left">Category Name</th>
+                <th className="py-2 px-4 border-b text-left">Actions</th>
               </tr>
             </thead>
             <tbody>
               {categories.map((category) => (
                 <tr key={category._id}>
-                  <td className="py-2 px-4 border-b">
+                  <td className="py-2 px-4 border-b text-left">
                     {editingCategory && editingCategory._id === category._id ? (
                       <input
                         type="text"
@@ -83,12 +82,13 @@ const CategoryList = () => {
                             categoryName: e.target.value,
                           })
                         }
+                        className="border border-gray-400 rounded-md px-2 py-1 w-1/2 focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors"
                       />
                     ) : (
                       category.categoryName
                     )}
                   </td>
-                  <td className="py-2 px-4 border-b">
+                  <td className="py-2 px-4 border-b text-left">
                     {editingCategory && editingCategory._id === category._id ? (
                       <>
                         <button
