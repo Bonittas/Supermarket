@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Header from "../../components/Header3";
 import axios from "axios";
 
 // EditProductForm component for editing product details
@@ -158,6 +157,7 @@ const ProductList = () => {
                 <th className="py-2 px-4 border-b">Category</th>
                 <th className="py-2 px-4 border-b">Quantity</th>
                 <th className="py-2 px-4 border-b">Actions</th>
+                <th className="py-2 px-4 border-b">Image</th>
               </tr>
             </thead>
             <tbody>
@@ -167,6 +167,9 @@ const ProductList = () => {
                   <td className="py-2 px-4 border-b">${product.price.toFixed(2)}</td>
                   <td className="py-2 px-4 border-b">{product.categoryName}</td>
                   <td className="py-2 px-4 border-b">{product.quantity}</td>
+                  <td className="py-2 px-4 border-b">
+                  <img src={`../../../../backend/uploads/${product.categoryName}/${product.image}`} alt={product.name} />
+                  </td>
                   <td className="py-2 px-4 border-b">
                     {editingProduct && editingProduct._id === product._id ? (
                       <>

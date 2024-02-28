@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from "react";
-import Header from "../../components/Header3";
+import React, { useState } from "react";
 import axios from "axios";
 
 const ProductForm = () => {
-  const [categories, setCategories] = useState([]);
   const [error, setError] = useState(null);
   const [newProduct, setNewProduct] = useState({
     name: "",
@@ -12,20 +10,6 @@ const ProductForm = () => {
     categoryName: "",
     quantity: "",
   });
-
-  useEffect(() => {
-    fetchCategories();
-  }, []);
-
-  const fetchCategories = async () => {
-    try {
-      const response = await axios.get("/api/category");
-      setCategories(response.data);
-
-    } catch (error) {
-      console.error("Error fetching categories:", error);
-    }
-  };
 
   const handleProductChange = (e) => {
     setNewProduct({ ...newProduct, [e.target.name]: e.target.value });

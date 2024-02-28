@@ -36,6 +36,7 @@ app.use((err, req, res, next) => {
     message,
   });
 });
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Start the server
 app.listen(process.env.PORT, () => {
