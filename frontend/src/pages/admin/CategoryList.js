@@ -30,16 +30,28 @@ const CategoryList = () => {
     setEditingCategory(null);
   };
 
-  const handleEditSave = (editedCategory) => {
-    // Update the categories list with the edited category
-    setCategories((prevCategories) =>
-      prevCategories.map((category) =>
-        category._id === editedCategory._id ? editedCategory : category
-      )
-    );
+  const handleEditSave = async (editedCategory) => {
+    try {
+      const formData = new FormData();
+      formData.append("categoryName", editedCategory.categoryName);
+      formData.append("image", editedCategory.image);
 
-    // Cancel the edit mode
-    setEditingCategory(null);
+      // Update the category with the edited data
+      const response = await axios.put(`/api/category/${editedCategory._id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      console.log("Successfully updated category!", response.data);
+
+      // Refresh the category list
+      fetchCategories();
+
+      // Cancel the edit mode
+      setEditingCategory(null);
+    } catch (error) {
+      console.error("Error updating category:", error);
+    }
   };
 
   const handleDeleteCategory = async (categoryId) => {
