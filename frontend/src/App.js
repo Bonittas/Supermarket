@@ -74,7 +74,7 @@ const App = () => {
         </Routes>
 
         {/* <Cart cartItems={cartItems} onDeleteItem={handleDeleteItem} /> */}
-        <Footer/>
+        {/* <Footer/> */}
       </div>
     </Router>
   );
