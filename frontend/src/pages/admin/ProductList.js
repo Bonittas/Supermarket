@@ -4,22 +4,42 @@ import axios from "axios";
 // EditProductForm component for editing product details
 const EditProductForm = ({ product, onEdit }) => {
   const [editedProduct, setEditedProduct] = useState({ ...product });
+  const [imageFile, setImageFile] = useState(null);
 
   const handleEditChange = (e) => {
     setEditedProduct({ ...editedProduct, [e.target.name]: e.target.value });
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setImageFile(file);
   };
 
   const handleEditSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      // Update product details
-      const response = await axios.patch(`/api/product/${product._id}`, editedProduct);
+      const formData = new FormData();
+      formData.append("name", editedProduct.name);
+      formData.append("price", editedProduct.price);
+      formData.append("categoryName", editedProduct.categoryName);
+      formData.append("quantity", editedProduct.quantity);
 
-      // Notify the parent component about the edited product
+      if (imageFile) {
+        formData.append("image", imageFile);
+      }
+
+      const response = await axios.patch(
+        `/api/product/${product._id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
       onEdit(response.data);
-
-      // Reset form after successful edit
       setEditedProduct({ ...product });
     } catch (error) {
       console.error("Error editing product:", error);
@@ -27,7 +47,10 @@ const EditProductForm = ({ product, onEdit }) => {
   };
 
   return (
-    <form onSubmit={handleEditSubmit}>
+    <form
+      onSubmit={handleEditSubmit}
+      className="shadow-md p-4 bg-white rounded mb-2"
+    >
       <div className="mb-2">
         <label htmlFor="editName" className="block text-gray-700 font-bold">
           Name
@@ -38,7 +61,7 @@ const EditProductForm = ({ product, onEdit }) => {
           name="name"
           value={editedProduct.name}
           onChange={handleEditChange}
-          className="form-input mt-1 block w-full"
+          className="mt-1 border border-gray-400 rounded-md px-2 py-1 w-full focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors"
           required
         />
       </div>
@@ -52,12 +75,15 @@ const EditProductForm = ({ product, onEdit }) => {
           name="price"
           value={editedProduct.price}
           onChange={handleEditChange}
-          className="form-input mt-1 block w-full"
+          className="mt-1 border border-gray-400 rounded-md px-2 py-1 w-full focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors"
           required
         />
       </div>
       <div className="mb-2">
-        <label htmlFor="editCategoryName" className="block text-gray-700 font-bold">
+        <label
+          htmlFor="editCategoryName"
+          className="block text-gray-700 font-bold"
+        >
           Category Name
         </label>
         <input
@@ -66,7 +92,7 @@ const EditProductForm = ({ product, onEdit }) => {
           name="categoryName"
           value={editedProduct.categoryName}
           onChange={handleEditChange}
-          className="form-input mt-1 block w-full"
+          className="mt-1 border border-gray-400 rounded-md px-2 py-1 w-full focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors"
           required
         />
       </div>
@@ -80,13 +106,26 @@ const EditProductForm = ({ product, onEdit }) => {
           name="quantity"
           value={editedProduct.quantity}
           onChange={handleEditChange}
-          className="form-input mt-1 block w-full"
+          className="mt-1 border border-gray-400 rounded-md px-2 py-1 w-full focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors"
           required
+        />
+      </div>
+      <div className="mb-2">
+        <label htmlFor="editImage" className="block text-gray-700 font-bold">
+          Image
+        </label>
+        <input
+          type="file"
+          id="editImage"
+          name="image"
+          accept="image/*"
+          onChange={handleImageChange}
+          className="mt-1 border border-gray-400 rounded-md px-2 py-1 w-full focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors"
         />
       </div>
       <button
         type="submit"
-        className="bg-yellow-500 text-white px-4 py-2 rounded-lg hover:bg-yellow-600 transition-colors"
+        className="bg-yellow-500 text-white px-4 py-2 rounded-lg w-full hover:bg-yellow-600 transition-colors"
       >
         Save Changes
       </button>
@@ -152,28 +191,48 @@ const ProductList = () => {
           <table className="min-w-full bg-white border border-gray-300">
             <thead>
               <tr>
-                <th className="py-2 px-4 border-b">Name</th>
-                <th className="py-2 px-4 border-b">Price</th>
-                <th className="py-2 px-4 border-b">Category</th>
-                <th className="py-2 px-4 border-b">Quantity</th>
-                <th className="py-2 px-4 border-b">Actions</th>
-                <th className="py-2 px-4 border-b">Image</th>
+                <th className="py-2 px-4 border-b text-left">Name</th>
+                <th className="py-2 px-4 border-b text-left">Price</th>
+                <th className="py-2 px-4 border-b text-left">Category</th>
+                <th className="py-2 px-4 border-b text-left">Quantity</th>
+                <th className="py-2 px-4 border-b text-left">Image</th>
+                <th className="py-2 px-4 border-b text-left">Actions</th>
               </tr>
             </thead>
             <tbody>
               {products.map((product) => (
                 <tr key={product._id}>
-                  <td className="py-2 px-4 border-b">{product.name}</td>
-                  <td className="py-2 px-4 border-b">${product.price.toFixed(2)}</td>
-                  <td className="py-2 px-4 border-b">{product.categoryName}</td>
-                  <td className="py-2 px-4 border-b">{product.quantity}</td>
-                  <td className="py-2 px-4 border-b">
-                  <img src={`../../../../backend/uploads/${product.categoryName}/${product.image}`} alt={product.name} />
+                  <td className="py-2 px-4 border-b text-left">
+                    {product.name}
                   </td>
-                  <td className="py-2 px-4 border-b">
+                  <td className="py-2 px-4 border-b text-left">
+                    ${product.price.toFixed(2)}
+                  </td>
+                  <td className="py-2 px-4 border-b text-left">
+                    {product.categoryName}
+                  </td>
+                  <td className="py-2 px-4 border-b text-left">
+                    {product.quantity}
+                  </td>
+                  <td className="py-2 px-4 border-b text-left">
+                    {product.image ? (
+                      <img
+                        src={`/uploads/${product.categoryName}/${product.image}`}
+                        alt={`Product ${product.name}`}
+                        className="max-h-20 max-w-20"
+                        onError={(e) => console.error("Image load error:", e)}
+                      />
+                    ) : (
+                      <span>No Image</span>
+                    )}
+                  </td>
+                  <td className="py-2 px-4 border-b text-left">
                     {editingProduct && editingProduct._id === product._id ? (
                       <>
-                        <EditProductForm product={editingProduct} onEdit={handleEditSave} />
+                        <EditProductForm
+                          product={editingProduct}
+                          onEdit={handleEditSave}
+                        />
                         <button
                           className="bg-gray-500 text-white px-2 py-1 ml-2 rounded-lg hover:bg-gray-600 transition-colors"
                           onClick={handleCancelEdit}

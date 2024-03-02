@@ -7,6 +7,10 @@ const Cart = ({ cartItems, onDeleteItem }) => {
     setIsOpen(!isOpen);
   };
 
+  const handleDeleteItem = (itemId) => {
+    onDeleteItem(itemId);
+  };
+
   const groupedItems = cartItems.reduce((grouped, item) => {
     if (!grouped[item.id]) {
       grouped[item.id] = { ...item, quantity: 1 };
@@ -20,10 +24,6 @@ const Cart = ({ cartItems, onDeleteItem }) => {
     (total, item) => total + item.price * item.quantity,
     0
   );
-
-  const handleDeleteItem = (itemId) => {
-    onDeleteItem(itemId);
-  };
 
   return (
     <div className="">
@@ -44,7 +44,7 @@ const Cart = ({ cartItems, onDeleteItem }) => {
                 {Object.values(groupedItems).map((item) => (
                   <li key={item.id} className="flex items-center">
                     <img
-                      src={item.image}
+                      src={`/uploads/${item.categoryName}/${item.image}`}
                       alt={item.name}
                       className="w-8 h-8 object-cover mr-2"
                     />

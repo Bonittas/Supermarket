@@ -1,409 +1,200 @@
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCartShopping,faArrowCircleRight, faSearch } from '@fortawesome/free-solid-svg-icons';
 
+import 'tailwindcss/tailwind.css';
+import myImage from '../img/shopping-1165437.jpg';
+import ad from '../img/items/ad.jpg';
+import Header from '../components/Header3';
+import i1 from '../img/snacks/snacks.png';
+import i2 from '../img/fruits/fruit.png';
+import i3 from '../img/vegetables/veg.png';
+import i4 from '../img/drinks/bev.png';
+import i5 from '../img/dairy/meat.png';
+import i6 from '../img/sanitizing/soap.png';
+import i7 from '../img/dairy/dairy.png';
 
-// import React, { useState } from "react";
-// import axios from "axios";
-// // import Header from "../../components/Header3";
+import p1 from '../img/dairy/eggs.png';
+import p2 from '../img/vegetables/tomato.png';
+import p3 from '../img/dairy/chicken drumsticks.png';
+import p4 from '../img/fruits/grapes.png';
+import p5 from '../img/drinks/coca 500ml.png';
+import p6 from '../img/snacks/sunchips blue.png';
+import p7 from '../img/sanitizing/laundry soap.png';
+import p8 from '../img/snacks/nutella.png';
 
-// const CategoryForm = () => {
-//   const [newCategory, setNewCategory] = useState({
-//     categoryName: "",
-//     image: null,
-//   });
-//   const [error, setError] = useState(null);
+const categories = [
+  { name: 'Fruits', image: i2 },
+  { name: 'Vegetables', image: i3 },
+  { name: 'Dairy', image: i7 },
+  { name: 'Snacks', image: i1 },
+  { name: 'Beverages', image: i4 },
+  { name: 'Meat', image: i5 },
+  { name: 'Sanitizers', image: i6 },
+];
 
-//   const handleCategoryChange = (e) => {
-//     setNewCategory({ ...newCategory, [e.target.name]: e.target.value });
-//   };
+const products = [
+  { name: 'Eggs', image: p1, price: 12,link:'/Dairy' },
+  { name: 'Sunchips', image: p6, price: 25,link:'/snacks' },
+  { name: 'Chicken Drumsticks', image: p3, price: 110,link:'/Dairy' },
+  { name: 'Grapes', image: p4, price: 60,link:'/fruits' },
+  { name: 'Drinks', image: p5, price: 25,link:'/drinks' },
+  { name: 'Tomato', image: p2, price: 45,link:'/vegetables' },
+  { name: 'Laundry Soap', image: p7, price: 30 ,link:'/vegetables'},
+  { name: 'Nutella', image: p8, price: 75 ,link:'/snacks' },
 
-//   const handleImageChange = (e) => {
-//     const file = e.target.files[0];
-//     setNewCategory((prevCategory) => ({
-//       ...prevCategory,
-//       image: file,
-//     }));
-//   };
+];
 
-//   const handleCategorySubmit = async (e) => {
-//     e.preventDefault();
-  
-//     try {
-//       const formData = new FormData();
-//       formData.append("categoryName", newCategory.categoryName);
-//       formData.append("image", newCategory.image);
-  
-//       const response = await axios.post('/api/category', formData, {
-//         headers: {
-//           "Content-Type": "multipart/form-data",
-//         },
-//       });
-//       console.log("Successfully created category!", response.data);
-  
-//       setNewCategory({ categoryName: "", image: null });
-//       setError(null);
-//     } catch (error) {
-//       console.error("Error creating category:", error);
-//       setError("Error creating category");
-//     }
-//   };
-  
-//   return (
-//     <>
-//       {/* <Header /> */}
-//       <div className="bg-green-50 min-h-screen p-6 shadow-md m-5">
-//         <div className="w-1/2 mx-auto mt-8">
-//           <h2 className="text-2xl font-bold mb-4">Create New Category</h2>
-//           <form onSubmit={handleCategorySubmit}>
-//             <div className="mb-4">
-//               <label htmlFor="categoryName" className="block text-gray-700 font-bold">
-//                 Category Name
-//               </label>
-//               <input
-//                 type="text"
-//                 id="categoryName"
-//                 name="categoryName"
-//                 value={newCategory.categoryName}
-//                 onChange={handleCategoryChange}
-//                 className="form-input mt-1 block w-3/6"
-//                 required
-//               />
-//             </div>
-//             <div className="mb-4">
-//               <label htmlFor="image" className="block text-gray-700 font-bold">
-//                 Image
-//               </label>
-//               <input
-//                 type="file"
-//                 id="image"
-//                 name="image"
-//                 onChange={handleImageChange}
-//                 className="mt-1 block w-3/6"
-//                 accept="image/*"
-//               />
-//             </div>
-//             <button
-//               type="submit"
-//               className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors"
-//             >
-//               Create Category
-//             </button>
-//             {error && <p className="text-red-500 mt-2">{error}</p>}
-//           </form>
-//         </div>
-//       </div>
-//     </>
-//   );
-// };
+const generateRandomProducts = () => {
+  const randomProducts = [];
+  const selectedImages = [];
 
-// export default CategoryForm;
+  for (let i = 1; i <= 8; i++) {
+    let randomProduct;
+    do {
+      randomProduct = products[Math.floor(Math.random() * products.length)];
+    } while (selectedImages.includes(randomProduct.image));
 
+    selectedImages.push(randomProduct.image);
 
+    randomProducts.push({
+      id: i,
+      name: `Product ${i}`,
+      product: randomProduct,
+      description: `Description of product ${i}.`,
+    });
+  }
+  return randomProducts;
+};
 
+const Home = () => {
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category);
+  };
 
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+  };
 
+  const filteredCategories = categories.filter((category) =>
+    category.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
-// import React, { useState, useEffect } from "react";
-// import axios from "axios";
+  const randomProducts = generateRandomProducts();
 
-// const CategoryList = () => {
-//   const [categories, setCategories] = useState([]);
-//   const [editingCategory, setEditingCategory] = useState(null);
+  return (
+    <>
+      <Header />
+      <div className="bg-gray-100">
+        <div className="relative top-0 left-0 mb-2 w-full h-fit">
+          <img
+            src={myImage}
+            alt="Background"
+            className="w-full h-fit object-cover transform -scale-x-100"
+            style={{ maxHeight: '660px' }}
+          />
+        </div>
+        <div className="bg-black bg-opacity-40 absolute top-0 h-full left-0 w-full py-4"></div>
 
-//   useEffect(() => {
-//     fetchCategories();
-//   }, []);
-
-//   const fetchCategories = async () => {
-//     try {
-//       const response = await axios.get("/api/category/list");
-//       setCategories(response.data);
-//     } catch (error) {
-//       console.error("Error fetching categories:", error);
-//     }
-//   };
-
-//   const handleEditCategory = (categoryId) => {
-//     // Set the category being edited
-//     const categoryToEdit = categories.find((category) => category._id === categoryId);
-//     setEditingCategory(categoryToEdit);
-//   };
-
-//   const handleCancelEdit = () => {
-//     // Cancel the edit mode
-//     setEditingCategory(null);
-//   };
-
-//   const handleEditSave = async (editedCategory) => {
-//     try {
-//       const formData = new FormData();
-//       formData.append("categoryName", editedCategory.categoryName);
-//       formData.append("image", editedCategory.image);
-
-//       // Update the category with the edited data
-//       const response = await axios.put(`/api/category/${editedCategory._id}`, formData, {
-//         headers: {
-//           "Content-Type": "multipart/form-data",
-//         },
-//       });
-//       console.log("Successfully updated category!", response.data);
-
-//       // Refresh the category list
-//       fetchCategories();
-
-//       // Cancel the edit mode
-//       setEditingCategory(null);
-//     } catch (error) {
-//       console.error("Error updating category:", error);
-//     }
-//   };
-
-//   const handleDeleteCategory = async (categoryId) => {
-//     try {
-//       await axios.delete(`/api/category/${categoryId}`);
-//       fetchCategories(); // Refresh the category list after deletion
-//     } catch (error) {
-//       console.error("Error deleting category:", error);
-//     }
-//   };
-
-//   return (
-//     <>
-//       <div className="bg-green-50 min-h-screen p-6 shadow-md m-5">
-//         <div className="w-full mx-auto mt-8">
-//           <h2 className="text-2xl font-bold mb-4">All Categories</h2>
-//           <table className="min-w-full bg-white border border-gray-300">
-//             <thead>
-//               <tr>
-//                 <th className="py-2 px-4 border-b">Category Name</th>
-//                 <th className="py-2 px-4 border-b">Image</th>
-//                 <th className="py-2 px-4 border-b">Actions</th>
-//               </tr>
-//             </thead>
-//             <tbody>
-//               {categories.map((category) => (
-//                 <tr key={category._id}>
-//                   <td className="py-2 px-4 border-b">{category.categoryName}</td>
-//                   <td className="py-2 px-4 border-b">
-//                     {category.image && (
-//                       <img
-//                         src={`/uploads/${category.categoryImage}`}
-//                         alt={category.categoryName}
-//                         className="w-20 h-20"
-//                         onError={(e) => console.error("Image load error:", e)}
-//                       />
-//                     )}
-//                   </td>
-//                   <td className="py-2 px-4 border-b">
-//                     {editingCategory && editingCategory._id === category._id ? (
-//                       <>
-//                         <button
-//                           className="bg-yellow-500 text-white px-2 py-1 rounded-lg hover:bg-yellow-600 transition-colors"
-//                           onClick={() => handleEditSave(editingCategory)}
-//                         >
-//                           Save
-//                         </button>
-//                         <button
-//                           className="bg-gray-500 text-white px-2 py-1 ml-2 rounded-lg hover:bg-gray-600 transition-colors"
-//                           onClick={handleCancelEdit}
-//                         >
-//                           Cancel
-//                         </button>
-//                       </>
-//                     ) : (
-//                       <>
-//                         <button
-//                           className="bg-yellow-500 text-white px-2 py-1 rounded-lg hover:bg-yellow-600 transition-colors"
-//                           onClick={() => handleEditCategory(category._id)}
-//                         >
-//                           Edit
-//                         </button>
-//                         <button
-//                           className="bg-red-500 text-white px-2 py-1 ml-2 rounded-lg hover:bg-red-600 transition-colors"
-//                           onClick={() => handleDeleteCategory(category._id)}
-//                         >
-//                           Delete
-//                         </button>
-//                       </>
-//                     )}
-//                   </td>
-//                 </tr>
-//               ))}
-//             </tbody>
-//           </table>
-//         </div>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default CategoryList;
-
-
-
-
-// const Category = require('../models/category');
-// const fs = require('fs');
-// const path = require('path');
-
-// const createCategory = async (req, res) => {
-//   try {
-//     const { categoryName } = req.body;
-//     const { filename } = req.file; // Assuming you're using multer for file uploads
-    
-//     const category = new Category({
-//       categoryName,
-//       categoryImage: filename
-//     });
-
-//     await category.save();
-
-//     res.status(201).json({ message: 'Category created successfully' });
-//   } catch (error) {
-//     console.error('Error creating category:', error);
-//     res.status(500).json({ message: 'Error creating category' });
-//   }
-// };
-
-// const getCategories = async (req, res) => {
-//   try {
-//     const categories = await Category.find();
-
-//     // Check if categories contain valid image paths
-//     const categoriesWithValidImages = categories.map(category => {
-//       if (category.image) {
-//         try {
-//           // Validate if the image file exists
-//           fs.accessSync(category.image, fs.constants.F_OK);
-//         } catch (imageError) {
-//           // Log the error if the image file is missing
-//           console.error(`Error loading image for category ${category._id}: ${imageError.message}`);
-//           category.image = null; // Set image to null for categories with missing images
-//         }
-//       }
-//       return category;
-//     });
-
-//     res.status(200).json(categoriesWithValidImages);
-//   } catch (error) {
-//     console.error('Error getting categories:', error);
-//     res.status(500).json({ error: 'Internal server error' });
-//   }
-// };
-
-
-// const updateCategory = async (req, res) => {
-//   const { id } = req.params;
-//   const { categoryName } = req.body;
-//   const { image } = req.file; // Assuming the image is uploaded as 'image' field in the request
-
-//   try {
-//     const category = await Category.findById(id);
-
-//     if (!category) {
-//       return res.status(404).json({ error: 'Category not found' });
-//     }
-
-//     if (image) {
-//       const categoryPath = path.join(__dirname, `../uploads/category/${category._id}`);
-//       const imagePath = path.join(categoryPath, `${image.originalname}`);
+        <div className="absolute right-2 flex flex-col justify-end items-end bottom-32 mx-2">
+          <p className="text-white font-bold text-3xl text-center pb-3 w-2/3">
+            Elevate Your Shopping Experience with Our Vast Selection
+          </p>
+          <p className="text-white font-bold text-xl pb-4 text-center w-2/3">
+            Competitive Prices, Stellar and Fast Service
+          </p>
+          <div className="relative w-2/3 top-6 my-2">
+  <div className="flex">
+    <input
+      type="text"
+      className="rounded-l-md lg:h-16 md:h-16 sm:h-10 py-2 px-4 sm:pr-12 w-full relative right-8 text-white bg-white bg-opacity-40 focus:outline-none focus:border-green-500 border-green-500"
+      placeholder="Search for Categories..."
+      value={searchQuery}
+      onChange={handleSearchChange}
+      style={{ color: "black" }} 
+    />
+    <button
+      className="bg-green-700 rounded-r-md p-6 flex items-center justify-center"
+      style={{ minWidth: "3rem", marginLeft: "-2rem" }} 
+    >
+      <FontAwesomeIcon icon={faSearch} className="text-white " />
+    </button>
+  </div>
+</div>
+</div>
+<div className="container mx-auto py-6">
+  <div className="flex">
+    <div className="bg-green w-96 mr-8 border rounded-md flex items-start">
+      <img src={ad} alt="Your Image" className="w-full h-full rounded-md object-cover" />
+    </div>
+    <div>
+  <p className="text-black text-center font-bold text-2xl">Top Categories</p>
+  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ">
+    {filteredCategories.map((category) => (
+      <div
+        key={category.name}
+        className="relative overflow-hidden m-2 rounded-full shadow-lg"
+        style={{
+          width: '200px',
+          height: '200px',
+        }}
+      >
+        <div className="aspect-w-1 aspect-h-1 m-4">
+          <div className="rounded-full overflow-hidden">
+            <Link to={`/${category.name}`}>
+              <img
+                src={category.image}
+                alt={category.name}
+                className="object-cover w-full h-full"
+              />
+            </Link>
+          </div>
+        </div>
+        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-green-700 to-transparent p-4">
+          <Link to={`/${category.name}`}>
+            <p className="text-white text-center text-lg font-semibold">{category.name}</p>
+          </Link>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+  </div>
+</div>
+<div className="mx-10">
+  <h2 className="text-2xl font-bold mt-12 mb-8 text-center">Featured Products</h2>
+  <div className="flex items-center justify-center">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      {products.map((product, index) => (
+        <div
+          key={index}
+          className={`product border p-4 m-4 mx-2 rounded-lg hover:shadow-lg transition-shadow ${
+            selectedCategory === product.name ? 'border-4 border-green-500' : ''
+          }`}
+          onClick={() => (window.location.href = product.link)}
+        >
+          <div className="relative w-full">
+            <img src={product.image} alt={product.name} className="w-full h-56 object-cover" />
+          </div>
+          <div className="p-4 flex justify-end items-end h-1 mt-6">
+            <h3 className="text-xl font-bold text-end mb-2">{product.name}</h3>
+            <button className="text-green-700 rounded-full px-2">
+              <FontAwesomeIcon icon={faArrowCircleRight} className="w-8 h-8 mt-2" />
+            </button>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+</div>
       
-//       // Create the directory if it doesn't exist
-//       if (!fs.existsSync(categoryPath)) {
-//         fs.mkdirSync(categoryPath, { recursive: true });
-//       }
+    </>
+  );
+};
 
-//       image.mv(imagePath, (err) => {
-//         if (err) {
-//           console.error('Error moving uploaded image:', err);
-//           return res.status(500).json({ error: 'Internal server error' });
-//         }
-//       });
-
-//       if (category.categoryImage) {
-//         // Delete the previous image file
-//         const previousImagePath = path.join(__dirname, '../', category.categoryImage);
-//         fs.unlinkSync(previousImagePath);
-//       }
-
-//       category.categoryImage = imagePath;
-//     }
-
-//     category.categoryName = categoryName;
-
-//     const updatedCategory = await category.save();
-//     res.status(200).json(updatedCategory);
-//   } catch (error) {
-//     console.error('Error updating category:', error);
-//     res.status(500).json({ error: 'Internal server error' });
-//   }
-// };
-
-// const deleteCategory = async (req, res) => {
-//   const { id } = req.params;
-
-//   try {
-//     const category = await Category.findByIdAndDelete(id);
-
-//     if (!category) {
-//       return res.status(404).json({ error: 'Category not found' });
-//     }
-
-//     if (category.categoryImage) {
-//       // Delete the associated image file
-//       const imagePath = path.join(__dirname, '../', category.categoryImage);
-//       fs.unlinkSync(imagePath);
-//     }
-
-//     res.status(200).json({ message: 'Category deleted successfully' });
-//   } catch (error) {
-//     console.error('Error deleting category:', error);
-//     res.status(500).json({ error: 'Internal server error' });
-//   }
-// };
-
-// module.exports = { createCategory, getCategories, updateCategory, deleteCategory };
-// require("dotenv").config();
-// const express = require("express");
-// const cors = require("cors"); // Import the cors package
-// const userAuth = require("./routes/user.router");
-// const connectToDatabase = require("./config/database");
-// const app = express();
-// const product = require("./routes/product");
-// const path = require("path");
-// const category = require("./routes/category");
-
-// // Middleware for parsing the request body
-// app.use(express.jsaon());
-
-// app.use("/", (req, res, next) => {
-//   console.log(req.method, req.path);
-//   next();
-// });
-
-// // Enable CORS for all routes
-// app.use(cors());
-
-// // Connect to the database
-// connectToDatabase();
-
-// app.use("/api", product);
-// app.use("/api", category);
-// app.use("/api/auth", userAuth);
-
-
-// app.use((err, req, res, next) => {
-//   console.error(err.stack); // Log the error stack trace
-//   const statusCode = err.statusCode || 500;
-//   const message = err.message || "Internal Server Error";
-//   return res.status(statusCode).json({
-//     success: false,
-//     statusCode,
-//     message,
-//   });
-// });
-// app.use("/uploads", express.static(path.join(__dirname, "uploads")));
-
-// // Start the server
-// app.listen(process.env.PORT, () => {
-//   console.log("listening on port", process.env.PORT);
-// });
+export default Home;

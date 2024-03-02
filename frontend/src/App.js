@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import axios from 'axios';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import FruitsPage from './pages/categories/Fruit';
@@ -16,10 +17,31 @@ import Login from './pages/SignIn'
 import Signup from './pages/Signup'
 import Purchase from './pages/Purchase'
 import Admin from './pages/admin/AdminDashboard'
-
+import ProductListByCategory from "./pages/admin/ProductListByCategory";
+import FruitDetail from './pages/admin/productDetail';
+import { categories } from './pages/categories/Category';
+import Fruit from './pages/categories/Fruit';
+import ViewOrders from './pages/admin/ViewOrders';
 const App = () => {
   const [cartItems, setCartItems] = useState([]);
+  const [products, setProducts] = useState([]);
 
+  // Fetch products when the component mounts
+  useEffect(() => {
+   // Inside the useEffect block in App.js
+const fetchProducts = async () => {
+  try {
+    const response = await axios.get('/api/products/list');
+    setProducts(response.data);
+    console.log('Fetched products:', response.data);
+  } catch (error) {
+    console.error('Error fetching products:', error);
+  }
+};
+
+
+    fetchProducts();
+  }, []);
   const handleDeleteItem = (itemId) => {
     const updatedCartItems = cartItems.filter((item) => item.id !== itemId);
     setCartItems(updatedCartItems);
@@ -28,7 +50,6 @@ const App = () => {
   return (
     <Router>
       <div>
-       
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
@@ -37,8 +58,13 @@ const App = () => {
           <Route path="/signup" element={<Signup />} />
           <Route path="/purchase" element={<Purchase />} />
 
-          <Route path="/admin" element={<Admin/>} />
-         
+          {/* Dynamic routes for product categories */}
+          <Route path="/:categoryName" element={<ProductListByCategory cartItems={cartItems} setCartItems={setCartItems} />} />
+
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/vieworders" element={<ViewOrders />} />
+
+          {/* Specific routes for each category */}
           <Route
             path="/fruits"
             element={<FruitsPage cartItems={cartItems} setCartItems={setCartItems} />}
@@ -63,20 +89,37 @@ const App = () => {
             path="/sanitizers"
             element={<Sanitizers cartItems={cartItems} setCartItems={setCartItems} />}
           />
+ <Route
+            path="/:categoryName"
+            element={<ProductListByCategory products={products} />}
+          />
+<Route
+  path="/fruits/:fruitId"
+  element={<FruitDetail />}
+/>
           <Route
             path="/meat"
             element={<Meat cartItems={cartItems} setCartItems={setCartItems} />}
           />
-          <Route
-            path="/cart"
-            element={<Cart cartItems={cartItems} onDeleteItem={handleDeleteItem} />}
-          />
+
+          {/* Cart route */}
+          <Route path="/cart" element={<Cart cartItems={cartItems} onDeleteItem={handleDeleteItem} />} />
+          {categories.map((category) => (
+            <Route
+              key={category.name}
+              path={`/${category.name}`}
+              element={<Fruit cartItems={cartItems} setCartItems={setCartItems} />}
+            />
+          ))}
         </Routes>
 
-        <Cart cartItems={cartItems} onDeleteItem={handleDeleteItem} />
-        <Footer/>
+        {/* Optional: Render the cart component globally */}
+        {/* <Cart cartItems={cartItems} onDeleteItem={handleDeleteItem} /> */}
+
+        <Footer />
       </div>
     </Router>
+
   );
 };
 

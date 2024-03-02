@@ -1,90 +1,87 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartShopping,faArrowCircleRight, faSearch } from '@fortawesome/free-solid-svg-icons';
-
-import 'tailwindcss/tailwind.css';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import myImage from '../img/shopping-1165437.jpg';
-import ad from '../img/items/ad.jpg';
-import Header from '../components/Header3';
-import i1 from '../img/snacks/snacks.png';
-import i2 from '../img/fruits/fruit.png';
-import i3 from '../img/vegetables/veg.png';
-import i4 from '../img/drinks/bev.png';
-import i5 from '../img/dairy/meat.png';
-import i6 from '../img/sanitizing/soap.png';
-import i7 from '../img/dairy/dairy.png';
-
-import p1 from '../img/dairy/eggs.png';
-import p2 from '../img/vegetables/tomato.png';
-import p3 from '../img/dairy/chicken drumsticks.png';
-import p4 from '../img/fruits/grapes.png';
-import p5 from '../img/drinks/coca 500ml.png';
-import p6 from '../img/snacks/sunchips blue.png';
-import p7 from '../img/sanitizing/laundry soap.png';
-import p8 from '../img/snacks/nutella.png';
-
-const categories = [
-  { name: 'Fruits', image: i2 },
-  { name: 'Vegetables', image: i3 },
-  { name: 'Dairy', image: i7 },
-  { name: 'Snacks', image: i1 },
-  { name: 'Beverages', image: i4 },
-  { name: 'Meat', image: i5 },
-  { name: 'Sanitizers', image: i6 },
-];
-
-const products = [
-  { name: 'Eggs', image: p1, price: 12,link:'/Dairy' },
-  { name: 'Sunchips', image: p6, price: 25,link:'/snacks' },
-  { name: 'Chicken Drumsticks', image: p3, price: 110,link:'/Dairy' },
-  { name: 'Grapes', image: p4, price: 60,link:'/fruits' },
-  { name: 'Drinks', image: p5, price: 25,link:'/drinks' },
-  { name: 'Tomato', image: p2, price: 45,link:'/vegetables' },
-  { name: 'Laundry Soap', image: p7, price: 30 ,link:'/vegetables'},
-  { name: 'Nutella', image: p8, price: 75 ,link:'/snacks' },
-
-];
-
-const generateRandomProducts = () => {
-  const randomProducts = [];
-  const selectedImages = [];
-
-  for (let i = 1; i <= 8; i++) {
-    let randomProduct;
-    do {
-      randomProduct = products[Math.floor(Math.random() * products.length)];
-    } while (selectedImages.includes(randomProduct.image));
-
-    selectedImages.push(randomProduct.image);
-
-    randomProducts.push({
-      id: i,
-      name: `Product ${i}`,
-      product: randomProduct,
-      description: `Description of product ${i}.`,
-    });
-  }
-  return randomProducts;
-};
+import Header from "../components/Header3";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCartShopping, faArrowCircleRight, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { Link } from "react-router-dom";
+import ProductListByCategory from "./admin/ProductListByCategory";
 
 const Home = () => {
-  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [categories, setCategories] = useState([]);
+  const [editingCategory, setEditingCategory] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-
-  const handleCategoryClick = (category) => {
-    setSelectedCategory(category);
-  };
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
   };
 
-  const filteredCategories = categories.filter((category) =>
-    category.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  useEffect(() => {
+    fetchCategories();
+  }, []);
 
-  const randomProducts = generateRandomProducts();
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get("/api/category/list");
+      setCategories(response.data);
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+    }
+  };
+
+  const handleEditCategory = (categoryId) => {
+    const categoryToEdit = categories.find((category) => category._id === categoryId);
+    setEditingCategory(categoryToEdit);
+  };
+
+  const handleCancelEdit = () => {
+    setEditingCategory(null);
+  };
+
+  const handleEditSave = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("categoryName", editingCategory.categoryName);
+      formData.append("image", editingCategory.image);
+
+      console.log("FormData content:", [...formData.entries()]);
+
+      const response = await axios.put(`/api/category/${editingCategory._id}`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      console.log("Successfully updated category!", response.data);
+
+      fetchCategories();
+      setEditingCategory(null);
+    } catch (error) {
+      console.error("Error updating category:", error);
+      // Handle error
+    }
+  };
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    setEditingCategory((prevCategory) => ({
+      ...prevCategory,
+      image: file,
+    }));
+  };
+
+  const handleDeleteCategory = async (categoryId) => {
+    try {
+      await axios.delete(`/api/category/${categoryId}`);
+      fetchCategories();
+    } catch (error) {
+      console.error("Error deleting category:", error);
+    }
+  };
+
+  const filteredCategories = categories.filter(category => {
+    return category.categoryName && category.categoryName.toLowerCase().includes(searchQuery.toLowerCase());
+  });
 
   return (
     <>
@@ -108,91 +105,62 @@ const Home = () => {
             Competitive Prices, Stellar and Fast Service
           </p>
           <div className="relative w-2/3 top-6 my-2">
-  <div className="flex">
-    <input
-      type="text"
-      className="rounded-l-md lg:h-16 md:h-16 sm:h-10 py-2 px-4 sm:pr-12 w-full relative right-8 text-white bg-white bg-opacity-40 focus:outline-none focus:border-green-500 border-green-500"
-      placeholder="Search for Categories..."
-      value={searchQuery}
-      onChange={handleSearchChange}
-      style={{ color: "black" }} 
-    />
-    <button
-      className="bg-green-700 rounded-r-md p-6 flex items-center justify-center"
-      style={{ minWidth: "3rem", marginLeft: "-2rem" }} 
-    >
-      <FontAwesomeIcon icon={faSearch} className="text-white " />
-    </button>
-  </div>
-</div>
-</div>
-<div className="container mx-auto py-6">
-  <div className="flex">
-    <div className="bg-green w-96 mr-8 border rounded-md flex items-start">
-      <img src={ad} alt="Your Image" className="w-full h-full rounded-md object-cover" />
-    </div>
-    <div>
-  <p className="text-black text-center font-bold text-2xl">Top Categories</p>
-  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 ">
-    {filteredCategories.map((category) => (
-      <div
-        key={category.name}
-        className="relative overflow-hidden m-2 rounded-full shadow-lg"
-        style={{
-          width: '200px',
-          height: '200px',
-        }}
-      >
-        <div className="aspect-w-1 aspect-h-1 m-4">
-          <div className="rounded-full overflow-hidden">
-            <Link to={`/${category.name}`}>
-              <img
-                src={category.image}
-                alt={category.name}
-                className="object-cover w-full h-full"
+            <div className="flex">
+              <input
+                type="text"
+                className="rounded-l-md lg:h-16 md:h-16 sm:h-10 py-2 px-4 sm:pr-12 w-full relative right-8 text-white bg-white bg-opacity-40 focus:outline-none focus:border-green-500 border-green-500"
+                placeholder="Search for Categories..."
+                value={searchQuery}
+                onChange={handleSearchChange}
+                style={{ color: "black" }}
               />
-            </Link>
+              <button
+                className="bg-green-700 rounded-r-md p-6 flex items-center justify-center"
+                style={{ minWidth: "3rem", marginLeft: "-2rem" }}
+              >
+                <FontAwesomeIcon icon={faSearch} className="text-white " />
+              </button>
+            </div>
           </div>
-        </div>
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-green-700 to-transparent p-4">
-          <Link to={`/${category.name}`}>
-            <p className="text-white text-center text-lg font-semibold">{category.name}</p>
-          </Link>
         </div>
       </div>
-    ))}
-  </div>
-</div>
-  </div>
-</div>
-<div className="mx-10">
-  <h2 className="text-2xl font-bold mt-12 mb-8 text-center">Featured Products</h2>
-  <div className="flex items-center justify-center">
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-      {products.map((product, index) => (
-        <div
-          key={index}
-          className={`product border p-4 m-4 mx-2 rounded-lg hover:shadow-lg transition-shadow ${
-            selectedCategory === product.name ? 'border-4 border-green-500' : ''
-          }`}
-          onClick={() => (window.location.href = product.link)}
-        >
-          <div className="relative w-full">
-            <img src={product.image} alt={product.name} className="w-full h-56 object-cover" />
-          </div>
-          <div className="p-4 flex justify-end items-end h-1 mt-6">
-            <h3 className="text-xl font-bold text-end mb-2">{product.name}</h3>
-            <button className="text-green-700 rounded-full px-2">
-              <FontAwesomeIcon icon={faArrowCircleRight} className="w-8 h-8 mt-2" />
-            </button>
+
+      <div className="bg-green-50 min-h-screen p-6 shadow-md m-5">
+        <div className="w-full mx-auto mt-8">
+          <h2 className="text-2xl font-bold mb-4">Top Categories</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {categories.map((category) => (
+              <div
+                key={category._id}
+                className="relative overflow-hidden m-2 rounded-full shadow-lg"
+                style={{
+                  width: '200px',
+                  height: '200px',
+                }}
+              >
+                <div className="aspect-w-1 aspect-h-1 m-4">
+                  <div className="rounded-full overflow-hidden">
+                    <Link to={`/${category.categoryName}`}>
+                      <img
+                        src={`/uploads/category/${category.categoryImage}`}
+                        alt={category.categoryName}
+                        className="object-cover w-full h-full"
+                      />
+                    </Link>
+                  </div>
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-green-700 to-transparent p-4">
+                  <Link to={`/${category.categoryName}`}>
+                    <p className="text-white text-center text-lg font-semibold">{category.categoryName}</p>
+                  </Link>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
-      ))}
-    </div>
-  </div>
-</div>
-</div>
-      
+      </div>
+      {/* Add a route for displaying products by category */}
+
     </>
   );
 };

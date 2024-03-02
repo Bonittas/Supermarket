@@ -4,39 +4,41 @@ const cors = require("cors"); // Import the cors package
 const userAuth = require("./routes/user.router");
 const connectToDatabase = require("./config/database");
 const app = express();
-const product = require("./routes/product");
-const category = require("./routes/category");
+const product = require("./routes/product")
+const category = require("./routes/category")
+const path = require("path");
+const order =require("./routes/order")
 
-// Middleware for parsing the request body
 app.use(express.json());
+
 
 app.use("/", (req, res, next) => {
   console.log(req.method, req.path);
   next();
 });
 
-// Enable CORS for all routes
-app.use(cors());
+app.use('/uploads/', express.static(path.join(__dirname, 'uploads')));
 
+ 
 // Connect to the database
-connectToDatabase();
+connectToDatabase()
+app.use('/api',product)
+app.use('/api',category)
+app.use('/api',order)
 
-app.use("/api", product);
-app.use("/api", category);
-app.use("/api/auth", userAuth);
-
-
-app.use((err, req, res, next) => {
-  console.error(err.stack); // Log the error stack trace
-  const statusCode = err.statusCode || 500;
-  const message = err.message || "Internal Server Error";
-  return res.status(statusCode).json({
-    success: false,
-    statusCode,
-    message,
+// Routes middleware for signIn and SignUp
+app.use('/api/auth', userAuth);
+  
+  // Error handling middleware 
+  app.use((err, req, res, next) => {
+    const statusCode = err.statusCode || 500;
+    const message = err.message || "Internal Server Error";
+    return res.status(statusCode).json({
+      success: false,
+      statusCode,
+      message
+    });
   });
-});
-app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // Start the server
 app.listen(process.env.PORT, () => {

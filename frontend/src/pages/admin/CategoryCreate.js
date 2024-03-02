@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import axios from "axios";
-// import Header from "../../components/Header3";
 
 const CategoryForm = () => {
   const [newCategory, setNewCategory] = useState({
