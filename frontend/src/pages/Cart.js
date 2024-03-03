@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-
+import { Link } from 'react-router-dom';
 const Cart = ({ cartItems, onDeleteItem }) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -66,9 +66,12 @@ const Cart = ({ cartItems, onDeleteItem }) => {
               <div className="my-4">
                 <p className="font-bold">
                   Total Price: ${totalPrice.toFixed(2)}{' '}
-                  <button className="bg-green-700 p-2 text-white rounded-md">
-                    <a href='/purchase'>Purchase</a>
-                  </button>
+                  <Link to="/purchase">
+  <button className="bg-green-700 p-2 text-white rounded-md">
+    Purchase
+  </button>
+</Link>
+
                 </p>
               </div>
             </div>

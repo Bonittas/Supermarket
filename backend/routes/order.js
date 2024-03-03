@@ -10,7 +10,7 @@ const {  createOrder,
 router.get('/order',getOrderById);
 router.get('/order/list',getAllOrders);
 router.post('/order',createOrder);
-router.delete('/order/:id', updateOrderById );
-router.patch('/order/:id', deleteOrderById );
+router.delete('/order/:id',deleteOrderById   );
+router.put('/order/:id', updateOrderById);
 
 module.exports= router

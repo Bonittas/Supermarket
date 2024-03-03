@@ -45,10 +45,9 @@ const orders = await Order.find({}, 'orderId quantity email address deliveryDate
     }
   };
   
-// Get a single order by ID
-// Get a single order by ID
+
 const getOrderById = (req, res) => {
-  const { id } = req.params;  // Corrected line
+  const { id } = req.params; 
 
   Order.findById(id)
     .then(order => {
@@ -64,25 +63,39 @@ const getOrderById = (req, res) => {
 };
 
 
-// Update an order by ID
-const updateOrderById = (req, res) => {
-  const id = req.params.id;
-  const updatedData = req.body;
 
-  Order.findByIdAndUpdate(id, updatedData, { new: true })
-    .then(order => {
-      if (!order) {
-        return res.status(404).json({ error: 'Order not found' });
-      }
-      res.status(200).json(order);
-    })
-    .catch(error => {
-      console.error(error); // Log the error
-      res.status(500).json({ error: 'Failed to update order' });
-    });
+const updateOrderById = async (req, res) => {
+  const id = req.params.id;
+  const newData = req.body;
+
+  try {
+    // Check if newData is different from the existing order data
+    const existingOrder = await Order.findById(id);
+    if (!existingOrder) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+
+    if (JSON.stringify(existingOrder.toJSON()) === JSON.stringify(newData)) {
+      return res.status(200).json({ message: 'No modifications were made to the order' });
+    }
+
+    const updatedOrder = await Order.findByIdAndUpdate(id, newData, { new: true });
+
+    if (!updatedOrder) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+
+    console.log('Order updated successfully:', updatedOrder);
+
+    res.status(200).json(updatedOrder);
+  } catch (error) {
+    console.error('Error updating order:', error);
+    res.status(500).json({ error: 'Failed to update order' });
+  }
 };
 
-// Assuming you are using Mongoose to interact with MongoDB
+
+
 const deleteOrderById = async (req, res) => {
   const { id } = req.params;
   try {
@@ -91,7 +104,7 @@ const deleteOrderById = async (req, res) => {
     if (!order) {
       return res.status(404).json({ error: 'Order not found' });
     }
-    res.json({ message: 'Order deleted successfully' });
+    res.json({ message: 'Order edited successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Failed to delete order' });

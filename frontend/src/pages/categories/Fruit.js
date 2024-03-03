@@ -7,7 +7,7 @@ import Header from '../../components/Header3';
 import Cart from '../Cart';
 import { categories } from './Category';
 
-const Fruit = ({ cartItems, setCartItems }) => {
+const Fruit = ({ cartItems, setCartItems, }) => {
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -45,6 +45,7 @@ const Fruit = ({ cartItems, setCartItems }) => {
       } else {
         updatedCartItems.push({ ...product, quantity: 1 });
       }
+      setCartItems(updatedCartItems);
 
       return updatedCartItems;
     });

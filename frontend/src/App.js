@@ -56,7 +56,10 @@ const fetchProducts = async () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/purchase" element={<Purchase />} />
+          <Route
+    path="/purchase"
+    element={<Purchase cartItems={cartItems} onDeleteItem={handleDeleteItem} />}
+  />
 
           {/* Dynamic routes for product categories */}
           <Route path="/:categoryName" element={<ProductListByCategory cartItems={cartItems} setCartItems={setCartItems} />} />
@@ -66,9 +69,10 @@ const fetchProducts = async () => {
 
           {/* Specific routes for each category */}
           <Route
-            path="/fruits"
-            element={<FruitsPage cartItems={cartItems} setCartItems={setCartItems} />}
-          />
+  path="/fruits"
+  element={<FruitsPage cartItems={cartItems} setCartItems={setCartItems} />}
+/>
+
           <Route
             path="/vegetables"
             element={<VegetablesPage cartItems={cartItems} setCartItems={setCartItems} />}
@@ -115,8 +119,7 @@ const fetchProducts = async () => {
 
         {/* Optional: Render the cart component globally */}
         {/* <Cart cartItems={cartItems} onDeleteItem={handleDeleteItem} /> */}
-
-        <Footer />
+        {/* <Footer/> */}
       </div>
     </Router>
 
