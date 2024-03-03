@@ -18,7 +18,7 @@ const ViewOrders = () => {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get('/api/order/list');
+      const response = await axios.get('/api/order/list'); 
       setOrders(response.data);
     } catch (error) {
       console.error('Error fetching orders:', error);
@@ -98,6 +98,7 @@ const ViewOrders = () => {
   useEffect(() => {
     fetchOrders();
   }, []);
+
   return (
     <>
       <Header />
@@ -115,164 +116,61 @@ const ViewOrders = () => {
                 <th className="border px-4 py-2">Payment Method</th>
                 <th className="border px-4 py-2">Remark</th>
                 <th className="border px-4 py-2">Shopping Experience</th>
+                <th className="border px-4 py-2">Cart Items</th>
                 <th className="border px-4 py-2">Actions</th>
               </tr>
             </thead>
             <tbody>
-              {orders.map((order) => (
+              {orders && orders.map((order) => (
                 <tr key={order._id}>
+                  <td className="border px-4 py-2">{order.quantity}</td>
+                  <td className="border px-4 py-2">{order.email}</td>
+                  <td className="border px-4 py-2">{order.address}</td>
+                  <td className="border px-4 py-2">{order.deliveryDate}</td>
+                  <td className="border px-4 py-2">{order.deliveryTime}</td>
+                  <td className="border px-4 py-2">{order.paymentMethod}</td>
+                  <td className="border px-4 py-2">{order.remark}</td>
+                  <td className="border px-4 py-2">{order.shoppingExperience}</td>
                   <td className="border px-4 py-2">
-                    {editingOrder === order._id ? (
-                      <input
-                        type="number"
-                        value={editedData.quantity}
-                        onChange={(e) =>
-                          setEditedData({ ...editedData, quantity: e.target.value })
-                        }
-                      />
-                    ) : (
-                      order.quantity
-                    )}
+                    {order.cartItems.map((item) => (
+                      <div key={item._id}>
+                        {item.name} - ${item.price.toFixed(2)}
+                      </div>
+                    ))}
                   </td>
                   <td className="border px-4 py-2">
-                    {editingOrder === order._id ? (
-                      <input
-                        type="text"
-                        value={editedData.email}
-                        onChange={(e) =>
-                          setEditedData({ ...editedData, email: e.target.value })
-                        }
-                      />
-                    ) : (
-                      order.email
-                    )}
-                  </td>
-                  <td className="border px-4 py-2">
-                    {editingOrder === order._id ? (
-                      <input
-                        type="text"
-                        value={editedData.address}
-                        onChange={(e) =>
-                          setEditedData({ ...editedData, address: e.target.value })
-                        }
-                      />
-                    ) : (
-                      order.address
-                    )}
-                  </td>
-                  <td className="border px-4 py-2">
-                    {editingOrder === order._id ? (
-                      <input
-                        type="date"
-                        value={editedData.deliveryDate}
-                        onChange={(e) =>
-                          setEditedData({ ...editedData, deliveryDate: e.target.value })
-                        }
-                      />
-                    ) : (
-                      order.deliveryDate
-                    )}
-                  </td>
-                  <td className="border px-4 py-2">
-                    {editingOrder === order._id ? (
-                      <input
-                        type="time"
-                        value={editedData.deliveryTime}
-                        onChange={(e) =>
-                          setEditedData({ ...editedData, deliveryTime: e.target.value })
-                        }
-                      />
-                    ) : (
-                      order.deliveryTime
-                    )}
-                  </td>
-                  <td className="border px-4 py-2">
-                    {editingOrder === order._id ? (
-                      <select
-                        value={editedData.paymentMethod}
-                        onChange={(e) =>
-                          setEditedData({ ...editedData, paymentMethod: e.target.value })
-                        }
-                        className="border border-gray-300 rounded p-2"
-                      >
-                        <option value="">Select a payment method</option>
-                        <option value="creditCard">Credit Card</option>
-                        <option value="paypal">PayPal</option>
-                      </select>
-                    ) : (
-                      order.paymentMethod
-                    )}
-                  </td>
-                  <td className="border px-4 py-2">
-                    {editingOrder === order._id ? (
-                      <textarea
-                        value={editedData.remark}
-                        onChange={(e) =>
-                          setEditedData({ ...editedData, remark: e.target.value })
-                        }
-                        className="border border-gray-300 rounded p-2"
-                      ></textarea>
-                    ) : (
-                      order.remark
-                    )}
-                  </td>
-                  <td className="border px-4 py-2">
-                    {editingOrder === order._id ? (
-                      <select
-                        value={editedData.shoppingExperience}
-                        onChange={(e) =>
-                          setEditedData({
-                            ...editedData,
-                            shoppingExperience: e.target.value,
-                          })
-                        }
-                        className="border border-gray-300 rounded p-2"
-                      >
-                        <option value="">Select a shopping experience</option>
-                        <option value="great">Great</option>
-                        <option value="good">Good</option>
-                        <option value="average">Average</option>
-                        <option value="poor">Poor</option>
-                      </select>
-                    ) : (
-                      order.shoppingExperience
-                    )}
-                  </td>
-                  <td className="border px-4 py-2">
-                    <div className='flex'>
-                    {editingOrder === order._id ? (
-                      <>
-                      <div>
+                    <div className="flex">
+                      {editingOrder === order._id ? (
+                        <>
+                          <div>
+                            <button
+                              className="bg-green-500 text-white rounded p-2"
+                              onClick={() => handleSaveEdit(order._id)}
+                            >
+                              Save
+                            </button>
+                          </div>
+                          <button
+                            className="bg-gray-500 text-white rounded p-2"
+                            onClick={handleCancelEdit}
+                          >
+                            Cancel
+                          </button>
+                        </>
+                      ) : (
                         <button
-                          className="bg-green-500 text-white rounded p-2"
-                          onClick={() => handleSaveEdit(order._id)}
+                          className="bg-yellow-600 text-white rounded p-2"
+                          onClick={() => handleEditOrder(order._id)}
                         >
-                          Save
+                          Edit
                         </button>
-                        </div>
-
-                        <button
-                          className="bg-gray-500 text-white rounded p-2"
-                          onClick={handleCancelEdit}
-                        >
-                          Cancel
-                        </button>
-                      </>
-                    ) : (
-                        
+                      )}
                       <button
-                        className="bg-yellow-600 text-white rounded p-2"
-                        onClick={() => handleEditOrder(order._id)}
+                        className="bg-red-500 text-white rounded p-2 ml-2"
+                        onClick={() => handleDeleteOrder(order._id)}
                       >
-                        Edit
+                        Delete
                       </button>
-                    )}
-                    <button
-                      className="bg-red-500 text-white rounded p-2 ml-2"
-                      onClick={() => handleDeleteOrder(order._id)}
-                    >
-                      Delete
-                    </button>
                     </div>
                   </td>
                 </tr>

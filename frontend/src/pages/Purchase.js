@@ -66,6 +66,8 @@ const PurchasePage = ({ cartItems, onDeleteItem }) => {
       paymentMethod: paymentMethod,
       remark: remark,
       shoppingExperience: shoppingExperience,
+      cartItems: cartItems, 
+
     };
 
     fetch('/api/order', {
@@ -246,7 +248,7 @@ const PurchasePage = ({ cartItems, onDeleteItem }) => {
             </div>
           )}
         </div>
-      <div className='absolute bg-green-100 border p-10 top-48 left-10'>
+      <div className='absolute bg-green-100 border p-10 top-36 left-10'>
       {cartItems && cartItems.length > 0 && (
                 <div>
                   <h3 className="text-lg font-bold mb-2">Cart Items</h3>

@@ -1,6 +1,5 @@
 const Order = require('../models/Order');
 
-// Create a new order
 const createOrder = (req, res) => {
   const {
     quantity,
@@ -10,7 +9,9 @@ const createOrder = (req, res) => {
     deliveryTime,
     paymentMethod,
     remark,
-    shoppingExperience
+    shoppingExperience,
+    cartItems
+
   } = req.body;
 
   const newOrder = new Order({
@@ -21,7 +22,9 @@ const createOrder = (req, res) => {
     deliveryTime,
     paymentMethod,
     remark,
-    shoppingExperience
+    shoppingExperience,
+    cartItems
+
   });
 
   newOrder.save()
@@ -34,16 +37,16 @@ const createOrder = (req, res) => {
     });
 };
 
-// Get all orders
 const getAllOrders = async (req, res) => {
-    try {
-      // Fetch orders from the database
-const orders = await Order.find({}, 'orderId quantity email address deliveryDate deliveryTime paymentMethod remark shoppingExperience');
-      res.status(200).json(orders);
-    } catch (error) {
-      res.status(400).json({ error: error });
-    }
-  };
+  try {
+    const orders = await Order.find().populate('cartItems'); // Assuming 'cartItems' is the field name in your Order model
+
+    res.status(200).json(orders);
+  } catch (error) {
+    console.error('Error fetching orders:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+}
   
 
 const getOrderById = (req, res) => {
@@ -57,7 +60,7 @@ const getOrderById = (req, res) => {
       res.status(200).json(order);
     })
     .catch(error => {
-      console.error(error); // Log the error
+      console.error(error);
       res.status(500).json({ error: 'Failed to fetch order' });
     });
 };
@@ -69,7 +72,6 @@ const updateOrderById = async (req, res) => {
   const newData = req.body;
 
   try {
-    // Check if newData is different from the existing order data
     const existingOrder = await Order.findById(id);
     if (!existingOrder) {
       return res.status(404).json({ error: 'Order not found' });

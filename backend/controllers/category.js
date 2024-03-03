@@ -25,7 +25,7 @@ const createCategory = async (req, res) => {
 
 const getCategories = async (req, res) => {
   try {
-    const categories = await Category.find(); // Fetch only categoryName and categoryImage
+    const categories = await Category.find(); 
     res.json(categories);
   } catch (error) {
     console.error(error);
@@ -43,7 +43,6 @@ const deleteCategory = async (req, res) => {
       return res.status(404).json({ error: 'Category not found' });
     }
 
-    // Delete the corresponding folder if it exists
     const categoryPath = `uploads/${category._doc.categoryName}`;
     try {
       await fs.promises.access(categoryPath);
@@ -52,7 +51,6 @@ const deleteCategory = async (req, res) => {
       console.log('Folder does not exist or there was an error deleting it:', error);
     }
 
-    // Delete all products associated with the category
     await Product.deleteMany({ categoryName: category._doc.categoryName });
 
     res.status(200).json({ message: 'Category deleted successfully' });
