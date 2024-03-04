@@ -24,7 +24,7 @@ function Header({ handleMenuToggle, isMenuOpen }) {
 iShop</p>
         </div>
         <div className="flex items-center ml-auto space-x-4 z-20">
-          <nav className="z-20 hidden sm:flex space-x-4 text-sm absolute top-10 right-48">
+          <nav className="z-20 hidden sm:flex space-x-4 text-sm absolute top-10 right-64">
             <Link
               to="/"
               onClick={() => handlePageChange('/')}
@@ -68,7 +68,7 @@ iShop</p>
               </div>
             </button>
           </div>
-          <div className="hidden sm:flex items-center space-x-4 absolute top-8 right-4">
+          <div className="hidden sm:flex items-center space-x-4 absolute top-8 right-20">
 
             <button className="bg-green-700 hover:bg-green-800  border-gray-500 border-r-2 text-sm text-white px-4 py-2 rounded-l-full relative left-4">
               <Link to="/signup">Sign Up</Link>

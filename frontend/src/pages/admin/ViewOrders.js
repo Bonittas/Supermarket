@@ -115,8 +115,13 @@ const ViewOrders = () => {
                 <th className="border px-4 py-2">Delivery Time</th>
                 <th className="border px-4 py-2">Payment Method</th>
                 <th className="border px-4 py-2">Remark</th>
-                <th className="border px-4 py-2">Shopping Experience</th>
-                <th className="border px-4 py-2">Cart Items</th>
+                <th className=" border-r border-black px-4 py-2">Shopping Experience</th>
+                <th className=" border-r border-black px-4 py-2">Cart Items
+                <th className="border px-4 py-2">Items Image</th>
+                <th className="border px-4 py-2">Items </th>
+                <th className="border px-4 py-2"> Items Price</th>
+
+</th>
                 <th className="border px-4 py-2">Actions</th>
               </tr>
             </thead>
@@ -131,10 +136,29 @@ const ViewOrders = () => {
                   <td className="border px-4 py-2">{order.paymentMethod}</td>
                   <td className="border px-4 py-2">{order.remark}</td>
                   <td className="border px-4 py-2">{order.shoppingExperience}</td>
-                  <td className="border px-4 py-2">
-                    {order.cartItems.map((item) => (
-                      <div key={item._id}>
-                        {item.name} - ${item.price.toFixed(2)}
+                  <td className="border px-4 ">
+                  {order.cartItems.map((item) => (
+                      <div key={item._id} className="flex items-center">
+                                            <td className='border-r px-4 h-24 ' >
+
+                        <img
+                          src={`/uploads/${item.categoryName}/${item.image}`}
+                          alt={item.name}
+                          className="w-8 h-8 object-cover mr-2"
+                        />
+                                                    </td>
+
+                        <div>
+                            <td className=' px-4 border-r h-24'>
+
+                          {item.name} 
+                          </td>
+                          <td className=' px-4 '>
+ <p>Price</p>${item.price.toFixed(2)}
+</td>
+
+                        </div>
+
                       </div>
                     ))}
                   </td>

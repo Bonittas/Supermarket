@@ -12,7 +12,12 @@ const cartItemSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  categoryName: {  
+    type: String,
+    required: true,
+  },
 });
+
 
 const orderSchema = new mongoose.Schema({
 

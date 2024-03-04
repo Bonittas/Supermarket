@@ -38,14 +38,23 @@ const Fruit = ({ cartItems, setCartItems }) => {
     console.log('Before adding to cart:', cartItems);
   
     const updatedCartItems = [...cartItems];
-    const existingItem = updatedCartItems.find(
-      (item) => item.id.toLowerCase() === product.id.toLowerCase()
+    const existingItemIndex = updatedCartItems.findIndex(
+      (item) => item.id === product.id
     );
   
-    if (existingItem) {
-      existingItem.quantity += 1;
+    if (existingItemIndex !== -1) {
+      const existingItem = updatedCartItems[existingItemIndex];
+      const updatedItem = {
+        ...existingItem,
+        quantity: existingItem.quantity + 1
+      };
+      updatedCartItems[existingItemIndex] = updatedItem;
     } else {
-      updatedCartItems.push({ ...product, quantity: 1 });
+      updatedCartItems.push({
+        ...product,
+        quantity: 1,
+        id: product._id
+      });
     }
   
     setCartItems(updatedCartItems);

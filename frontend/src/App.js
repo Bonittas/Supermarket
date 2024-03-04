@@ -26,9 +26,7 @@ const App = () => {
   const [cartItems, setCartItems] = useState([]);
   const [products, setProducts] = useState([]);
 
-  // Fetch products when the component mounts
   useEffect(() => {
-   // Inside the useEffect block in App.js
 const fetchProducts = async () => {
   try {
     const response = await axios.get('/api/products/list');
