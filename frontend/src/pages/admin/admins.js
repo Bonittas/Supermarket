@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Header from "../../components/Header3";
+import Header from "../components/Header3";
 import Search from "../Search";
 import axios from "axios";
 

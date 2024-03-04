@@ -5,6 +5,7 @@ import CategoryList from "./CategoryList";
 import ProductForm from "./ProductCreate";
 import ProductList from "./ProductList";
 import ViewOrders from "./ViewOrders";
+import Feedback from "./Feedback"
 // Category Navigation Component
 const CategoryNavigation = ({ onSelectSection }) => {
   return (
@@ -40,6 +41,11 @@ const CategoryNavigation = ({ onSelectSection }) => {
         >
          View Orders
         </li>
+        <li
+          className="cursor-pointer text-green-600 hover:text-green-800 font-semibold transition duration-300"
+          onClick={() => onSelectSection("Feedback")}
+        >
+FeedBack        </li>
       </ul>
     </div>
   );
@@ -64,6 +70,9 @@ const Admin = () => {
         case "productList":
       default:
         return <ProductList />;
+      case "Feedback":
+        return <Feedback/>
+
     }
   };
 

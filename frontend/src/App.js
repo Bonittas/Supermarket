@@ -22,7 +22,7 @@ import FruitDetail from './pages/admin/productDetail';
 import { categories } from './pages/categories/Category';
 import Fruit from './pages/categories/Fruit';
 import ViewOrders from './pages/admin/ViewOrders';
-import Feedback from './pages/admin/Feedback';
+import Feedbacks from './pages/admin/Feedback';
 const App = () => {
   const [cartItems, setCartItems] = useState([]);
   const [products, setProducts] = useState([]);
@@ -66,7 +66,7 @@ const fetchProducts = async () => {
           <Route path="/admin" element={<Admin />} />
           <Route path="/admin" element={<Admin />} />
 
-          <Route path="/feedback" element={<ViewOrders />} />
+          <Route path="/feedback" element={<Feedbacks />} />
 
           {/* Specific routes for each category */}
           <Route
