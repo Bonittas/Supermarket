@@ -63,7 +63,7 @@ const fetchProducts = async () => {
           <Route path="/:categoryName" element={<ProductListByCategory cartItems={cartItems} setCartItems={setCartItems} />} />
 
           <Route path="/admin" element={<Admin />} />
-          <Route path="/vieworders" element={<ViewOrders />} />
+          <Route path="admin/vieworders" element={<ViewOrders />} />
 
           {/* Specific routes for each category */}
           <Route
