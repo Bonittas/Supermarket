@@ -35,13 +35,13 @@ const Cart = ({ cartItems, onDeleteItem }) => {
         className="fixed z-30 top-8 right-3 bg-green-50 text-green-600 px-2 py-2 rounded-full"
         onClick={toggleCart}
       >
-        <p className="text-sm text-center  text-green-600 font-cursive">
+        <p className="text-sm text-center text-green-600 font-cursive">
           <FontAwesomeIcon icon={faCartShopping} className="w-8 h-8" />
         </p>
         {isOpen ? '' : ''}
       </button>
       {isOpen && (
-        <div className="fixed  top-24 right-4 bg-white w-1/4 p-4 z-30 shadow-md">
+        <div className="fixed top-24 right-4 bg-white w-1/4 p-4 z-30 shadow-md">
           <h2 className="text-lg font-bold mb-2">Cart</h2>
           {cartItems.length === 0 ? (
             <p className="text-gray-500">Your cart is empty.</p>
@@ -63,7 +63,10 @@ const Cart = ({ cartItems, onDeleteItem }) => {
                       )}
                     </div>
                     <span>
-                      {item.name} {item.quantity > 1 && `(${item.quantity})`}
+                      {item.name}{' '}
+                      {item.quantity > 1 && (
+                        <span className="text-gray-500">({item.quantity})</span>
+                      )}
                     </span>
                     <span className="ml-2 text-gray-500">
                       (${item.price.toFixed(2)})

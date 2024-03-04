@@ -59,6 +59,8 @@ const Admin = () => {
       case "categoryList":
         return <CategoryList />;
       case "productList":
+        return <CategoryList />;
+        case "productList":
       default:
         return <ProductList />;
     }

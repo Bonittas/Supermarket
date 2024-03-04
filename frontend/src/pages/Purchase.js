@@ -3,7 +3,7 @@ import Header from '../components/Header3';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-const PurchasePage = ({ cartItems, onDeleteItem }) => {
+const PurchasePage = ({ cartItems,setCartItems, onDeleteItem }) => {
   
   const [quantity, setQuantity] = useState(1);
   const [email, setEmail] = useState('');
@@ -16,6 +16,7 @@ const PurchasePage = ({ cartItems, onDeleteItem }) => {
   const [loading, setLoading] = useState(false);
   const [purchaseSuccess, setPurchaseSuccess] = useState(false);
   const [orders, setOrders] = useState([]);
+  const [successMessage, setSuccessMessage] = useState('');
 
   useEffect(() => {
     fetchOrders();
@@ -53,43 +54,53 @@ const PurchasePage = ({ cartItems, onDeleteItem }) => {
     setShoppingExperience(event.target.value);
   };
 
-  const handlePurchaseSubmit = (event) => {
-    event.preventDefault();
-    setLoading(true);
+  const navigate = useNavigate();
 
-    const purchaseData = {
-      quantity: quantity,
-      email: email,
-      address: address,
-      deliveryDate: deliveryDate,
-      deliveryTime: deliveryTime,
-      paymentMethod: paymentMethod,
-      remark: remark,
-      shoppingExperience: shoppingExperience,
-      cartItems: cartItems, 
 
-    };
-
-    fetch('/api/order', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(purchaseData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setLoading(false);
-        setPurchaseSuccess(true);
-        fetchOrders(); // Fetch the updated orders after a successful purchase
+  
+    const handlePurchaseSubmit = (event) => {
+      event.preventDefault();
+      setLoading(true);
+    
+      const purchaseData = {
+        quantity: quantity,
+        email: email,
+        address: address,
+        deliveryDate: deliveryDate,
+        deliveryTime: deliveryTime,
+        paymentMethod: paymentMethod,
+        remark: remark,
+        shoppingExperience: shoppingExperience,
+        cartItems: cartItems,
+      };
+    
+      fetch('/api/order', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(purchaseData),
       })
-      .catch((error) => {
-        setLoading(false);
-        console.error('An error occurred during the purchase.');
-        console.log(error);
-        throw error; // Re-throw the error to propagate it
-      });
-  };
+        .then((response) => response.json())
+        .then((data) => {
+          setLoading(false);
+          setPurchaseSuccess(true);
+    
+          // Use setTimeout to delay the redirection
+          setTimeout(() => {
+            fetchOrders();
+            navigate('/');
+          }, 2000);
+        })
+        .catch((error) => {
+          setLoading(false);
+          console.error('An error occurred during the purchase.');
+          console.log(error);
+          throw error;
+        });
+    };
+    
+  
 
   const fetchOrders = async () => {
     try {

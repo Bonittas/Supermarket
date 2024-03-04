@@ -22,6 +22,7 @@ import FruitDetail from './pages/admin/productDetail';
 import { categories } from './pages/categories/Category';
 import Fruit from './pages/categories/Fruit';
 import ViewOrders from './pages/admin/ViewOrders';
+import Feedback from './pages/admin/Feedback';
 const App = () => {
   const [cartItems, setCartItems] = useState([]);
   const [products, setProducts] = useState([]);
@@ -56,14 +57,16 @@ const fetchProducts = async () => {
           <Route path="/signup" element={<Signup />} />
           <Route
     path="/purchase"
-    element={<Purchase cartItems={cartItems} onDeleteItem={handleDeleteItem} />}
+    element={<Purchase cartItems={cartItems} setCartItems={setCartItems} onDeleteItem={handleDeleteItem} />}
   />
 
           {/* Dynamic routes for product categories */}
           <Route path="/:categoryName" element={<ProductListByCategory cartItems={cartItems} setCartItems={setCartItems} />} />
 
           <Route path="/admin" element={<Admin />} />
-          <Route path="/vieworders" element={<ViewOrders />} />
+          <Route path="/admin" element={<Admin />} />
+
+          <Route path="/feedback" element={<ViewOrders />} />
 
           {/* Specific routes for each category */}
           <Route

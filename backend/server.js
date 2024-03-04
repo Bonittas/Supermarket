@@ -8,7 +8,7 @@ const product = require("./routes/product")
 const category = require("./routes/category")
 const path = require("path");
 const order =require("./routes/order")
-
+const feedback = require("./routes/feedback")
 app.use(express.json());
 
 
@@ -25,6 +25,7 @@ connectToDatabase()
 app.use('/api',product)
 app.use('/api',category)
 app.use('/api',order)
+app.use('/api',feedback)
 
 // Routes middleware for signIn and SignUp
 app.use('/api/auth', userAuth);
