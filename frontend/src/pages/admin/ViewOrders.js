@@ -101,7 +101,6 @@ const ViewOrders = () => {
 
   return (
     <>
-      <Header />
       <div className="mx-auto my-8 p-8 bg-white rounded">
         <h2 className="text-3xl font-bold mb-8 text-center">View Orders</h2>
         {orders.length > 0 ? (

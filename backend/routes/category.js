@@ -8,7 +8,7 @@ const {createCategory, getCategories, updateCategory, deleteCategory} = require(
 
 router.post('/category', upload.single('image'), createCategory);
 router.get('/category/list',  getCategories);
-router.patch('/category/:id',  updateCategory);
+router.patch('/category/:id',upload.single('image'),  updateCategory);
 router.delete('/category/:id',  deleteCategory);
 
 

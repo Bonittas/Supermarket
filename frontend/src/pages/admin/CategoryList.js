@@ -41,7 +41,7 @@ const CategoryList = () => {
   
       console.log('FormData content:', [...formData.entries()]);
   
-      const response = await axios.put(`/api/category/${editingCategory._id}`, formData, {
+      const response = await axios.patch(`/api/category/${editingCategory._id}`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -57,9 +57,6 @@ const CategoryList = () => {
     }
   };
   
-  
-  
-
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     setEditingCategory((prevCategory) => ({
