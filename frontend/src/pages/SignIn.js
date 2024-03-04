@@ -32,7 +32,8 @@ function SignIn() {
           return;
         }
         setError(null);
-        navigate("/dashboard");
+        navigate("/admin");
+
       })
       .catch((error) => {
         setError(error.message);

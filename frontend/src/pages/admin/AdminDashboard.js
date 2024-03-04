@@ -4,7 +4,6 @@ import CategoryForm from "./CategoryCreate";
 import CategoryList from "./CategoryList";
 import ProductForm from "./ProductCreate";
 import ProductList from "./ProductList";
-import { Link } from "react-router-dom";
 import ViewOrders from "./ViewOrders";
 // Category Navigation Component
 const CategoryNavigation = ({ onSelectSection }) => {
@@ -37,9 +36,9 @@ const CategoryNavigation = ({ onSelectSection }) => {
         </li>
         <li
           className="cursor-pointer text-green-600 hover:text-green-800 font-semibold transition duration-300"
+          onClick={() => onSelectSection("ViewOrders")}
         >
-                    <Link to ='/vieworders'>View Orders</Link>
-
+         View Orders
         </li>
       </ul>
     </div>
@@ -58,6 +57,8 @@ const Admin = () => {
         return <ProductForm />;
       case "categoryList":
         return <CategoryList />;
+      case "ViewOrders":
+        return <ViewOrders />;
       case "productList":
       default:
         return <ProductList />;
