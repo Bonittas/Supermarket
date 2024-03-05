@@ -6,7 +6,6 @@ const productSchema = new Schema(
     name: {
       type: String,
       required: true,
-      unique: true,
     },
     price: {
       type: Number,
@@ -24,6 +23,10 @@ const productSchema = new Schema(
       type: Number,
       required: true,
     },
+    isFeatured:{
+      type: String,
+      default:false
+    }
   },
   { timestamps: true }
 );

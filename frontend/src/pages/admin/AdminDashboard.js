@@ -66,7 +66,7 @@ const Admin = () => {
       case "ViewOrders":
         return <ViewOrders />;
       case "productList":
-        return <CategoryList />;
+        return <ProductList />;
         case "productList":
       default:
         return <ProductList />;

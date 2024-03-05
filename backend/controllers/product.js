@@ -23,7 +23,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 const createProduct = async (req, res) => {
-  const { name, price, quantity, categoryName } = req.body;
+  const { name, price, quantity, categoryName, isFeatured } = req.body;
 
   try {
     const newProduct = await product.create({
@@ -32,6 +32,7 @@ const createProduct = async (req, res) => {
       quantity,
       categoryName,
       image: req.file.filename,
+      isFeatured: isFeatured === 'true',
     });
 
     const categoryPath = `uploads/${categoryName}`;
@@ -53,6 +54,15 @@ const getProduct = async (req, res) => {
   }
 };
 
+const getFeaturedProducts = async (req, res) => {
+  try {
+    const featuredProducts = await product.find({ isFeatured: true });
+    res.status(200).json(featuredProducts);
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 const deleteProduct = async (req, res) => {
   const { id } = req.params;
   try {
@@ -65,7 +75,6 @@ const deleteProduct = async (req, res) => {
     const categoryPath = `uploads/${deletedProduct.categoryName}`;
     const filePath = `${categoryPath}/${deletedProduct.image}`;
 
-    // Remove the file from the file system
     if (fs.existsSync(filePath)) {
       fs.unlinkSync(filePath);
     }
@@ -76,68 +85,60 @@ const deleteProduct = async (req, res) => {
   }
 };
 
-const updateProduct = (upload.single("image"),async (req, res) => {
+const updateProduct = (upload.single("image"), async (req, res) => {
+  const { id } = req.params;
+  const { categoryName: newCategoryName, ...updateData } = req.body;
 
-    const { id } = req.params;
-    const { categoryName: newCategoryName, ...updateData } = req.body;
-
-    try {
-      const existingProduct = await product.findById(id);
-      if (!existingProduct) {
-        return res.status(404).json({ error: "Product not found" });
-      }
-
-      // Check if the new categoryName exists in the database of the categories
-      const categoryExists = await Category.exists({
-        categoryName: newCategoryName,
-      });
-
-      if (!categoryExists) {
-        return res.status(400).json({ error: "New category does not exist" });
-      }
-      // Construct the paths for old and new category
-      const oldCategoryPath = `uploads/${existingProduct.categoryName}`;
-      const newCategoryPath = `uploads/${newCategoryName}`;
-
-      // If a new image file was uploaded, move it to the new category folder and update the image name
-      let newFileName = existingProduct.image;
-      // If a new image file was uploaded, update the image name
-      if (req.file) {
-        newFileName = `${Date.now()}-${Math.round(Math.random() * 1e9)}-${
-          req.file.originalname
-        }`;
-      }
-
-      // Construct the paths for old and new image
-      const oldFilePath = `${oldCategoryPath}/${existingProduct.image}`;
-      const newFilePath = `${newCategoryPath}/${newFileName}`;
-
-      // If a new image file was uploaded, delete the old image
-      if (req.file && fs.existsSync(oldFilePath)) {
-        fs.unlinkSync(oldFilePath);
-      }
-
-      // Move the image to the new category folder
-      if (fs.existsSync(oldFilePath)) {
-        fs.renameSync(oldFilePath, newFilePath);
-      }
-
-      // Update the product in the database
-      const updatedProduct = await product.findByIdAndUpdate(
-        id,
-        { ...updateData, categoryName: newCategoryName, image: newFileName },
-        { new: true }
-      );
-      // If a new image file was uploaded, move it to the new category folder
-      if (req.file) {
-        fs.renameSync(req.file.path, `${newCategoryPath}/${newFileName}`);
-      }
-
-      res.status(200).json(updatedProduct);
-    } catch (error) {
-      res.status(400).json({ error: error.message });
+  try {
+    const existingProduct = await product.findById(id);
+    if (!existingProduct) {
+      return res.status(404).json({ error: "Product not found" });
     }
-  });
+
+    const categoryExists = await Category.exists({
+      categoryName: newCategoryName,
+    });
+
+    if (!categoryExists) {
+      return res.status(400).json({ error: "New category does not exist" });
+    }
+
+    const oldCategoryPath = `uploads/${existingProduct.categoryName}`;
+    const newCategoryPath = `uploads/${newCategoryName}`;
+
+    let newFileName = existingProduct.image;
+    if (req.file) {
+      newFileName = `${Date.now()}-${Math.round(Math.random() * 1e9)}-${
+        req.file.originalname
+      }`;
+    }
+
+    const oldFilePath = `${oldCategoryPath}/${existingProduct.image}`;
+    const newFilePath = `${newCategoryPath}/${newFileName}`;
+
+    if (req.file && fs.existsSync(oldFilePath)) {
+      fs.unlinkSync(oldFilePath);
+    }
+
+    if (fs.existsSync(oldFilePath)) {
+      fs.renameSync(oldFilePath, newFilePath);
+    }
+
+    const updatedProduct = await product.findByIdAndUpdate(
+      id,
+      { ...updateData, categoryName: newCategoryName, image: newFileName },
+      { new: true }
+    );
+
+    if (req.file) {
+      fs.renameSync(req.file.path, `${newCategoryPath}/${newFileName}`);
+    }
+
+    res.status(200).json(updatedProduct);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+});
 
 module.exports = {
   createProduct,
@@ -145,4 +146,5 @@ module.exports = {
   deleteProduct,
   getProduct,
   upload,
+  getFeaturedProducts,
 };

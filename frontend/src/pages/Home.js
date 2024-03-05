@@ -1,14 +1,17 @@
+// Home.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import myImage from '../img/shopping-1165437.jpg';
 import Header from "../components/Header3";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping, faArrowCircleRight, faSearch } from '@fortawesome/free-solid-svg-icons';
-import { Link } from "react-router-dom";
 import ProductListByCategory from "./admin/ProductListByCategory";
+import ad from '../img/items/ad.jpg';
 
 const Home = () => {
   const [categories, setCategories] = useState([]);
+  const [featuredProducts, setFeaturedProducts] = useState([]);
   const [editingCategory, setEditingCategory] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -18,6 +21,7 @@ const Home = () => {
 
   useEffect(() => {
     fetchCategories();
+    fetchFeaturedProducts();
   }, []);
 
   const fetchCategories = async () => {
@@ -28,7 +32,27 @@ const Home = () => {
       console.error("Error fetching categories:", error);
     }
   };
-
+  const fetchFeaturedProducts = async () => {
+    try {
+      const response = await axios.get("/api/products/featured");
+      console.log("Featured Products Response:", response); // Log the entire response
+      setFeaturedProducts(response.data);
+    } catch (error) {
+      console.error("Error fetching featured products:", error);
+    }
+  };
+  
+  
+  
+  useEffect(() => {
+    fetchCategories();
+    fetchFeaturedProducts();
+  }, []);
+  
+  useEffect(() => {
+    console.log("Featured Products:", featuredProducts);
+  }, [featuredProducts]);
+  
   const handleEditCategory = (categoryId) => {
     const categoryToEdit = categories.find((category) => category._id === categoryId);
     setEditingCategory(categoryToEdit);
@@ -124,43 +148,72 @@ const Home = () => {
           </div>
         </div>
       </div>
+      <div className="container flex mx-auto py-6">
+        <div className="flex">
+          <div className="bg-green w-96 mr-8 border rounded-md flex items-start">
+            <img src={ad} alt="ad" className="w-full h-full rounded-md object-cover" />
+          </div>
+        </div>
 
-      <div className="bg-green-50 min-h-screen p-6 shadow-md m-5">
-        <div className="w-full mx-auto mt-8">
-          <h2 className="text-2xl font-bold mb-4">Top Categories</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {categories.map((category) => (
-              <div
-                key={category._id}
-                className="relative overflow-hidden m-2 rounded-full shadow-lg"
-                style={{
-                  width: '200px',
-                  height: '200px',
-                }}
-              >
-                <div className="aspect-w-1 aspect-h-1 m-4">
-                  <div className="rounded-full overflow-hidden">
+        <div className="bg-green-50  min-h-screen p-6 shadow-md m-5">
+          <div className="w-full mx-auto mt-8">
+            <h2 className="text-2xl font-bold mb-4">Top Categories</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {categories.map((category) => (
+                <div
+                  key={category._id}
+                  className="relative overflow-hidden m-2 rounded-full shadow-lg"
+                  style={{
+                    width: '200px',
+                    height: '200px',
+                  }}
+                >
+                  <div className="aspect-w-1 aspect-h-1 m-4">
+                    <div className="rounded-full overflow-hidden">
+                      <Link to={`/${category.categoryName}`}>
+                        <img
+                          src={`/uploads/category/${category.categoryImage}`}
+                          alt={category.categoryName}
+                          className="object-cover w-full h-full"
+                        />
+                      </Link>
+                    </div>
+                  </div>
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-green-700 to-transparent p-4">
                     <Link to={`/${category.categoryName}`}>
-                      <img
-                        src={`/uploads/category/${category.categoryImage}`}
-                        alt={category.categoryName}
-                        className="object-cover w-full h-full"
-                      />
+                      <p className="text-white text-center text-lg font-semibold">{category.categoryName}</p>
                     </Link>
                   </div>
                 </div>
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-green-700 to-transparent p-4">
-                  <Link to={`/${category.categoryName}`}>
-                    <p className="text-white text-center text-lg font-semibold">{category.categoryName}</p>
-                  </Link>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </div>
       </div>
-      {/* Add a route for displaying products by category */}
 
+      {/* Display Featured Products */}
+      <div className="container mx-auto py-6">
+        <h2 className="text-2xl font-bold mb-4">Featured Products</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {featuredProducts.map((product) => (
+            <div
+              key={product._id}
+              className="border p-4 rounded-lg hover:shadow-lg transition-shadow"
+            >
+              <img
+                src={`/uploads/${product.categoryName}/${product.image}`}
+                alt={product.name}
+                className="mb-2 h-56 rounded-lg"
+              />
+              <h3 className="text-lg font-bold">{product.name}</h3>
+              <p className="text-gray-500">${product.price.toFixed(2)}</p>
+              <Link to={`/products/${product._id}`} className="text-green-500 hover:underline">
+                View Details
+              </Link>
+            </div>
+          ))}
+        </div>
+      </div>
     </>
   );
 };

@@ -3,16 +3,24 @@ import axios from "axios";
 
 const ProductForm = () => {
   const [error, setError] = useState(null);
+  const [isFeatured, setIsFeatured] = useState(false);
+
   const [newProduct, setNewProduct] = useState({
     name: "",
     price: "",
     image: null,
     categoryName: "",
     quantity: "",
+    isFeatured: false,
   });
 
   const handleProductChange = (e) => {
     setNewProduct({ ...newProduct, [e.target.name]: e.target.value });
+  };
+
+  const handleCheckboxChange = () => {
+    setIsFeatured(!isFeatured);
+    setNewProduct({ ...newProduct, isFeatured: !isFeatured });
   };
 
   const handleImageChange = (e) => {
@@ -24,22 +32,23 @@ const ProductForm = () => {
     e.preventDefault();
 
     try {
-      // Create new product
       const formData = new FormData();
       formData.append("name", newProduct.name);
       formData.append("price", newProduct.price);
       formData.append("image", newProduct.image);
       formData.append("categoryName", newProduct.categoryName);
       formData.append("quantity", newProduct.quantity);
+      formData.append("isFeatured", newProduct.isFeatured);
 
       await axios.post("/api/product", formData);
-      // Reset form after successful creation
+
       setNewProduct({
         name: "",
         price: "",
         image: null,
         categoryName: "",
         quantity: "",
+        isFeatured: false,
       });
       setError("");
     } catch (error) {
@@ -129,6 +138,14 @@ const ProductForm = () => {
                 className="form-input mt-1 block w-2/4"
                 required
               />
+              <label>
+                Featured:
+                <input
+                  type="checkbox"
+                  checked={isFeatured}
+                  onChange={handleCheckboxChange}
+                />
+              </label>
             </div>
             <button
               type="submit"
@@ -136,9 +153,7 @@ const ProductForm = () => {
             >
               Create Product
             </button>
-            {error && (
-          <p className="text-red-500 mt-2">{error}</p>
-        )}
+            {error && <p className="text-red-500 mt-2">{error}</p>}
           </form>
         </div>
       </div>

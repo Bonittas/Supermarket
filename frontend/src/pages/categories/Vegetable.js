@@ -43,17 +43,17 @@ const Fruit = ({ cartItems, setCartItems }) => {
     );
   
     if (existingItemIndex !== -1) {
-      const existingItem = updatedCartItems[existingItemIndex];
-      const updatedItem = {
-        ...existingItem,
-        quantity: existingItem.quantity + 1
+      // If the item already exists in the cart, update its quantity
+      updatedCartItems[existingItemIndex] = {
+        ...updatedCartItems[existingItemIndex],
+        quantity: updatedCartItems[existingItemIndex].quantity + 1,
       };
-      updatedCartItems[existingItemIndex] = updatedItem;
     } else {
+      // If the item is not in the cart, add it with quantity 1
       updatedCartItems.push({
         ...product,
         quantity: 1,
-        id: product._id
+        id: product._id,
       });
     }
   
@@ -61,6 +61,8 @@ const Fruit = ({ cartItems, setCartItems }) => {
     console.log('After adding to cart:', updatedCartItems);
     console.log(`Added ${product.name} to cart`);
   };
+  
+  
   
 
   const handleSearch = (query) => {
