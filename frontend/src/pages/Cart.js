@@ -30,9 +30,6 @@ const Cart = ({ cartItems, onDeleteItem }) => {
     0
   );
  
-
-
-
   return (
     <div className="">
       <button
