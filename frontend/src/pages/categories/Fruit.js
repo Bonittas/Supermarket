@@ -41,10 +41,8 @@ const Fruit = ({ cartItems, setCartItems }) => {
     );
 
     if (existingItem) {
-      // If the item already exists in the cart, update its quantity
       existingItem.quantity += 1;
     } else {
-      // If the item is not in the cart, add it with quantity 1
       updatedCartItems.push({
         ...product,
         quantity: 1,

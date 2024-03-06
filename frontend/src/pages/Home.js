@@ -7,9 +7,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import ad from '../img/items/ad.jpg';
 import '../styles/animation.css'; // Add this file for animation styles
+import {  categories } from './categories/Category';
 
 const Home = () => {
-  const [categories, setCategories] = useState([]);
+  const [category, setcategory] = useState([]);
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [editingCategory, setEditingCategory] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -19,16 +20,16 @@ const Home = () => {
   };
 
   useEffect(() => {
-    fetchCategories();
+    fetchcategory();
     fetchFeaturedProducts();
   }, []);
 
-  const fetchCategories = async () => {
+  const fetchcategory = async () => {
     try {
       const response = await axios.get("/api/category/list");
-      setCategories(response.data);
+      setcategory(response.data);
     } catch (error) {
-      console.error("Error fetching categories:", error);
+      console.error("Error fetching category:", error);
     }
   };
 
@@ -42,7 +43,7 @@ const Home = () => {
   };
 
   const handleEditCategory = (categoryId) => {
-    const categoryToEdit = categories.find((category) => category._id === categoryId);
+    const categoryToEdit = category.find((category) => category._id === categoryId);
     setEditingCategory(categoryToEdit);
   };
 
@@ -62,7 +63,7 @@ const Home = () => {
         },
       });
 
-      fetchCategories();
+      fetchcategory();
       setEditingCategory(null);
     } catch (error) {
       console.error("Error updating category:", error);
@@ -80,20 +81,20 @@ const Home = () => {
   const handleDeleteCategory = async (categoryId) => {
     try {
       await axios.delete(`/api/category/${categoryId}`);
-      fetchCategories();
+      fetchcategory();
     } catch (error) {
       console.error("Error deleting category:", error);
     }
   };
 
-  const filteredCategories = categories.filter(category => {
+  const filteredcategory = category.filter(category => {
     return category.categoryName && category.categoryName.toLowerCase().includes(searchQuery.toLowerCase());
   });
 
   return (
     <>
       <Header />
-      <div className="bg-gradient-to-r from-green-100 to-green-200 relative">
+      <div className="bg-gradient-to-r from-yellow-100 to-green-200 relative">
 
 
       <div className="h-fit">
@@ -101,7 +102,7 @@ const Home = () => {
         <input
           type="text"
           className="rounded-l-full lg:h-12 md:h-12 sm:h-10 py-2 px-4 sm:pr-12 w-full relative right-8 text-white bg-white focus:outline-none focus:border-green-500 border-2 border-green-700"
-          placeholder="Search for Categories..."
+          placeholder="Search for category..."
           value={searchQuery}
           onChange={handleSearchChange}
           style={{ color: 'white' }}
@@ -129,8 +130,8 @@ const Home = () => {
     </p>
     <div className="flex items-center text relative left-36 justify-center">
 <div className="container">
-    <button className="bg-yellow-600 p-3 my-4 mr-10  rounded-md text-white ">Shop with Us</button>
-    <button className="bg-green-700 p-3 my-4 rounded-md text-white ">Contact Us</button>
+    <button className="bg-yellow-600 p-3 my-4 mr-5 font-bold  rounded-md text-white ">Shop with Us</button>
+    <button className="bg-white p-3 my-4 font-bold rounded-md text-yellow-600 "> <Link to='/contact'>Contact Us</Link></button>
     </div>
     </div>
     </div>
@@ -145,55 +146,64 @@ const Home = () => {
   </div>
 </div>
   
-      <div className="container flex mx-auto py-6">
+      <div className="container flex mx-6 py-6">
+      <div className="bg-yellow-50 min-h-screen pt-6">
         <div className="flex">
-          <div className="bg-green w-96 mr-8 border rounded-md flex items-start">
-            <img src={ad} alt="ad" className="w-full h-full rounded-md object-cover" />
-          </div>
-        </div>
-
-        <div className="bg-green-50 w-full min-h-screen p-6 shadow-md m-5">
-          <div className="w-full mx-auto mt-8">
-            <h2 className="text-2xl font-bold mb-4 ">Top Categories</h2>
-            <div className="grid  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 grid-cols-4 gap-6 m-4 p-8">
-              {filteredCategories.map((category) => (
-                <div
-                  key={category._id}
-                  classNames="fade"
-                  timeout={300}
-                >
-                  <div
-                    className="relative overflow-hidden rounded-full m-36  shadow-lg transition-transform transform hover:scale-105 duration-300"
-                    style={{
-                      width: '200px',
-                      height: '200px',
-                    }}
+          <div className="w-1/3  p-4 m-8 rounded-md">
+            <h2 className="text-2xl font-bold mb-4">Categories</h2>
+            <ul className="space-y-2">
+              {categories &&
+                categories.map((category, index) => (
+                  <li
+                    key={index}
+                    className="cursor-pointer p-4 font-cursive font-bold text-lg hover:bg-green-200 transition-colors"
                   >
-                    <div className="aspect-w-1 aspect-h-1 m-4">
-                      <div className="rounded-full overflow-hidden">
-                        <Link to={`/${category.categoryName}`}>
-                          <img
-                            src={`/uploads/category/${category.categoryImage}`}
-                            alt={category.categoryName}
-                            className="object-cover w-full h-full"
-                          />
-                        </Link>
-                      </div>
-                    </div>
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-green-700 to-transparent p-4">
-                      <Link to={`/${category.categoryName}`}>
-                        <p className="text-white text-center text-lg font-semibold">
-                          {category.categoryName}
-                        </p>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              ))}
+                    <Link to={`/${category.name}`}>{category.name}</Link>
+                  </li>
+                ))}
+            </ul>
+          </div>
+          </div>
+          </div>
+
+        <div className="bg-gradient-to-r from-yellow-50 to-green-200 w-full min-h-screen p-6 shadow-md m-5">
+        <h2 className="text-2xl text-center w-full font-bold ">Top category</h2>
+
+  <div className="w-full mx-auto mt-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-16">
+      {filteredcategory.map((category) => (
+        <div
+          key={category._id}
+          className="relative overflow-hidden rounded-full m-2 shadow-lg transition-transform transform hover:scale-105 duration-300"
+          style={{
+            width: '200px',
+            height: '200px',
+          }}
+        >
+          <div className="aspect-w-1 aspect-h-1 m-4">
+            <div className="rounded-full overflow-hidden">
+              <Link to={`/${category.categoryName}`}>
+                <img
+                  src={`/uploads/category/${category.categoryImage}`}
+                  alt={category.categoryName}
+                  className="object-cover w-full h-full"
+                />
+              </Link>
             </div>
           </div>
+          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-green-700 to-transparent p-4">
+            <Link to={`/${category.categoryName}`}>
+              <p className="text-white text-center text-lg font-semibold">
+                {category.categoryName}
+              </p>
+            </Link>
+          </div>
         </div>
-      </div>
+      ))}
+    </div>
+  </div>
+</div>
+</div>
 
       <div className="container mx-auto py-6">
         <h2 className="text-2xl font-bold mb-4">Featured Products</h2>

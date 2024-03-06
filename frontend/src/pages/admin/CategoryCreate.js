@@ -7,6 +7,7 @@ const CategoryForm = () => {
     image: null,
   });
   const [error, setError] = useState(null);
+  const [successMessage, setSuccessMessage] = useState(null);
 
   const handleCategoryChange = (e) => {
     setNewCategory({ ...newCategory, [e.target.name]: e.target.value });
@@ -37,6 +38,7 @@ const CategoryForm = () => {
 
       setNewCategory({ categoryName: "", image: null });
       setError(null);
+      setSuccessMessage("Category created successfully!");
     } catch (error) {
       console.error("Error creating category:", error);
       setError("Error creating category");
@@ -94,6 +96,7 @@ const CategoryForm = () => {
             
             {/* Error Message */}
             {error && <p className="text-red-500 mt-2">{error}</p>}
+            {successMessage && <p className="text-green-500 mt-2">{successMessage}</p>}
           </form>
         </div>
       </div>
