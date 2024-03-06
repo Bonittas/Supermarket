@@ -40,10 +40,8 @@ const Fruit = ({ cartItems, setCartItems, }) => {
     const existingItem = updatedCartItems.find((item) => item.id === product.id);
   
     if (existingItem) {
-      // If the item already exists in the cart, update its quantity
       existingItem.quantity += 1;
     } else {
-      // If the item is not in the cart, add it with quantity 1
       updatedCartItems.push({
         ...product,
         quantity: 1,
@@ -94,7 +92,6 @@ const Fruit = ({ cartItems, setCartItems, }) => {
           <div className="w-3/4 p-4">
             <h2 className="text-2xl font-bold mb-4">Fruit Products</h2>
             <div className="grid grid-cols-3 gap-4 h-3/4">
-            // Inside the div where you're mapping over filteredProducts
             {filteredProducts.map((product) => (
   <div key={product._id} className="border p-4 rounded-lg hover:shadow-lg transition-shadow">
     <Link to={`/fruits/${product.id}`}>

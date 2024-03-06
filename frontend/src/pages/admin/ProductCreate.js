@@ -4,6 +4,7 @@ import axios from "axios";
 const ProductForm = () => {
   const [error, setError] = useState(null);
   const [isFeatured, setIsFeatured] = useState(false);
+  const [successMessage, setSuccessMessage] = useState(null);
 
   const [newProduct, setNewProduct] = useState({
     name: "",
@@ -51,6 +52,7 @@ const ProductForm = () => {
         isFeatured: false,
       });
       setError("");
+      setSuccessMessage("Product created successfully!");
     } catch (error) {
       setError("Error creating product");
       console.error("Error creating product:", error);
@@ -154,6 +156,9 @@ const ProductForm = () => {
               Create Product
             </button>
             {error && <p className="text-red-500 mt-2">{error}</p>}
+            {successMessage && (
+              <p className="text-green-500 mt-2">{successMessage}</p>
+            )}
           </form>
         </div>
       </div>
