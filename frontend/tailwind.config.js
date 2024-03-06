@@ -5,7 +5,9 @@ module.exports = {
     fontFamily: {
       cursive: ['CursiveFontName', 'cursive', 'sans-serif'],
     },
+    
     extend: {},
   },
+  
   plugins: [],
 };
