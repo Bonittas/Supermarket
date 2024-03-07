@@ -94,10 +94,11 @@ const Home = () => {
   return (
     <>
       <Header />
-      <div className="bg-gradient-to-r from-yellow-100 to-green-200 relative">
+      <div className="bg-gradient-to-r h-400 from-yellow-100 to-green-200 relative"       style={{ maxHeight: '470px', marginLeft: 'auto' }}
+>
 
 
-      <div className="h-fit">
+      <div className="h-400">
       <div className="fixed w-1/2 left-32 top-8  z-40  flex">
         <input
           type="text"
@@ -136,7 +137,7 @@ const Home = () => {
     </div>
     </div>
   </div>
-  <div className="relative -top-48 right-24 mb-2 w-full ml-2 ">
+  <div className="relative -top-48 right-24  w-full ml-2 ">
     <img
       src={myImage}
       alt="Background"
