@@ -77,21 +77,21 @@ const CategoryList = () => {
 
   return (
     <>
-      <div className="bg-green-50 min-h-screen p-6 shadow-md m-5">
-        <div className="w-full mx-auto mt-8">
-          <h2 className="text-2xl font-bold mb-4">All Categories</h2>
+      <div className="bg-green-50 h-auto px-4 pb-6 pt-2 border rounded-lg shadow-lg mx-auto my-2">
+        <div className="w-full mt-4">
+          <h2 className="text-2xl font-bold mb-4 text-center">All Categories</h2>
           <table className="min-w-full bg-white border border-gray-300">
             <thead>
               <tr>
-                <th className="py-2 px-4 border-b">Category Name</th>
-                <th className="py-2 px-4 border-b">Images</th>
-                <th className="py-2 px-4 border-b">Actions</th>
+                <th className="py-2 px-2 border-b text-left">Category Name</th>
+                <th className="py-2 px-2 border-b text-left">Category Images</th>
+                <th className="py-2 px-2 border-b text-left">Actions</th>
               </tr>
             </thead>
             <tbody>
               {categories.map((category) => (
                 <tr key={category._id}>
-                  <td className="py-2 px-4 border-b text-center">
+                  <td className="py-2 px-2 border-b text-left">
                     {editingCategory && editingCategory._id === category._id ? (
                       <input
                         type="text"
@@ -107,7 +107,7 @@ const CategoryList = () => {
                       <span>{category.categoryName}</span>
                     )}
                   </td>
-                  <td className="py-2 pl-48 border-b">
+                  <td className="py-2 px-2 border-b text-left">
                     {editingCategory && editingCategory._id === category._id ? (
                       <input
                         type="file"
@@ -123,7 +123,7 @@ const CategoryList = () => {
                       />
                     )}
                   </td>
-                  <td className="py-2 px-4 border-b text-center">
+                  <td className="py-2 px-2 border-b text-left">
                     {editingCategory && editingCategory._id === category._id ? (
                       <>
                         <button

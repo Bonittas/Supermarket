@@ -32,6 +32,7 @@ function SignIn() {
           return;
         }
         setError(null);
+        localStorage.setItem('isAuthenticated', 'true');
         navigate("/admin");
 
       })
@@ -39,7 +40,6 @@ function SignIn() {
         setError(error.message);
       });
   };
-
   return (
     <div className="z-20">
       <div

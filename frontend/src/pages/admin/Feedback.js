@@ -22,8 +22,8 @@ function Feedbacks() {
   }, []);
 
   return (
-    <div className="container mx-auto my-10">
-      <h2 className="text-2xl font-bold mb-6 font-cursive">Feedbacks</h2>
+    <div className="bg-green-50 h-auto px-4 pb-6 pt-2 border rounded-lg shadow-lg mx-auto my-2">
+      <h2 className="text-2xl font-bold mb-6 font-cursive text-center">Feedbacks</h2>
       <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
         {feedbacks.map((feedback, index) => (
           <li key={index} className="bg-white shadow-lg p-4 rounded-lg">

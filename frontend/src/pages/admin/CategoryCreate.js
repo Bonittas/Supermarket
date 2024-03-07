@@ -47,13 +47,18 @@ const CategoryForm = () => {
 
   return (
     <>
-      {/* <Header /> */}
-      <div className="bg-green-50 min-h-screen p-6 shadow-md m-5">
-        <div className="w-1/2 mx-auto mt-8">
-          <h2 className="text-2xl font-bold mb-4">Create New Category</h2>
-          <form onSubmit={handleCategorySubmit}>
+      {/* Container */}
+      <div className="bg-green-50 h-auto px-4 pb-6 pt-2 border rounded-lg shadow-lg mx-auto my-2">
+        {/* Form Wrapper */}
+        <div className="w-1/2 mx-auto mt-4">
+          {/* Form Title */}
+          <h2 className="text-2xl font-bold mb-4 text-center">Create New Category</h2>
+          
+          {/* Form */}
+          <form onSubmit={handleCategorySubmit} className="w-full mx-auto mt-4">
+            {/* Category Name Input */}
             <div className="mb-4">
-              <label htmlFor="categoryName" className="block text-gray-700 font-bold">
+              <label htmlFor="categoryName" className="block text-gray-700 font-bold mb-2">
                 Category Name
               </label>
               <input
@@ -62,12 +67,14 @@ const CategoryForm = () => {
                 name="categoryName"
                 value={newCategory.categoryName}
                 onChange={handleCategoryChange}
-                className="form-input mt-1 block w-3/6"
+                className="mt-1 block w-1/3 rounded-md border-2 border-gray-400 focus:border-green-500"
                 required
               />
             </div>
+            
+            {/* Image Input */}
             <div className="mb-4">
-              <label htmlFor="image" className="block text-gray-700 font-bold">
+              <label htmlFor="image" className="block text-gray-700 font-bold mb-2">
                 Image
               </label>
               <input
@@ -75,16 +82,19 @@ const CategoryForm = () => {
                 id="image"
                 name="image"
                 onChange={handleImageChange}
-                className="mt-1 block w-3/6"
                 accept="image/*"
               />
             </div>
+            
+            {/* Submit Button */}
             <button
               type="submit"
               className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors"
             >
               Create Category
             </button>
+            
+            {/* Error Message */}
             {error && <p className="text-red-500 mt-2">{error}</p>}
             {successMessage && <p className="text-green-500 mt-2">{successMessage}</p>}
           </form>

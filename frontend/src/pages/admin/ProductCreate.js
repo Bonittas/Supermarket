@@ -61,7 +61,7 @@ const ProductForm = () => {
 
   return (
     <>
-      <div className="bg-green-50 min-h-screen pt-6 shadow-md m-5 ">
+      <div className="bg-green-50 h-auto px-4 pb-6 pt-2 border rounded-lg shadow-lg mx-auto my-2">
         <div className="w-1/2 mx-auto mt-8">
           <h2 className="text-2xl font-bold mb-4">Create New Product</h2>
           <form onSubmit={handleProductSubmit}>
@@ -75,7 +75,7 @@ const ProductForm = () => {
                 name="name"
                 value={newProduct.name}
                 onChange={handleProductChange}
-                className="form-input mt-1 block w-2/4"
+                className="mt-1 block w-1/3 rounded-md border-2 border-gray-400 focus:border-green-500"
                 required
               />
             </div>
@@ -89,7 +89,41 @@ const ProductForm = () => {
                 name="price"
                 value={newProduct.price}
                 onChange={handleProductChange}
-                className="form-input mt-1 block w-2/4"
+                className="mt-1 block w-1/3 rounded-md border-2 border-gray-400 focus:border-green-500"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="categoryName"
+                className="block text-gray-700 font-bold"
+              >
+                Category Name
+              </label>
+              <input
+                type="text"
+                id="categoryName"
+                name="categoryName"
+                value={newProduct.categoryName}
+                onChange={handleProductChange}
+                className="mt-1 block w-1/3 rounded-md border-2 border-gray-400 focus:border-green-500"
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="quantity"
+                className="block text-gray-700 font-bold"
+              >
+                Quantity
+              </label>
+              <input
+                type="number"
+                id="quantity"
+                name="quantity"
+                value={newProduct.quantity}
+                onChange={handleProductChange}
+                className="mt-1 block w-1/3 rounded-md border-2 border-gray-400 focus:border-green-500"
                 required
               />
             </div>
@@ -108,39 +142,7 @@ const ProductForm = () => {
               />
             </div>
             <div className="mb-4">
-              <label
-                htmlFor="categoryName"
-                className="block text-gray-700 font-bold"
-              >
-                Category Name
-              </label>
-              <input
-                type="text"
-                id="categoryName"
-                name="categoryName"
-                value={newProduct.categoryName}
-                onChange={handleProductChange}
-                className="form-input mt-1 block w-2/4"
-                required
-              />
-            </div>
-            <div className="mb-4">
-              <label
-                htmlFor="quantity"
-                className="block text-gray-700 font-bold"
-              >
-                Quantity
-              </label>
-              <input
-                type="number"
-                id="quantity"
-                name="quantity"
-                value={newProduct.quantity}
-                onChange={handleProductChange}
-                className="form-input mt-1 block w-2/4"
-                required
-              />
-              <label>
+            <label>
                 Featured:
                 <input
                   type="checkbox"

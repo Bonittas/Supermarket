@@ -169,7 +169,6 @@ const ProductList = () => {
         product._id === editedProduct._id ? editedProduct : product
       )
     );
-
     // Cancel the edit mode
     setEditingProduct(null);
   };
@@ -185,36 +184,36 @@ const ProductList = () => {
 
   return (
     <>
-      <div className="bg-green-50 min-h-screen p-6 shadow-md m-5">
-        <div className="w-full mx-auto mt-8">
-          <h2 className="text-2xl font-bold mb-4">All Products</h2>
+      <div className="bg-green-50 h-auto px-4 pb-6 pt-2 border rounded-lg shadow-lg mx-auto my-2">
+        <div className="w-full mt-4">
+          <h2 className="text-2xl font-bold mb-4 text-center">All Products</h2>
           <table className="min-w-full bg-white border border-gray-300">
             <thead>
               <tr>
-                <th className="py-2 px-4 border-b text-left">Name</th>
-                <th className="py-2 px-4 border-b text-left">Price</th>
-                <th className="py-2 px-4 border-b text-left">Category</th>
-                <th className="py-2 px-4 border-b text-left">Quantity</th>
-                <th className="py-2 px-4 border-b text-left">Image</th>
-                <th className="py-2 px-4 border-b text-left">Actions</th>
+                <th className="py-2 px-2 border-b text-left">Name</th>
+                <th className="py-2 px-2 border-b text-left">Price</th>
+                <th className="py-2 px-2 border-b text-left">Category</th>
+                <th className="py-2 px-2 border-b text-left">Quantity</th>
+                <th className="py-2 px-2 border-b text-left">Image</th>
+                <th className="py-2 px-2 border-b text-left">Actions</th>
               </tr>
             </thead>
             <tbody>
               {products.map((product) => (
                 <tr key={product._id}>
-                  <td className="py-2 px-4 border-b text-left">
+                  <td className="py-2 px-2 border-b text-left">
                     {product.name}
                   </td>
-                  <td className="py-2 px-4 border-b text-left">
+                  <td className="py-2 px-2 border-b text-left">
                     ${product.price.toFixed(2)}
                   </td>
-                  <td className="py-2 px-4 border-b text-left">
+                  <td className="py-2 px-2 border-b text-left">
                     {product.categoryName}
                   </td>
-                  <td className="py-2 px-4 border-b text-left">
+                  <td className="py-2 px-2 border-b text-left">
                     {product.quantity}
                   </td>
-                  <td className="py-2 px-4 border-b text-left">
+                  <td className="py-2 px-2 border-b text-left">
                     {product.image ? (
                       <img
                         src={`/uploads/${product.categoryName}/${product.image}`}

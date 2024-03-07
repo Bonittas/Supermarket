@@ -1,17 +1,14 @@
-// Fruit.js
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Search from "../Search";
+import Header from "../../components/Header3";
+import Cart from "../Cart"; // Adjust the path based on your project structure
+import { categories } from "./Category";
+import { Link } from "react-router-dom";
 
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Search from '../Search';
-import Header from '../../components/Header3';
-import Cart from '../Cart'; // Adjust the path based on your project structure
-import { categories } from './Category';
-import { Link } from 'react-router-dom';
-
-const Fruit = ({ cartItems, setCartItems }) => {
+const Vegetables = ({ cartItems, setCartItems }) => {
   const [products, setProducts] = useState([]);
-  const [editingProduct, setEditingProduct] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     fetchVegetableProducts();
@@ -22,26 +19,27 @@ const Fruit = ({ cartItems, setCartItems }) => {
   };
   const fetchVegetableProducts = async () => {
     try {
-      const response = await axios.get('/api/products/list');
+      const response = await axios.get("/api/products/list");
       const vegetableProducts = response.data
-        .filter((product) => product.categoryName.toLowerCase() === 'vegetables')
+        .filter(
+          (product) => product.categoryName.toLowerCase() === "vegetables"
+        )
         .map((product) => ({ ...product, id: product._id })); // Assign _id as id
-  
+
       setProducts(vegetableProducts);
     } catch (error) {
-      console.error('Error fetching fruit products:', error);
+      console.error("Error fetching fruit products:", error);
     }
   };
-  
-  
+
   const handleAddToCart = (product) => {
-    console.log('Before adding to cart:', cartItems);
-  
+    console.log("Before adding to cart:", cartItems);
+
     const updatedCartItems = [...cartItems];
     const existingItemIndex = updatedCartItems.findIndex(
       (item) => item.id === product.id
     );
-  
+
     if (existingItemIndex !== -1) {
       // If the item already exists in the cart, update its quantity
       updatedCartItems[existingItemIndex] = {
@@ -56,14 +54,11 @@ const Fruit = ({ cartItems, setCartItems }) => {
         id: product._id,
       });
     }
-  
+
     setCartItems(updatedCartItems);
-    console.log('After adding to cart:', updatedCartItems);
+    console.log("After adding to cart:", updatedCartItems);
     console.log(`Added ${product.name} to cart`);
   };
-  
-  
-  
 
   const handleSearch = (query) => {
     setSearchQuery(query);
@@ -84,14 +79,15 @@ const Fruit = ({ cartItems, setCartItems }) => {
           <div className="w-1/4 bg-green-100 p-4 m-8 rounded-md">
             <h2 className="text-2xl font-bold mb-4">Categories</h2>
             <ul className="space-y-2">
-              {categories && categories.map((category, index) => (
-                <li
-                  key={index}
-                  className="cursor-pointer p-4 font-cursive font-bold text-lg hover:bg-green-200 transition-colors"
-                >
-                  <Link to={`/${category.name}`}>{category.name}</Link>
-                </li>
-              ))}
+              {categories &&
+                categories.map((category, index) => (
+                  <li
+                    key={index}
+                    className="cursor-pointer p-4 font-cursive font-bold text-lg hover:bg-green-200 transition-colors"
+                  >
+                    <Link to={`/${category.name}`}>{category.name}</Link>
+                  </li>
+                ))}
             </ul>
           </div>
           <div className="w-3/4 p-4">
@@ -113,9 +109,8 @@ const Fruit = ({ cartItems, setCartItems }) => {
                     className="bg-green-500 text-white px-4 py-2 mt-2 rounded-lg hover:bg-green-600 transition-colors"
                     onClick={() => handleAddToCart(product)}
                   >
-Buy                  </button>
-        
-         
+                    Buy{" "}
+                  </button>
                 </div>
               ))}
             </div>
@@ -128,4 +123,4 @@ Buy                  </button>
   );
 };
 
-export default Fruit;
+export default Vegetables;
