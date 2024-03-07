@@ -88,8 +88,9 @@ const Home = () => {
   };
 
   const filteredcategory = category.filter(category => {
-    return category.categoryName && category.categoryName.toLowerCase().includes(searchQuery.toLowerCase());
+    return category.categoryName && category.categoryName.toLowerCase().includes(searchQuery.toLowerCase().trim());
   });
+  
 
   return (
     <>
@@ -142,7 +143,7 @@ const Home = () => {
       src={myImage}
       alt="Background"
       className="w-500 h-full move-up-down"
-      style={{ maxHeight: '470px', marginLeft: 'auto' }}
+      style={{ maxHeight: 'auto', maxWidth: 'auto' }}
     />
   </div>
 </div>
