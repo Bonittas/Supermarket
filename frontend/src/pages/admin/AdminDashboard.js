@@ -129,7 +129,7 @@ const Admin = () => {
 
   return (
     <>
-        <div className="bg-green-50 h-screen px-4 py-2 w-full">
+        <div className="bg-green-50 h-auto px-4 py-2 w-full">
         <DrawerComponent onSelectSection={handleSelectSection} />
           <h2 className="text-3xl font-bold mx-4 my-2">Admin Dashboard</h2>
           
@@ -139,7 +139,7 @@ const Admin = () => {
           >
             Logout
           </button>
-          <div className="mx-4 my-2">{renderAdminSection()}</div>
+          <div className="mx-4 my-2 h-auto">{renderAdminSection()}</div>
         </div>
     </>
   );
