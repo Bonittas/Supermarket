@@ -24,7 +24,6 @@ import {
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 
-// Drawer Component
 const DrawerComponent = ({ onSelectSection }) => {
   const [open, setOpen] = useState(false);
 
