@@ -1,8 +1,7 @@
-// Fruit.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import Search from '../Search';
+import Search from '../SearchBar';
 import Header from '../../components/Header3';
 import Cart from '../Cart';
 import { categories } from '../categories/Category';
