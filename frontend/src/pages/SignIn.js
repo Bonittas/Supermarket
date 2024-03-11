@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Header2 from "../components/Header3";
-import myImage from "../img/shopping-1165437.jpg";
+// import myImage from "../img/shopping-1165437.jpg";
 
 function SignIn() {
   const [formData, setFormData] = useState({});
@@ -41,12 +41,12 @@ function SignIn() {
       });
   };
   return (
-    <div className="z-20">
+    <div className="z-20 bg-gradient-to-r from-yellow-50 to-green-200">
       <div
         className="w-full h-screen bg-cover bg-center"
-        style={{ backgroundImage: `url(${myImage})` }}
+        // style={{ backgroundImage: `url(${myImage})` }}
       >
-        <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-75 flex flex-col justify-center items-center" />
+        <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-5 flex flex-col justify-center items-center" />
 
         <Header2 />
         <div className="flex justify-center items-center mx-2  ">
