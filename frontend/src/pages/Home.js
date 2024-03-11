@@ -59,7 +59,7 @@ const Home = () => {
         className="h-screen bg-gradient-to-r from-yellow-50 to-green-200"
       >
         {/*search bar starts  */}
-        <div className="fixed top-4 left-48 lg:w-2/6 md:w-1/4 sm:w-1/4 z-20 my-2">
+        <div className="fixed top-4 left-48 lg:w-1/2 md:w-1/4 sm:w-1/4 z-20 my-2">
           <Search onSearch={handleSearch} />
         </div>
         {/*search bar ends  */}
@@ -78,7 +78,7 @@ const Home = () => {
               <div className="container flex flex-row justify-center">
                 <Link
                   to="#"
-                  className="p-3 px-6 pt-2 bg-yellow-600 my-4 mx-4 font-bold  rounded-md text-white "
+                  className="px-6 p-3 bg-yellow-600 my-4 mx-4 font-bold  rounded-md text-white "
                 >
                   Shop with Us
                 </Link>
