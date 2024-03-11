@@ -1,17 +1,18 @@
 // Fruit.js
 
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Search from '../Search';
-import Header from '../../components/Header3';
-import Cart from '../Cart'; 
-import { categories } from './Category';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Search from "../SearchBar";
+import Header from "../../components/Header3";
+import Cart from "../Cart";
+import { categories } from "./Category";
+import { Link } from "react-router-dom";
+import Footer from "../../components/Footer";
 
 const Sanitizers = ({ cartItems, setCartItems }) => {
   const [products, setProducts] = useState([]);
   const [editingProduct, setEditingProduct] = useState(null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     fetchSanitizerProducts();
@@ -22,37 +23,37 @@ const Sanitizers = ({ cartItems, setCartItems }) => {
   };
   const fetchSanitizerProducts = async () => {
     try {
-      const response = await axios.get('/api/products/list');
+      const response = await axios.get("/api/products/list");
       const SanitizerProducts = response.data
-        .filter((product) => product.categoryName.toLowerCase() === 'sanitizers')
+        .filter(
+          (product) => product.categoryName.toLowerCase() === "sanitizers"
+        )
         .map((product) => ({ ...product, id: product._id })); // Assign _id as id
-  
+
       setProducts(SanitizerProducts);
     } catch (error) {
-      console.error('Error fetching fruit products:', error);
+      console.error("Error fetching fruit products:", error);
     }
   };
-  
 
   const handleAddToCart = (product) => {
-    console.log('Before adding to cart:', cartItems);
-  
+    console.log("Before adding to cart:", cartItems);
+
     const updatedCartItems = [...cartItems];
     const existingItem = updatedCartItems.find(
       (item) => item.id.toLowerCase() === product.id.toLowerCase()
     );
-  
+
     if (existingItem) {
       existingItem.quantity += 1;
     } else {
       updatedCartItems.push({ ...product, quantity: 1 });
     }
-  
+
     setCartItems(updatedCartItems);
-    console.log('After adding to cart:', updatedCartItems);
+    console.log("After adding to cart:", updatedCartItems);
     console.log(`Added ${product.name} to cart`);
   };
-  
 
   const handleSearch = (query) => {
     setSearchQuery(query);
@@ -68,21 +69,23 @@ const Sanitizers = ({ cartItems, setCartItems }) => {
       <div className="fixed top-4 left-48 lg:w-1/3 md:w-1/4 sm:w-1/4 z-20 my-2">
         <Search onSearch={handleSearch} />
       </div>
-      <div className="bg-green-50 min-h-screen pt-6">
-        <div className="flex">
-          <div className="w-1/4 bg-green-100 p-4 m-8 rounded-md">
-            <h2 className="text-2xl font-bold mb-4">Categories</h2>
+      <section id="Categories" className="container mx-auto md:px-10 bg-white h-screen">
+        <div className="flex mx-auto h-screen">
+          <div className="shadow-lg p-4 md:w-1/5 md:h-screen">
+            <h2 className="text-3xl font-bold mb-4">Categories</h2>
             <ul className="space-y-2">
-              {categories && categories.map((category, index) => (
-                <li
-                  key={index}
-                  className="cursor-pointer p-4 font-cursive font-bold text-lg hover:bg-green-200 transition-colors"
-                >
-                  <Link to={`/${category.name}`}>{category.name}</Link>
-                </li>
-              ))}
+              {categories &&
+                categories.map((category, index) => (
+                  <li
+                    key={index}
+                    className="cursor-pointer p-4 font-cursive font-semibold text-lg hover:bg-green-200 transition-colors"
+                  >
+                    <Link to={`/${category.name}`}>{category.name}</Link>
+                  </li>
+                ))}
             </ul>
           </div>
+
           <div className="w-3/4 p-4">
             <h2 className="text-2xl font-bold mb-4">Sanitizers Products</h2>
             <div className="grid grid-cols-3 gap-4 h-3/4">
@@ -102,17 +105,17 @@ const Sanitizers = ({ cartItems, setCartItems }) => {
                     className="bg-green-500 text-white px-4 py-2 mt-2 rounded-lg hover:bg-green-600 transition-colors"
                     onClick={() => handleAddToCart(product)}
                   >
-Buy                  </button>
-        
-         
+                    Buy{" "}
+                  </button>
                 </div>
               ))}
             </div>
           </div>
         </div>
-      </div>
+      </section>
       {/* Render the Cart component */}
       <Cart cartItems={cartItems} onDeleteItem={handleDeleteItem} />
+      <Footer/>
     </>
   );
 };
