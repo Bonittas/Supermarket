@@ -70,7 +70,7 @@ const Cart = ({ cartItems, onDeleteItem }) => {
     </div>
     <span>
       {item.name}{' '}
-      {item.quantity > 1 && (
+      {item.quantity > 0 && (
         <span className="text-gray-500 ml-2">
           ({item.quantity})
         </span>

@@ -48,10 +48,10 @@ function Header({ handleMenuToggle, isMenuOpen }) {
       }`}
     >
       <div className="p-2">
-        <p className="text-xl text-center font-cursive">
+        <Link to="/"><p className=" flex flex-col text-xl text-center font-cursive">
           <FontAwesomeIcon icon={faCartShopping} className="w-12 h-12" />
           iShop
-        </p>
+        </p></Link>
       </div>
       <div className="flex items-center ml-auto space-x-4 z-20">
         <nav className="z-20 hidden sm:flex sm:justify-between space-x-4 text-sm">
@@ -83,7 +83,7 @@ function Header({ handleMenuToggle, isMenuOpen }) {
             {isDropdownOpen && (
               <div className="absolute bg-white w-40 h-20 mt-2 px-3 space-y-2">
                 <Link
-                  to="/products"
+                  to="/"
                   className="block text-black hover:text-green-400"
                 >
                   Featured Products
