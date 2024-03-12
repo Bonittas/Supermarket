@@ -149,8 +149,7 @@ const App = () => {
         </Routes>
 
         {/* Optional: Render the cart component globally */}
-        {/* <Cart cartItems={cartItems} onDeleteItem={handleDeleteItem} /> */}
-        {/* <Footer/> */}
+        <Cart cartItems={cartItems} onDeleteItem={handleDeleteItem} />
       </div>
     </Router>
   );
