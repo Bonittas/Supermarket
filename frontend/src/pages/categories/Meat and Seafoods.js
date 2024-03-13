@@ -1,33 +1,35 @@
-// Fruit.js
-
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 import Search from "../SearchBar";
 import Header from "../../components/Header3";
-import Cart from "../Cart"; // Adjust the path based on your project structure
+import Cart from "../Cart";
 import { categories } from "./Category";
-import { Link } from "react-router-dom";
 import Footer from "../../components/Footer";
 
 const Meat = ({ cartItems, setCartItems }) => {
   const [products, setProducts] = useState([]);
-  const [editingProduct, setEditingProduct] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  // const [itemsPerPage, setItemsPerPage] = useState(8);
 
   useEffect(() => {
-    fetchMeatProducts();
+    fetchFruitProducts();
   }, []);
+
   const handleDeleteItem = (itemId) => {
     const updatedCartItems = cartItems.filter((item) => item.id !== itemId);
     setCartItems(updatedCartItems);
   };
-  const fetchMeatProducts = async () => {
+
+  const fetchFruitProducts = async () => {
     try {
       const response = await axios.get("/api/products/list");
-      const MeatProducts = response.data.filter(
-        (product) => product.categoryName.toLowerCase() === "seafood"
-      );
-      setProducts(MeatProducts);
+      const fruitProducts = response.data
+        .filter((product) => product.categoryName.toLowerCase() === "meat")
+        .map((product) => ({ ...product, id: product._id }));
+
+      setProducts(fruitProducts);
     } catch (error) {
       console.error("Error fetching fruit products:", error);
     }
@@ -38,13 +40,17 @@ const Meat = ({ cartItems, setCartItems }) => {
 
     const updatedCartItems = [...cartItems];
     const existingItem = updatedCartItems.find(
-      (item) => item.id.toLowerCase() === product.id.toLowerCase()
+      (item) => item.id === product.id
     );
 
     if (existingItem) {
       existingItem.quantity += 1;
     } else {
-      updatedCartItems.push({ ...product, quantity: 1 });
+      updatedCartItems.push({
+        ...product,
+        quantity: 1,
+        id: product._id,
+      });
     }
 
     setCartItems(updatedCartItems);
@@ -56,21 +62,49 @@ const Meat = ({ cartItems, setCartItems }) => {
     setSearchQuery(query);
   };
 
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  if (!products) {
+    return <p>Loading...</p>;
+  }
+
   const filteredProducts = products.filter((product) =>
     product.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+   // Adjust items per page for small screens
+   const isSmallScreen = window.innerWidth < 768; 
+   const itemsPerPageForScreen = isSmallScreen ? 4 : 8;
+  // Get current posts
+  const indexOfLastProduct = currentPage * itemsPerPageForScreen;
+  const indexOfFirstProduct = indexOfLastProduct - itemsPerPageForScreen;
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+
+   // Create page numbers
+   const pageNumbers = [];
+   for (let i = 1; i <= Math.ceil(filteredProducts.length / itemsPerPageForScreen); i++) {
+     pageNumbers.push(i);
+   }
+    
   return (
     <>
       <Header />
       <div className="fixed top-4 left-48 lg:w-1/3 md:w-1/4 sm:w-1/4 z-20 my-2">
         <Search onSearch={handleSearch} />
       </div>
-      <section id="Categories" className="container mx-auto md:px-10 bg-white h-screen">
-        <div className="flex mx-auto h-screen">
-          <div className="shadow-lg p-4 md:w-1/5 md:h-screen">
-            <h2 className="text-3xl font-bold mb-4">Categories</h2>
-            <ul className="space-y-2">
+      <section
+        id="Categories"
+        className="container mx-auto md:px-10 bg-white h-screen"
+      >
+        <div className="flex flex-col md:flex-row">
+          <div className="shadow-lg p-4 md:w-1/5 md:h-screen order-1 md:order-2">
+            <h2 className="text-3xl font-bold mb-4 text-center">Categories</h2>
+            <ul className="flex flex-wrap md:flex-col md:space-x-2">
               {categories &&
                 categories.map((category, index) => (
                   <li
@@ -83,36 +117,70 @@ const Meat = ({ cartItems, setCartItems }) => {
             </ul>
           </div>
 
-          <div className="w-3/4 p-4">
-            <h2 className="text-2xl font-bold mb-4">Meats Products</h2>
-            <div className="grid grid-cols-3 gap-4 h-3/4">
-              {filteredProducts.map((product) => (
-                <div
-                  key={product._id}
-                  className="border p-4 rounded-lg hover:shadow-lg transition-shadow"
-                >
-                  <img
-                    src={`/uploads/${product.categoryName}/${product.image}`}
-                    alt={product.name}
-                    className="mb-2 h-56 rounded-lg"
-                  />
-                  <h3 className="text-lg font-bold">{product.name}</h3>
-                  <p className="text-gray-500">${product.price.toFixed(2)}</p>
+          <div className="w-full md:w-4/5 py-4 pl-6 order-1 md:order-2">
+            <h2 className="text-2xl font-bold mb-4">Meat and seafood Products</h2>
+            <div className={`grid grid-cols-2 md:grid-cols-4 lg:grid-cols-${isSmallScreen ? '2' : '4'}  gap-4`}>
+              {currentProducts.map((product) => (
+                 <div
+                 key={product._id}
+                 className={`border p-2 rounded-lg hover:shadow-lg transition-shadow text-center`}
+               >
+                  <Link to={`/fruits/${product.id}`}>
+                    <img
+                      src={`/uploads/${product.categoryName}/${product.image}`}
+                      alt={product.name}
+                      className={`mb-2 ${isSmallScreen? 'h-16': 'md:h-36 lg:h-40'} mx-auto rounded-lg cursor-pointer`}
+                    />
+                  </Link>
+                  <div className="flex space-x-12 mx-auto mb-2">
+                    <h3 className="text-lg font-bold">
+                      {product.name}
+                      {cartItems.some((item) => item.id === product.id) && (
+                        <span className="text-gray-500 ml-2">
+                          (
+                          {
+                            cartItems.find((item) => item.id === product.id)
+                              .quantity
+                          }
+                          )
+                        </span>
+                      )}
+                    </h3>
+                    <p className="text-gray-500">
+                      {product.price.toFixed(2)}{" "}
+                      <span className="font-bold">Birr</span>{" "}
+                    </p>
+                  </div>
+
                   <button
                     className="bg-green-500 text-white px-4 py-2 mt-2 rounded-lg hover:bg-green-600 transition-colors"
                     onClick={() => handleAddToCart(product)}
                   >
-                    Buy{" "}
+                    Buy
                   </button>
                 </div>
+              ))}
+            </div>
+            <div className="pagination space-x-2 flex justify-center my-4 py-4">
+              {pageNumbers.map((number) => (
+                <button
+                  key={number}
+                  className={`${
+                    currentPage === number
+                      ? "bg-green-500 text-white"
+                      : "bg-white text-green-500"
+                  } px-4 py-2 border rounded-lg focus:outline-none`}
+                  onClick={() => handlePageChange(number)}
+                >
+                  {number}
+                </button>
               ))}
             </div>
           </div>
         </div>
       </section>
-      {/* Render the Cart component */}
       <Cart cartItems={cartItems} onDeleteItem={handleDeleteItem} />
-      <Footer/>
+      <Footer />
     </>
   );
 };
