@@ -3,7 +3,7 @@ import Header from "../components/Header3";
 import myimg from "../img/items/about.avif";
 import myimg2 from "../img/items/OurMission.png";
 import Footer from "../components/Footer";
-
+import { Link } from "react-router-dom";
 const About = () => {
   return (
     <>
@@ -28,6 +28,17 @@ const About = () => {
               If you have any questions or feedback, please feel free to contact
               us. We would love to hear from you.
             </p>
+            <p className="text-gray-600 mt-4">
+              If you have any questions or feedback, please feel free to contact
+              us. We would love to hear from you.
+            </p>
+            <div className="flex justify-center mt-4">
+              <Link to='/contact'>
+            <button className="bg-yellow-600 text-white hover:bg-green-700 p-2 rounded-md">
+              Contact us
+            </button>
+            </Link>
+            </div>
           </div>
         </div>
 
@@ -42,15 +53,7 @@ const About = () => {
               enim ad minim veniam, quis nostrud exercitation ullamco laboris
               nisi ut aliquip ex ea commodo consequat.
             </p>
-            <p className="text-gray-600 mt-4">
-              If you have any questions or feedback, please feel free to contact
-              us. We would love to hear from you.
-            </p>
-            <div className="flex justify-center mt-4">
-            <button className="bg-green-600 text-white hover:bg-green-700 p-2 rounded-md">
-              Contact us
-            </button>
-            </div>
+       
           </div>
 
           <div className="relative">

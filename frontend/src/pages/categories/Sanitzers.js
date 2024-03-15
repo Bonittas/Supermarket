@@ -99,7 +99,7 @@ const Sanitizers = ({ cartItems, setCartItems }) => {
       </div>
       <section
         id="Categories"
-        className="container mx-auto md:px-10 bg-white h-screen"
+        className="container mx-auto md:px-10 bg-white "
       >
         <div className="flex flex-col md:flex-row">
           <div className="shadow-lg p-4 md:w-1/5 md:h-screen order-1 md:order-2">

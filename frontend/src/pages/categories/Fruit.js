@@ -99,7 +99,7 @@ const Fruit = ({ cartItems, setCartItems }) => {
       </div>
       <section
         id="Categories"
-        className="container mx-auto md:px-10 bg-white h-screen"
+        className="container mx-auto md:px-10 bg-white "
       >
         <div className="flex flex-col md:flex-row">
           <div className="shadow-lg p-4 md:w-1/5 md:h-screen order-1 md:order-2">
@@ -125,13 +125,11 @@ const Fruit = ({ cartItems, setCartItems }) => {
                  key={product._id}
                  className={`border p-2 rounded-lg hover:shadow-lg transition-shadow text-center`}
                >
-                  <Link to={`/fruits/${product.id}`}>
                     <img
                       src={`/uploads/${product.categoryName}/${product.image}`}
                       alt={product.name}
                       className={`mb-2 ${isSmallScreen? 'h-16': 'md:h-36 lg:h-40'} mx-auto rounded-lg cursor-pointer`}
                     />
-                  </Link>
                   <div className="flex space-x-12 mx-auto mb-2">
                     <h3 className="text-lg font-bold">
                       {product.name}

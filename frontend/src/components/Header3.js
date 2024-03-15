@@ -49,8 +49,7 @@ function Header({ handleMenuToggle, isMenuOpen }) {
     >
       <div className="">
         <Link to="/"><p className="flex flex-col text-xl text-center font-cursive">
-          <h1>LOGO</h1>
-          {/* <FontAwesomeIcon icon={faCartShopping} className="w-12 h-12" /> */}
+          <FontAwesomeIcon icon={faCartShopping} className="w-12 h-12" />
           iShop
         </p></Link>
       </div>

@@ -60,7 +60,7 @@ const Cart = ({ cartItems, onDeleteItem }) => {
       <img
         src={`/uploads/${item.categoryName}/${item.image}`}
         alt={item.name}
-        className="w-8 h-8 object-cover"
+        className="w-10 h-10 object-cover"
       />
       {item.quantity > 1 && (
         <span className="absolute bottom-0 right-0 bg-green-500 text-white px-1 rounded-md">
@@ -77,7 +77,7 @@ const Cart = ({ cartItems, onDeleteItem }) => {
       )}
     </span>
     <span className="ml-2 text-gray-500">
-      (${item.price.toFixed(2)})
+      {item.price.toFixed(2)}Birr)
     </span>
     <button
       className="ml-2 text-red-600"
@@ -91,7 +91,7 @@ const Cart = ({ cartItems, onDeleteItem }) => {
 
     <div className="my-4">
       <p className="font-bold">
-        Total Pricee: ${totalPrice.toFixed(2)}{' '}
+        Total Pricee: {totalPrice.toFixed(2)}Birr{' '}
         <Link to="/purchase">
           <button className="bg-green-700 p-2 text-white rounded-md">
             Purchase

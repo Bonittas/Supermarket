@@ -80,86 +80,92 @@ const CategoryList = () => {
       <div className="bg-green-50 h-auto px-4 pb-6 pt-2 border rounded-lg shadow-lg mx-auto my-2">
         <div className="w-full mt-4">
           <h2 className="text-2xl font-bold mb-4 text-center">All Categories</h2>
-          <table className="min-w-full bg-white border border-gray-300">
-            <thead>
-              <tr>
-                <th className="py-2 px-2 border-b text-left">Category Name</th>
-                <th className="py-2 px-2 border-b text-left">Category Images</th>
-                <th className="py-2 px-2 border-b text-left">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {categories.map((category) => (
-                <tr key={category._id}>
-                  <td className="py-2 px-2 border-b text-left">
-                    {editingCategory && editingCategory._id === category._id ? (
-                      <input
-                        type="text"
-                        value={editingCategory.categoryName}
-                        onChange={(e) =>
-                          setEditingCategory({
-                            ...editingCategory,
-                            categoryName: e.target.value,
-                          })
-                        }
-                      />
-                    ) : (
-                      <span>{category.categoryName}</span>
-                    )}
-                  </td>
-                  <td className="py-2 px-2 border-b text-left">
-                    {editingCategory && editingCategory._id === category._id ? (
-                      <input
-                        type="file"
-                        onChange={handleImageChange}
-                        accept="image/*"
-                      />
-                    ) : (
-                      <img
-                        key={category._id}
-                        src={`/uploads/category/${category.categoryImage}`}
-                        alt={category.categoryName}
-                        className="max-h-20 max-w-20"
-                      />
-                    )}
-                  </td>
-                  <td className="py-2 px-2 border-b text-left">
-                    {editingCategory && editingCategory._id === category._id ? (
-                      <>
-                        <button
-                          className="bg-yellow-500 text-white px-2 py-1 rounded-lg hover:bg-yellow-600 transition-colors"
-                          onClick={handleEditSave}
-                        >
-                          Save
-                        </button>
-                        <button
-                          className="bg-gray-500 text-white px-2 py-1 ml-2 rounded-lg hover:bg-gray-600 transition-colors"
-                          onClick={handleCancelEdit}
-                        >
-                          Cancel
-                        </button>
-                      </>
-                    ) : (
-                      <>
-                        <button
-                          className="bg-yellow-500 text-white px-2 py-1 rounded-lg hover:bg-yellow-600 transition-colors"
-                          onClick={() => handleEditCategory(category._id)}
-                        >
-                          Edit
-                        </button>
-                        <button
-                          className="bg-red-500 text-white px-2 py-1 ml-2 rounded-lg hover:bg-red-600 transition-colors"
-                          onClick={() => handleDeleteCategory(category._id)}
-                        >
-                          Delete
-                        </button>
-                      </>
-                    )}
-                  </td>
+          {categories.length === 0 ? (
+            <p className="text-center text-gray-600">No categories found.</p>
+          ) : (
+            <table className="min-w-full bg-white border border-gray-300">
+              <thead>
+                <tr>
+                  <th className="py-2 px-2 border-b text-left">Category Name</th>
+                  <th className="py-2 px-2 border-b text-left">Category Images</th>
+                  <th className="py-2 px-2 border-b text-left">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {categories.map((category) => (
+                  <tr key={category._id}>
+                    <td className="py-2 px-2 border-b text-left">
+                      {editingCategory && editingCategory._id === category._id ? (
+                        <input
+                          type="text"
+                          value={editingCategory.categoryName}
+                          onChange={(e) =>
+                            setEditingCategory({
+                              ...editingCategory,
+                              categoryName: e.target.value,
+                            })
+                          }
+                          className="w-full px-2 py-1 border border-gray-300 rounded"
+                        />
+                      ) : (
+                        <span>{category.categoryName}</span>
+                      )}
+                    </td>
+                    <td className="py-2 px-2 border-b text-left">
+                      {editingCategory && editingCategory._id === category._id ? (
+                        <input
+                          type="file"
+                          onChange={handleImageChange}
+                          accept="image/*"
+                          className="w-full"
+                        />
+                      ) : (
+                        <img
+                          key={category._id}
+                          src={`/uploads/category/${category.categoryImage}`}
+                          alt={category.categoryName}
+                          className="max-h-24 max-w-24"
+                        />
+                      )}
+                    </td>
+                    <td className="py-2 px-2 border-b text-left">
+                      {editingCategory && editingCategory._id === category._id ? (
+                        <>
+                          <button
+                            className="bg-yellow-500 text-white px-2 py-1 rounded-lg hover:bg-yellow-600 transition-colors"
+                            onClick={handleEditSave}
+                          >
+                            Save
+                          </button>
+                          <button
+                            className="bg-gray-500 text-white px-2 py-1 ml-2 rounded-lg hover:bg-gray-600 transition-colors"
+                            onClick={handleCancelEdit}
+                         >
+                            Cancel
+                          </button>
+                        </>
+                      ) : (
+                        <>
+                          <button
+                            className="bg-yellow-500 text-white px-2 py-1 rounded-lg hover:bg-yellow-600 transition-colors"
+                            onClick={() => handleEditCategory(category._id)}
+                          >
+                            Edit
+                          </button>
+                          <button
+                            className="bg-red-500 text-white px-2 py-1 ml-2 rounded-lg hover:bg-red-600 transition-colors"
+                            onClick={() => handleDeleteCategory(category._id)}
+                          >
+                            Delete
+                          </button>
+                        </>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
     </>
