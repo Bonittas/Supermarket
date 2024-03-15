@@ -39,7 +39,7 @@ function Header({ handleMenuToggle, isMenuOpen }) {
     <header
       className={`sticky top-0 flex justify-between items-center h-24 z-20 px-14 ${
         scrollPos > 50
-          ? "bg-white shadow h-24"
+          ? "bg-green-50 shadow h-24"
           : "bg-gradient-to-r from-yellow-50 to-green-200"
       } ${
         scrollPos > 50
