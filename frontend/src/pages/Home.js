@@ -121,7 +121,7 @@ const Home = () => {
             <h2 className="text-2xl text-center font-bold ">Top category</h2>
 
             <div className="w-full p-4">
-              <div className="p-2 grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+              <div className="p-2 grid grid-cols-2 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                 {filteredcategory.map((category) => (
                   <div
                     key={category._id}
@@ -165,23 +165,24 @@ const Home = () => {
           <h2 className="text-2xl font-bold mb-4 text-center">
             Featured Products
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {featuredProducts.map((product) => (
-              <div key={product._id} classNames="w-full " timeout={300}>
-                <div className="p-4 rounded-lg overflow-hidden shadow-md transition-transform transform hover:scale-105 duration-300">
-                  <img
-                    src={`/uploads/${product.categoryName}/${product.image}`}
-                    alt={product.name}
-                    className="mb-2 h-32 rounded-lg object-cover"
-                  />
-                  <h3 className="text-lg font-bold">{product.name}</h3>
-                  <p className="text-gray-500">${product.price.toFixed(2)}</p>
-                  <Link
-                    to={`/products/${product._id}`}
-                    className="text-green-500 hover:underline block mt-2"
-                  >
-                    View Details
-                  </Link>
+              <div key={product._id} classNames="w-full" timeout={300}>
+                <div className="p-2 rounded-lg shadow-md transition-transform transform hover:scale-105 duration-300">
+                <img
+                      src={`/uploads/${product.categoryName}/${product.image}`}
+                      alt={product.name}
+                      className="mb-2 sm:h-16 md:h-36 lg:h-40 mx-auto rounded-lg cursor-pointer"
+                    />
+                  <div className="flex space-x-10 mb-2">
+                    <h3 className="text-lg font-bold">
+                      {product.name}
+                    </h3>
+                    <p className="text-gray-500">
+                      {product.price.toFixed(2)}{" "}
+                      <span className="font-bold">Birr</span>{" "}
+                    </p>
+                  </div>
                 </div>
               </div>
             ))}
