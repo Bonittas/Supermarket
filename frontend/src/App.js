@@ -10,7 +10,6 @@ import Sanitizers from "./pages/categories/Sanitzers";
 import Snacks from "./pages/categories/Snacks";
 import Meat from "./pages/categories/Meat and Seafoods";
 import Cart from "./pages/Cart";
-import Footer from "./components/Footer";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Login from "./pages/SignIn";
@@ -21,7 +20,6 @@ import ProductListByCategory from "./pages/admin/ProductListByCategory";
 import FruitDetail from "./pages/admin/productDetail";
 import { categories } from "./pages/categories/Category";
 import Fruit from "./pages/categories/Fruit";
-import ViewOrders from "./pages/admin/ViewOrders";
 import Feedbacks from "./pages/admin/Feedback";
 const App = () => {
   const [cartItems, setCartItems] = useState([]);
@@ -147,9 +145,6 @@ const App = () => {
             />
           ))}
         </Routes>
-
-        {/* Optional: Render the cart component globally */}
-        <Cart cartItems={cartItems} onDeleteItem={handleDeleteItem} />
       </div>
     </Router>
   );
