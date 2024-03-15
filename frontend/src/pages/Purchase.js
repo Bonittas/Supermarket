@@ -151,24 +151,12 @@ const PurchasePage = ({ cartItems, setCartItems, onDeleteItem }) => {
   return (
     <>
       <Header />
-      <div className="justify-center container text-center flex items-center my-12 rounded-md">
+      <div className="justify-center relative left-48 top-4 container text-center flex items-center my-12 rounded-md">
         <div className="px-16 p-4 border-1 border bg-green-100 border-gray-300 shadow-lg rounded-md">
           <div>
-            <h1 className="text-2xl font-bold mb-4">Purchase Page</h1>
             <h2 className="text-xl font-bold mb-4">Purchase Form</h2>
             <form onSubmit={handlePurchaseSubmit}>
-              <div className="mb-4">
-                <label htmlFor="quantity" className="block font-bold">
-                  Quantity:
-                </label>
-                <input
-                  type="number"
-                  id="quantity"
-                  value={quantity}
-                  onChange={handleQuantityChange}
-                  className="border border-gray-300 rounded p-2"
-                />
-              </div>
+
               <div className="mb-4">
                 <label htmlFor="email" className="block font-bold">
                   Email Address:
@@ -191,6 +179,18 @@ const PurchasePage = ({ cartItems, setCartItems, onDeleteItem }) => {
                   onChange={handleAddressChange}
                   className="border border-gray-300 rounded p-2"
                 ></textarea>
+              </div>
+              <div className="mb-4">
+                <label htmlFor="quantity" className="block font-bold">
+                  Quantity:
+                </label>
+                <input
+                  type="number"
+                  id="quantity"
+                  value={quantity}
+                  onChange={handleQuantityChange}
+                  className="border border-gray-300 rounded p-2"
+                />
               </div>
               <div className="mb-4">
                 <label htmlFor="deliveryDate" className="block font-bold">
@@ -227,8 +227,12 @@ const PurchasePage = ({ cartItems, setCartItems, onDeleteItem }) => {
                   className="border border-gray-300 rounded p-2"
                 >
                   <option value="">Select a payment method</option>
-                  <option value="creditCard">Credit Card</option>
-                  <option value="paypal">PayPal</option>
+                  <option value="creditCard">CBE Mobile Banking</option>
+
+                  <option value="creditCard">CBE BIRR</option>
+                  <option value="paypal">TeleBirr</option>
+                  <option value="paypalTeleBirr">Paypal</option>
+
                 </select>
               </div>
               <div className="mb-4">
@@ -274,7 +278,7 @@ const PurchasePage = ({ cartItems, setCartItems, onDeleteItem }) => {
             </form>
           </div>
         </div>
-        <div className='absolute bg-green-100 border p-10 top-36 left-10'>
+        <div className='absolute bg-green-100 border p-10 top-1 left-10'>
           {cartItems && cartItems.length > 0 && (
             <div>
               <h3 className="text-lg font-bold mb-2">Cart Items</h3>

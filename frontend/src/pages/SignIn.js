@@ -50,7 +50,7 @@ function SignIn() {
 
         <Header2 />
         <div className="flex justify-center items-center mx-2  ">
-          <div className="w-full max-w-md mx-2 p-8 py-10 bg-white  shadow-lg rounded-lg absolute top-32 ">
+          <div className="w-full max-w-md mx-2 p-8 py-10 bg-green-200  shadow-lg rounded-lg absolute top-32 ">
             <h2 className="text-2xl font-bold mb-3 text-center text-black">
               Sign In
             </h2>

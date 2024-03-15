@@ -101,7 +101,7 @@ const ViewOrders = () => {
 
   return (
     <>
-       <div className="bg-green-50 h-auto px-4 pb-6 pt-2 border rounded-lg shadow-lg mx-auto my-2">
+       <div className="bg-green-50 h-auto px-4 w-full pb-6 pt-2 rounded-lg   my-2">
         <h2 className="text-3xl font-bold mb-8 text-center">View Orders</h2>
         {orders.length > 0 ? (
           <table className="min-w-full bg-white border border-gray-300">
@@ -119,9 +119,9 @@ const ViewOrders = () => {
                     <th className="px-4 py-2">Items Image</th>
                     <th className="px-4 py-2">Items </th>
                     <th className="px-4 py-2"> Items Price</th>
-                </th>
-                <th className="py-2 px-2 border-b text-center">Actions</th>
-              </tr>
+                 </th>
+                {/* <th className="py-2 px-2 border-b text-center">Actions</th> */}
+              </tr> 
             </thead>
             <tbody>
               {orders &&
@@ -144,17 +144,17 @@ const ViewOrders = () => {
                             <img
                               src={`/uploads/${item.categoryName}/${item.image}`}
                               alt={item.name}
-                              className="w-8 h-8 object-cover"
+                              className="w-10 h-8 object-cover"
                             />
                           </td>
                           <td className=" py-2 px-2 border-r text-left">{item.name}</td>
-                          <td className="py-2 px-2 border-r text-left">
+                          <td className="py-2 px-2  text-right">
                               <p>Price</p>${item.price.toFixed(2)}
                           </td>
                         </div>
                       ))}
-                    </td>
-                    <td className="border px-4 py-2">
+                    </td> 
+                    {/* <td className="border px-4 py-2">
                       <div className="flex">
                         {editingOrder === order._id ? (
                           <>
@@ -188,7 +188,7 @@ const ViewOrders = () => {
                           Delete
                         </button>
                       </div>
-                    </td>
+                    </td> */}
                   </tr>
                 ))}
             </tbody>

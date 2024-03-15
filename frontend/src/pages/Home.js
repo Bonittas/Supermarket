@@ -47,9 +47,9 @@ const Home = () => {
     );
   });
 
-  // const featuredProductsHeight = {
-  //   height: `${Math.ceil(featuredProducts.length / 4) * 400}px`, // Assuming 4 products per row and 320px height per product card
-  // };
+  const featuredProductsHeight = {
+    height: `${Math.ceil(featuredProducts.length / 4) * 400}px`, // Assuming 4 products per row and 320px height per product card
+  };
 
   return (
     <>
@@ -59,7 +59,7 @@ const Home = () => {
         className="h-screen bg-gradient-to-r from-yellow-50 to-green-200"
       >
         {/*search bar starts  */}
-        <div className="fixed top-4 left-48 lg:w-1/2 md:w-1/4 sm:w-1/4 z-20 my-2">
+        <div className="fixed top-4 left-48 lg:w-1/3 md:w-1/4 sm:w-1/4 z-20 my-2">
           <Search onSearch={handleSearch} />
         </div>
         {/*search bar ends  */}

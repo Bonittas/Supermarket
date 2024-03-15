@@ -21,6 +21,7 @@ import FruitDetail from "./pages/admin/productDetail";
 import { categories } from "./pages/categories/Category";
 import Fruit from "./pages/categories/Fruit";
 import Feedbacks from "./pages/admin/Feedback";
+import Services from "./pages/Ourservice";
 const App = () => {
   const [cartItems, setCartItems] = useState([]);
   const [products, setProducts] = useState([]);
@@ -76,6 +77,7 @@ const App = () => {
           <Route path="/admin" element={<Admin />} />
 
           <Route path="/feedback" element={<Feedbacks />} />
+          <Route path="/services" element={<Services />} />
 
           {/* Specific routes for each category */}
           <Route
@@ -145,6 +147,9 @@ const App = () => {
             />
           ))}
         </Routes>
+
+        {/* Optional: Render the cart component globally */}
+        {/* <Cart cartItems={cartItems} onDeleteItem={handleDeleteItem} /> */}
       </div>
     </Router>
   );
