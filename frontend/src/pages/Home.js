@@ -117,7 +117,6 @@ const Home = () => {
             </ul>
           </div> */}
 
-          <div className="w-full mx-auto md:w-3/4 bg-gray-50">
           <div className="w-full mx-auto md:w-3/4">
             <h2 className="text-2xl text-center font-bold ">Top category</h2>
 
@@ -160,7 +159,6 @@ const Home = () => {
 
       <section
         id="featuredProduct"
-        className="border border-t shadow-sm py-2 px-6 "
         className="border shadow-lg py-2 px-6"
       >
         <div className="container mx-auto py-6">
@@ -177,19 +175,20 @@ const Home = () => {
                     className="mb-2 h-32 rounded-lg object-cover"
                   />
                   <h3 className="text-lg font-bold">{product.name}</h3>
-                  <p className="text-gray-500">{product.price.toFixed(2)} Birr</p>
-                  {/* <Link
-                    to={`${product.categoryName}/${product.image}/${product._id}`}
+                  <p className="text-gray-500">${product.price.toFixed(2)}</p>
+                  <Link
+                    to={`/products/${product._id}`}
                     className="text-green-500 hover:underline block mt-2"
                   >
                     View Details
-                  </Link> */}
+                  </Link>
                 </div>
               </div>
             ))}
           </div>
         </div>
-      </section>    <Footer />
+      </section>
+      <Footer />
     </>
   );
 };
