@@ -8,7 +8,7 @@ import {
 import Header from "../components/Header3";
 import Footer from "../components/Footer";
 
-import img from "../img/items/contact2.avif";
+import img from "../img/items/OurMission.png";
 
 function Contact() {
   const [name, setName] = useState("");
@@ -60,7 +60,7 @@ function Contact() {
           </div>
           <div className="md:w-1/2 md:order-1 md:px-8 py-8">
             <div className="bg-white shadow-lg rounded-lg p-8">
-              <h2 className="text-3xl font-bold mb-6 font-cursive text-center">
+              <h2 className="text-3xl text-yellow-600 font-bold mb-6 font-cursive text-center">
                 Contact Us
               </h2>
               <form
@@ -124,7 +124,7 @@ function Contact() {
                   ></textarea>
                 </div>
                 <button
-                  className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  className="bg-yellow-600 hover:bg-green-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                   type="submit"
                 >
                   Send Message

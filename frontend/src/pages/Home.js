@@ -7,7 +7,7 @@ import "../styles/animation.css";
 import { categories } from "./categories/Category";
 import Search from "./SearchBar";
 import Footer from "../components/Footer";
-import bg from "../img/bg/fru.jpg";
+import bg from "../img/bg/category.jpg";
 
 const Home = () => {
   const [category, setcategory] = useState([]);
@@ -104,14 +104,13 @@ const Home = () => {
       <section id="Categories" className="container bg-white py-2">
   <div
    className="bg-image"
-   style={{
-     backgroundImage: `url(${bg})`,
-     backgroundSize: 'contain',
-     backgroundPosition: 'cover',
-     backgroundRepeat: 'no-repeat',
-     w:"full"
+  //  style={{
+  //    backgroundImage: `url(${myImage})`,
+  //    backgroundSize: 'contain',
+  //    backgroundPosition: 'center',
+  //    backgroundRepeat: 'no-repeat',
   
-    }}
+  //   }}
   >
     <div className="flex flex-col md:flex-row space-y-0 md:space-y-0">
       <div className="w-full mx-auto md:w-3/4">
@@ -163,7 +162,7 @@ const Home = () => {
           <h2 className="text-2xl font-bold mb-4 text-center">
             Featured Products
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 mx-8 lg:grid-cols-4 gap-4">
             {featuredProducts.map((product) => (
               <div key={product._id} classNames="w-full " timeout={300}>
                 <div className="p-4 rounded-lg overflow-hidden shadow-md transition-transform transform hover:scale-105 duration-300">

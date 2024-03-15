@@ -9,13 +9,13 @@ const About = () => {
     <>
       <Header />
       <div className="container mx-auto p-4">
-        <h1 className="text-3xl font-bold mb-6 text-gray-800 text-center">About Us</h1>
+        <h1 className="text-3xl font-bold font-cursive mb-6 text-yellow-600 text-center">About Us</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="mb-4 md:mb-0">
             <img src={myimg} alt="About Us" className="rounded-lg w-full shadow-md p-4" />
           </div>
           <div className="border rounded-md shadow-lg p-4">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-800 text-center">
+            <h2 className="text-2xl font-semibold mb-4 text-yellow-600 text-center">
               Our Story
             </h2>
             <p className="text-gray-600">
@@ -44,7 +44,7 @@ const About = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
           <div className="border rounded-lg shadow-md p-4">
-            <h2 className="text-2xl font-semibold mb-4 text-gray-800 text-center">
+            <h2 className="text-2xl font-semibold mb-4 text-yellow-500 text-center">
               Our Mission
             </h2>
             <p className="text-gray-600">

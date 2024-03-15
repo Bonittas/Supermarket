@@ -47,7 +47,7 @@ const OurServicesPage = () => {
     <>
    <Header/>
     <div className="container mx-auto py-12">
-      <h1 className="text-4xl md:text-4xl font-bold text-green-500 font-cursive mb-8 text-center">Discover Our Services</h1>
+      <h1 className="text-4xl md:text-4xl font-bold text-yellow-600 font-cursive mb-8 text-center">Discover Our Services</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {services.map((service, index) => (
           <div key={index} className="bg-green-50 rounded-lg shadow p-8">
@@ -55,7 +55,7 @@ const OurServicesPage = () => {
               className="flex items-center justify-center h-16 w-16 rounded-full mb-6"
               style={{ background: service.bgColor }}
             >
-              <FontAwesomeIcon icon={service.icon} className="h-8 w-8 text-green-500" />
+              <FontAwesomeIcon icon={service.icon} className="h-8 w-8 text-yellow-600" />
             </div>
             <h2 className="text-2xl md:text-3xl font-semibold mb-4">{service.title}</h2>
             <p className="text-gray-700">{service.description}</p>
