@@ -99,7 +99,7 @@ const Home = () => {
         </div>
       </section>
 
-      <section id="Categories" className="container bg-green-50 max-h-screen py-2">
+      <section id="Categories" className="container bg-white py-2">
         <div className="flex flex-col md:flex-row space-y-0 md:space-y-0">
           
           {/* <div className="px-4 shadow-lg md:w-1/5 max-h-screen">
@@ -118,6 +118,7 @@ const Home = () => {
           </div> */}
 
           <div className="w-full mx-auto md:w-3/4 bg-gray-50">
+          <div className="w-full mx-auto md:w-3/4">
             <h2 className="text-2xl text-center font-bold ">Top category</h2>
 
             <div className="w-full p-4">
@@ -160,6 +161,7 @@ const Home = () => {
       <section
         id="featuredProduct"
         className="border border-t shadow-sm py-2 px-6 "
+        className="border shadow-lg py-2 px-6"
       >
         <div className="container mx-auto py-6">
           <h2 className="text-2xl font-bold mb-4 text-center">
