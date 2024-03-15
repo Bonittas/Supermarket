@@ -7,7 +7,7 @@ import Cart from "../Cart";
 import { categories } from "./Category";
 import Footer from "../../components/Footer";
 
-const Sanitizers = ({ cartItems, setCartItems }) => {
+const Fruit = ({ cartItems, setCartItems }) => {
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -99,7 +99,7 @@ const Sanitizers = ({ cartItems, setCartItems }) => {
       </div>
       <section
         id="Categories"
-        className="container mx-auto md:px-10 bg-white h-screen"
+        className="container mx-auto md:px-10 bg-white"
       >
         <div className="flex flex-col md:flex-row">
           <div className="shadow-lg p-4 md:w-1/5 md:h-screen order-1 md:order-2">
@@ -118,20 +118,18 @@ const Sanitizers = ({ cartItems, setCartItems }) => {
           </div>
 
           <div className="w-full md:w-4/5 py-4 pl-6 order-1 md:order-2">
-            <h2 className="text-2xl font-bold mb-4">Sanitizer Products</h2>
+            <h2 className="text-2xl font-bold mb-4">Sanitizers Products</h2>
             <div className={`grid grid-cols-2 md:grid-cols-4 lg:grid-cols-${isSmallScreen ? '2' : '4'}  gap-4`}>
               {currentProducts.map((product) => (
                  <div
                  key={product._id}
                  className={`border p-2 rounded-lg hover:shadow-lg transition-shadow text-center`}
                >
-                  <Link to={`/fruits/${product.id}`}>
                     <img
                       src={`/uploads/${product.categoryName}/${product.image}`}
                       alt={product.name}
                       className={`mb-2 ${isSmallScreen? 'h-16': 'md:h-36 lg:h-40'} mx-auto rounded-lg cursor-pointer`}
                     />
-                  </Link>
                   <div className="flex space-x-12 mx-auto mb-2">
                     <h3 className="text-lg font-bold">
                       {product.name}
@@ -185,4 +183,4 @@ const Sanitizers = ({ cartItems, setCartItems }) => {
   );
 };
 
-export default Sanitizers;
+export default Fruit;
