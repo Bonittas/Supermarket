@@ -22,6 +22,8 @@ import { categories } from "./pages/categories/Category";
 import Fruit from "./pages/categories/Fruit";
 import Feedbacks from "./pages/admin/Feedback";
 import Services from "./pages/Ourservice";
+import NotFound from "./pages/404Page"; // Import the NotFound component
+
 const App = () => {
   const [cartItems, setCartItems] = useState([]);
   const [products, setProducts] = useState([]);
@@ -38,6 +40,7 @@ const App = () => {
 
     fetchProducts();
   }, []);
+
   const handleDeleteItem = (itemId) => {
     const updatedCartItems = cartItems.filter((item) => item.id !== itemId);
     setCartItems(updatedCartItems);
@@ -62,31 +65,15 @@ const App = () => {
               />
             }
           />
-
-          {/* Dynamic routes for product categories */}
-          <Route
-            path="/:categoryName"
-            element={
-              <ProductListByCategory
-                cartItems={cartItems}
-                setCartItems={setCartItems}
-              />
-            }
-          />
-
           <Route path="/admin" element={<Admin />} />
-
           <Route path="/feedback" element={<Feedbacks />} />
           <Route path="/services" element={<Services />} />
-
-          {/* Specific routes for each category */}
           <Route
             path="/fruits"
             element={
               <FruitsPage cartItems={cartItems} setCartItems={setCartItems} />
             }
           />
-
           <Route
             path="/vegetables"
             element={
@@ -121,16 +108,13 @@ const App = () => {
             }
           />
           <Route
-            path="/:categoryName"
-            element={<ProductListByCategory products={products} />}
+            path="/fruits/:fruitId"
+            element={<FruitDetail />}
           />
-          <Route path="/fruits/:fruitId" element={<FruitDetail />} />
           <Route
             path="/meat"
             element={<Meat cartItems={cartItems} setCartItems={setCartItems} />}
           />
-
-          {/* Cart route */}
           <Route
             path="/cart"
             element={
@@ -146,10 +130,10 @@ const App = () => {
               }
             />
           ))}
-        </Routes>
 
-        {/* Optional: Render the cart component globally */}
-        {/* <Cart cartItems={cartItems} onDeleteItem={handleDeleteItem} /> */}
+          {/* Route for handling 404 Not Found */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </div>
     </Router>
   );

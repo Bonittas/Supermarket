@@ -7,7 +7,6 @@ import "../styles/animation.css";
 import { categories } from "./categories/Category";
 import Search from "./SearchBar";
 import Footer from "../components/Footer";
-import bg from "../img/bg/category.jpg";
 
 const Home = () => {
   const [category, setcategory] = useState([]);
@@ -55,7 +54,6 @@ const Home = () => {
   return (
     <>
       <Header />
-
       <section
         id="hero"
         className="h-screen bg-gradient-to-r from-yellow-50 to-green-200"
@@ -102,57 +100,62 @@ const Home = () => {
       </section>
 
       <section id="Categories" className="container bg-white py-2">
-  <div
-   className="bg-image"
-  //  style={{
-  //    backgroundImage: `url(${myImage})`,
-  //    backgroundSize: 'contain',
-  //    backgroundPosition: 'center',
-  //    backgroundRepeat: 'no-repeat',
-  
-  //   }}
-  >
-    <div className="flex flex-col md:flex-row space-y-0 md:space-y-0">
-      <div className="w-full mx-auto md:w-3/4">
-        <h2 className="text-2xl text-center font-bold ">Top category</h2>
+        <div className="flex flex-col md:flex-row space-y-0 md:space-y-0">
+          
+          {/* <div className="px-4 shadow-lg md:w-1/5 max-h-screen">
+            <h2 className="text-3xl font-bold mb-4">Categories</h2>
+            <ul className="flex flex-wrap justify-center md:flex-col">
+              {categories &&
+                categories.map((category, index) => (
+                  <li
+                    key={index}
+                    className="cursor-pointer p-4 font-cursive font-semibold text-lg hover:bg-green-200 transition-colors"
+                  >
+                    <Link to={`/${category.name}`}>{category.name}</Link>
+                  </li>
+                ))}
+            </ul>
+          </div> */}
 
-        <div className="w-full p-4">
-          <div className="p-2 grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
-            {filteredcategory.map((category) => (
-              <div
-                key={category._id}
-                className="relative overflow-hidden rounded-full m-2 shadow-lg transition-transform transform hover:scale-105 duration-300"
-                style={{
-                  width: "200px",
-                  height: "200px",
-                }}
-              >
-                <div className="aspect-w-1 aspect-h-1 m-4">
-                  <div className="rounded-full overflow-hidden">
-                    <Link to={`/${category.categoryName}`}>
-                      <img
-                        src={`/uploads/category/${category.categoryImage}`}
-                        alt={category.categoryName}
-                        className="object-cover w-full h-full"
-                      />
-                    </Link>
+          <div className="w-full mx-auto md:w-3/4">
+            <h2 className="text-2xl text-center font-bold ">Top category</h2>
+
+            <div className="w-full p-4">
+              <div className="p-2 grid grid-cols-2 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+                {filteredcategory.map((category) => (
+                  <div
+                    key={category._id}
+                    className="relative overflow-hidden rounded-full m-2 shadow-lg transition-transform transform hover:scale-105 duration-300"
+                    style={{
+                      width: "200px",
+                      height: "200px",
+                    }}
+                  >
+                    <div className="aspect-w-1 aspect-h-1 m-4">
+                      <div className="rounded-full overflow-hidden">
+                        <Link to={`/${category.categoryName}`}>
+                          <img
+                            src={`/uploads/category/${category.categoryImage}`}
+                            alt={category.categoryName}
+                            className="object-cover w-full h-full"
+                          />
+                        </Link>
+                      </div>
+                    </div>
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-green-700 to-transparent p-4">
+                      <Link to={`/${category.categoryName}`}>
+                        <p className="text-white text-center text-lg font-semibold">
+                          {category.categoryName}
+                        </p>
+                      </Link>
+                    </div>
                   </div>
-                </div>
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-green-700 to-transparent p-4">
-                  <Link to={`/${category.categoryName}`}>
-                    <p className="text-white text-center text-lg font-semibold">
-                      {category.categoryName}
-                    </p>
-                  </Link>
-                </div>
+                ))}
               </div>
-            ))}
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
+      </section>
 
       <section
         id="featuredProduct"
@@ -162,18 +165,24 @@ const Home = () => {
           <h2 className="text-2xl font-bold mb-4 text-center">
             Featured Products
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 mx-8 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {featuredProducts.map((product) => (
-              <div key={product._id} classNames="w-full " timeout={300}>
-                <div className="p-4 rounded-lg overflow-hidden shadow-md transition-transform transform hover:scale-105 duration-300">
-                  <img
-                    src={`/uploads/${product.categoryName}/${product.image}`}
-                    alt={product.name}
-                    className="mb-2 h-32 rounded-lg object-cover"
-                  />
-                  <h3 className="text-lg font-bold">{product.name}</h3>
-                  <p className="text-gray-500">{product.price.toFixed(2)}Birr</p>
-             
+              <div key={product._id} classNames="w-full" timeout={300}>
+                <div className="p-2 rounded-lg shadow-md transition-transform transform hover:scale-105 duration-300">
+                <img
+                      src={`/uploads/${product.categoryName}/${product.image}`}
+                      alt={product.name}
+                      className="mb-2 sm:h-16 md:h-36 lg:h-40 mx-auto rounded-lg cursor-pointer"
+                    />
+                  <div className="flex space-x-10 mb-2">
+                    <h3 className="text-lg font-bold">
+                      {product.name}
+                    </h3>
+                    <p className="text-gray-500">
+                      {product.price.toFixed(2)}{" "}
+                      <span className="font-bold">Birr</span>{" "}
+                    </p>
+                  </div>
                 </div>
               </div>
             ))}
