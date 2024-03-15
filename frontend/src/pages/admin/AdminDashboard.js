@@ -7,22 +7,22 @@ import ViewOrders from "./ViewOrders";
 import Feedback from "./Feedback";
 import { useNavigate } from "react-router-dom";
 import {
+  Box,
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+} from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import {
   FaProductHunt,
   FaPlus,
   FaList,
   FaBoxOpen,
   FaRegComment,
 } from "react-icons/fa";
-import {
-  Box,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  IconButton,
-  List,
-  Drawer,
-} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
 
 const DrawerComponent = ({ onSelectSection }) => {
   const [open, setOpen] = useState(false);
@@ -40,42 +40,69 @@ const DrawerComponent = ({ onSelectSection }) => {
       <IconButton onClick={handleDrawerOpen}>
         <MenuIcon />
       </IconButton>
-      <Drawer variant="persistent" anchor="left" open={open}>
-        <IconButton onClick={handleDrawerClose}>
-          <MenuIcon />
-        </IconButton>
+      <Drawer
+        variant="temporary"
+        anchor="left"
+        open={open}
+        onClose={handleDrawerClose}
+        // ModalProps={{ keepMounted: true }}
+      >
         <List>
-          <ListItem button onClick={() => onSelectSection("productList")}>
+          <ListItem
+            ListItemButton
+            onClick={() => onSelectSection("productList")}
+            className="cursor-pointer"
+          >
             <ListItemIcon>
               <FaProductHunt />
             </ListItemIcon>
             <ListItemText primary="Product List" />
           </ListItem>
-          <ListItem button onClick={() => onSelectSection("createProduct")}>
+          <ListItem
+            ListItemButton
+            onClick={() => onSelectSection("createProduct")}
+            className="cursor-pointer"
+          >
             <ListItemIcon>
               <FaPlus />
             </ListItemIcon>
             <ListItemText primary="Create Product" />
           </ListItem>
-          <ListItem button onClick={() => onSelectSection("categoryList")}>
+          <ListItem
+            ListItemButton
+            onClick={() => onSelectSection("categoryList")}
+            className="cursor-pointer"
+          >
             <ListItemIcon>
               <FaList />
             </ListItemIcon>
             <ListItemText primary="Category List" />
           </ListItem>
-          <ListItem button onClick={() => onSelectSection("createCategory")}>
+          <ListItem
+            ListItemButton
+            onClick={() => onSelectSection("createCategory")}
+            className="cursor-pointer"
+          >
             <ListItemIcon>
               <FaPlus />
             </ListItemIcon>
             <ListItemText primary="Create Category" />
           </ListItem>
-          <ListItem button onClick={() => onSelectSection("ViewOrders")}>
+          <ListItem
+            ListItemButton
+            onClick={() => onSelectSection("ViewOrders")}
+            className="cursor-pointer"
+          >
             <ListItemIcon>
               <FaBoxOpen />
             </ListItemIcon>
             <ListItemText primary="View Orders" />
           </ListItem>
-          <ListItem button onClick={() => onSelectSection("Feedback")}>
+          <ListItem
+            ListItemButton
+            onClick={() => onSelectSection("Feedback")}
+            className="cursor-pointer"
+          >
             <ListItemIcon>
               <FaRegComment />
             </ListItemIcon>
@@ -124,22 +151,21 @@ const Admin = () => {
       default:
         return <ProductList />;
     }
-  };  
+  };
 
   return (
     <>
-        <div className="bg-green-50 h-screen px-4 py-2 w-full">
+      <div className="bg-green-50 h-auto px-4 py-2 w-full">
         <DrawerComponent onSelectSection={handleSelectSection} />
-          <h2 className="text-3xl font-bold mx-4 my-2">Admin Dashboard</h2>
-          
-          <button
-            onClick={handleLogout}
-            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mx-4 absolute top-10 right-10"
-          >
-            Logout
-          </button>
-          <div className="mx-4 my-2">{renderAdminSection()}</div>
-        </div>
+        <h2 className="text-3xl font-bold mx-4 my-2">Admin Dashboard</h2>
+        <button
+          onClick={handleLogout}
+          className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mx-4 absolute top-10 right-10"
+        >
+          Logout
+        </button>
+        <div className="mx-4 my-2 h-auto">{renderAdminSection()}</div>
+      </div>
     </>
   );
 };

@@ -33,7 +33,7 @@ const Cart = ({ cartItems, onDeleteItem }) => {
   return (
     <div className="">
       <button
-        className="fixed z-30 top-8 right-3 bg-green-50 text-green-600 px-2 py-2 rounded-full"
+        className="fixed z-30 top-6 right-3 text-green-600 px-2 py-2 rounded-full"
         onClick={toggleCart}
       >
         <p className="text-sm text-center text-green-600 font-cursive">
@@ -70,7 +70,7 @@ const Cart = ({ cartItems, onDeleteItem }) => {
     </div>
     <span>
       {item.name}{' '}
-      {item.quantity > 1 && (
+      {item.quantity > 0 && (
         <span className="text-gray-500 ml-2">
           ({item.quantity})
         </span>

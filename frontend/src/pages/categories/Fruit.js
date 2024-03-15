@@ -10,6 +10,8 @@ import Footer from "../../components/Footer";
 const Fruit = ({ cartItems, setCartItems }) => {
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  // const [itemsPerPage, setItemsPerPage] = useState(8);
 
   useEffect(() => {
     fetchFruitProducts();
@@ -60,6 +62,10 @@ const Fruit = ({ cartItems, setCartItems }) => {
     setSearchQuery(query);
   };
 
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   if (!products) {
     return <p>Loading...</p>;
   }
@@ -68,17 +74,37 @@ const Fruit = ({ cartItems, setCartItems }) => {
     product.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+   // Adjust items per page for small screens
+   const isSmallScreen = window.innerWidth < 768; 
+   const itemsPerPageForScreen = isSmallScreen ? 4 : 8;
+  // Get current posts
+  const indexOfLastProduct = currentPage * itemsPerPageForScreen;
+  const indexOfFirstProduct = indexOfLastProduct - itemsPerPageForScreen;
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+
+   // Create page numbers
+   const pageNumbers = [];
+   for (let i = 1; i <= Math.ceil(filteredProducts.length / itemsPerPageForScreen); i++) {
+     pageNumbers.push(i);
+   }
+    
   return (
     <>
       <Header />
       <div className="fixed top-4 left-48 lg:w-1/3 md:w-1/4 sm:w-1/4 z-20 my-2">
         <Search onSearch={handleSearch} />
       </div>
-      <section id="Categories" className="container mx-auto md:px-10 bg-white h-screen">
-        <div className="flex mx-auto h-screen">
-          <div className="shadow-lg p-4 md:w-1/5 md:h-screen">
-            <h2 className="text-3xl font-bold mb-4">Categories</h2>
-            <ul className="space-y-2">
+      <section
+        id="Categories"
+        className="container mx-auto md:px-10 bg-white h-screen"
+      >
+        <div className="flex flex-col md:flex-row">
+          <div className="shadow-lg p-4 md:w-1/5 md:h-screen order-1 md:order-2">
+            <h2 className="text-3xl font-bold mb-4 text-center">Categories</h2>
+            <ul className="flex flex-wrap md:flex-col md:space-x-2">
               {categories &&
                 categories.map((category, index) => (
                   <li
@@ -91,35 +117,41 @@ const Fruit = ({ cartItems, setCartItems }) => {
             </ul>
           </div>
 
-          <div className="w-3/4 p-4">
+          <div className="w-full md:w-4/5 py-4 pl-6 order-1 md:order-2">
             <h2 className="text-2xl font-bold mb-4">Fruit Products</h2>
-            <div className="grid grid-cols-3 gap-4 h-3/4z">
-              {filteredProducts.map((product) => (
-                <div
-                  key={product._id}
-                  className="border p-4 rounded-lg hover:shadow-lg transition-shadow"
-                >
+            <div className={`grid grid-cols-2 md:grid-cols-4 lg:grid-cols-${isSmallScreen ? '2' : '4'}  gap-4`}>
+              {currentProducts.map((product) => (
+                 <div
+                 key={product._id}
+                 className={`border p-2 rounded-lg hover:shadow-lg transition-shadow text-center`}
+               >
                   <Link to={`/fruits/${product.id}`}>
                     <img
                       src={`/uploads/${product.categoryName}/${product.image}`}
                       alt={product.name}
-                      className="mb-2 h-56 rounded-lg cursor-pointer"
+                      className={`mb-2 ${isSmallScreen? 'h-16': 'md:h-36 lg:h-40'} mx-auto rounded-lg cursor-pointer`}
                     />
                   </Link>
-                  <h3 className="text-lg font-bold">
-                    {product.name}
-                    {cartItems.some((item) => item.id === product.id) && (
-                      <span className="text-gray-500 ml-2">
-                        (
-                        {
-                          cartItems.find((item) => item.id === product.id)
-                            .quantity
-                        }
-                        )
-                      </span>
-                    )}
-                  </h3>
-                  <p className="text-gray-500">${product.price.toFixed(2)}</p>
+                  <div className="flex space-x-12 mx-auto mb-2">
+                    <h3 className="text-lg font-bold">
+                      {product.name}
+                      {cartItems.some((item) => item.id === product.id) && (
+                        <span className="text-gray-500 ml-2">
+                          (
+                          {
+                            cartItems.find((item) => item.id === product.id)
+                              .quantity
+                          }
+                          )
+                        </span>
+                      )}
+                    </h3>
+                    <p className="text-gray-500">
+                      {product.price.toFixed(2)}{" "}
+                      <span className="font-bold">Birr</span>{" "}
+                    </p>
+                  </div>
+
                   <button
                     className="bg-green-500 text-white px-4 py-2 mt-2 rounded-lg hover:bg-green-600 transition-colors"
                     onClick={() => handleAddToCart(product)}
@@ -127,6 +159,21 @@ const Fruit = ({ cartItems, setCartItems }) => {
                     Buy
                   </button>
                 </div>
+              ))}
+            </div>
+            <div className="pagination space-x-2 flex justify-center my-4 py-4">
+              {pageNumbers.map((number) => (
+                <button
+                  key={number}
+                  className={`${
+                    currentPage === number
+                      ? "bg-green-500 text-white"
+                      : "bg-white text-green-500"
+                  } px-4 py-2 border rounded-lg focus:outline-none`}
+                  onClick={() => handlePageChange(number)}
+                >
+                  {number}
+                </button>
               ))}
             </div>
           </div>
