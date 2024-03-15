@@ -55,10 +55,8 @@ function Contact() {
       <Header />
       <div className="container mx-auto my-8">
         <div className="md:flex mx-auto md:flex-row-reverse">
-          <div className="md:w-1/2 md:order-2 relative">
-            <img className="w-full h-auto" src={img} alt="Contact Image" />
-          </div>
-          <div className="md:w-1/2 md:order-1 md:px-8 py-8">
+        
+          <div className="md:w-1/2 md:order-2 md:px-8 py-8">
             <div className="bg-white shadow-lg rounded-lg p-8">
               <h2 className="text-3xl text-yellow-600 font-bold mb-6 font-cursive text-center">
                 Contact Us
@@ -132,7 +130,11 @@ function Contact() {
               </form>
             </div>
           </div>
+          <div className="md:w-1/2 md:order-1 relative">
+            <img className="w-full h-auto" src={img} alt="Contact Image" />
+          </div>
         </div>
+       
       </div>
       <Footer />
     </>

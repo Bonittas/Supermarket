@@ -42,24 +42,7 @@ const About = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-          <div className="border rounded-lg shadow-md p-4">
-            <h2 className="text-2xl font-semibold mb-4 text-yellow-500 text-center">
-              Our Mission
-            </h2>
-            <p className="text-gray-600">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
-            </p>
-       
-          </div>
-
-          <div className="relative">
-            <img src={myimg2} alt="About Us" className="rounded-lg w-full" />
-          </div>
-        </div>
+        
       </div>
        <Footer/>
     </>
