@@ -151,7 +151,7 @@ const Fruit = ({ cartItems, setCartItems }) => {
                   </div>
 
                   <button
-                    className="bg-green-500 text-white px-4 py-2 mt-2 rounded-lg hover:bg-green-600 transition-colors"
+                    className="bg-yellow-600 text-white px-4  py-2 mt-2 rounded-lg hover:bg-green-600 transition-colors"
                     onClick={() => handleAddToCart(product)}
                   >
                     Buy
