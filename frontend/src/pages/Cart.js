@@ -9,27 +9,17 @@ const Cart = ({ cartItems, onDeleteItem }) => {
   const toggleCart = () => {
     setIsOpen(!isOpen);
   };
+
   const handleDeleteItem = (itemId) => {
     onDeleteItem(itemId);
   };
 
-  const groupedItems = cartItems.reduce((grouped, item) => {
-    const uniqueItemId = `${item.id}-${item.categoryName}`;
-    if (!grouped[uniqueItemId]) {
-      grouped[uniqueItemId] = { ...item, quantity: 1 };
-    } else {
-      grouped[uniqueItemId].quantity++;
-    }
-    return grouped;
-  }, {});
-
+  // Calculate total items in the cart
   const totalItems = cartItems.length;
 
-  const totalPrice = Object.values(groupedItems).reduce(
-    (total, item) => total + item.price * item.quantity,
-    0
-  );
- 
+  // Calculate total price
+  const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
+
   return (
     <div className="">
       <button
@@ -40,7 +30,7 @@ const Cart = ({ cartItems, onDeleteItem }) => {
           <FontAwesomeIcon icon={faCartShopping} className="w-8 h-8" />
         </p>
         {totalItems > 0 && (
-          <span className="absolute top-0 right-0 bg-red-500 text-white px-1 rounded-md">
+          <span className="absolute top-0 right-0 bg-red-500 text-white text-sm px-1  pb-1 w-5 h-5 rounded-full">
             {totalItems}
           </span>
         )}
@@ -50,60 +40,58 @@ const Cart = ({ cartItems, onDeleteItem }) => {
         <div className="fixed top-24 right-4 bg-white w-1/4 p-4 z-30 shadow-md">
           <h2 className="text-lg font-bold mb-2">Cart</h2>
           {cartItems.length === 0 ? (
-  <p className="text-gray-500">Your cart is empty.</p>
-) : (
-  <div>
-    <ul className="space-y-2">
-    {Object.values(groupedItems).map((item) => (
-  <li key={item.id} className="flex items-center">
-    <div className="relative mr-2">
-      <img
-        src={`/uploads/${item.categoryName}/${item.image}`}
-        alt={item.name}
-        className="w-10 h-10 object-cover"
-      />
-      {item.quantity > 1 && (
-        <span className="absolute bottom-0 right-0 bg-green-500 text-white px-1 rounded-md">
-          {item.quantity}
-        </span>
-      )}
-    </div>
-    <span>
-      {item.name}{' '}
-      {item.quantity > 0 && (
-        <span className="text-gray-500 ml-2">
-          ({item.quantity})
-        </span>
-      )}
-    </span>
-    <span className="ml-2 text-gray-500">
-      {item.price.toFixed(2)}Birr)
-    </span>
-    <button
-      className="ml-2 text-red-600"
-      onClick={() => handleDeleteItem(item.id)}
-    >
-      <span className="absolute right-2 font-bold">Delete</span>
-    </button>
-  </li>
-))}
-    </ul>
+            <p className="text-gray-500">Your cart is empty.</p>
+          ) : (
+            <div>
+              <ul className="space-y-2">
+                {cartItems.map((item) => (
+                  <li key={item.id} className="flex items-center">
+                    <div className="relative mr-2">
+                      <img
+                        src={`/uploads/${item.categoryName}/${item.image}`}
+                        alt={item.name}
+                        className="w-10 h-10 object-cover"
+                      />
+                    </div>
+                    <span>
+                      {item.name}{' '}
+                      {item.quantity > 0 && (
+                        <span className="text-gray-500 ml-2">
+                          ({item.quantity})
+                        </span>
+                      )}
+                    </span>
+                    {/* Modify product price based on quantity */}
+                    <span className="ml-2 text-gray-500">
+                      {(item.price * item.quantity).toFixed(2)}Birr)
+                    </span>
+                    {/* Replace Delete button with 'X' character */}
+                    <button
+                      className="ml-8 font-bold text-xl text-red-600"
+                      onClick={() => handleDeleteItem(item.id)}
+                    >
+                      X
+                    </button>
+                  </li>
+                ))}
+              </ul>
 
-    <div className="my-4">
-      <p className="font-bold">
-        Total Pricee: {totalPrice.toFixed(2)}Birr{' '}
-        <Link to="/purchase">
-          <button className="bg-green-700 p-2 text-white rounded-md">
-            Purchase
-          </button>
-        </Link>
-      </p>
-    </div>
-  </div>
-)}
+              <div className="my-4">
+                <p className="font-bold">
+                  Total Price: {totalPrice.toFixed(2)}Birr{' '}
+                  <Link to="/purchase">
+                    <button className="bg-green-700 p-2 text-white rounded-md">
+                      Purchase
+                    </button>
+                  </Link>
+                </p>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
   );
 };
+
 export default Cart;

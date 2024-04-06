@@ -133,16 +133,7 @@ const Fruit = ({ cartItems, setCartItems }) => {
                   <div className="flex space-x-12 mx-auto mb-2">
                     <h3 className="text-lg font-bold">
                       {product.name}
-                      {cartItems.some((item) => item.id === product.id) && (
-                        <span className="text-gray-500 ml-2">
-                          (
-                          {
-                            cartItems.find((item) => item.id === product.id)
-                              .quantity
-                          }
-                          )
-                        </span>
-                      )}
+                     
                     </h3>
                     <p className="text-gray-500">
                       {product.price.toFixed(2)}{" "}
