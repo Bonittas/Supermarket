@@ -16,7 +16,11 @@ app.use("/", (req, res, next) => {
   console.log(req.method, req.path);
   next();
 });
-
+app.use(cors({
+  origin: ["https://deploy-mern-lwhq.vercel.app"],
+  methods:["POST","GET"],
+  credentials:true,
+}))
 app.use('/uploads/', express.static(path.join(__dirname, 'uploads')));
 
  
