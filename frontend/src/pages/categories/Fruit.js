@@ -11,7 +11,6 @@ const Fruit = ({ cartItems, setCartItems }) => {
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  // const [itemsPerPage, setItemsPerPage] = useState(8);
 
   useEffect(() => {
     fetchFruitProducts();
@@ -37,14 +36,14 @@ const Fruit = ({ cartItems, setCartItems }) => {
 
   const handleAddToCart = (product) => {
     console.log("Before adding to cart:", cartItems);
-
+  
     const updatedCartItems = [...cartItems];
-    const existingItem = updatedCartItems.find(
+    const existingItemIndex = updatedCartItems.findIndex(
       (item) => item.id === product.id
     );
-
-    if (existingItem) {
-      existingItem.quantity += 1;
+  
+    if (existingItemIndex !== -1) {
+      updatedCartItems[existingItemIndex].quantity += 1;
     } else {
       updatedCartItems.push({
         ...product,
@@ -52,11 +51,18 @@ const Fruit = ({ cartItems, setCartItems }) => {
         id: product._id,
       });
     }
-
-    setCartItems(updatedCartItems);
+  
+    const totalPrice = updatedCartItems.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
+    );
+  
+    setCartItems(updatedCartItems); // Update cart items
     console.log("After adding to cart:", updatedCartItems);
     console.log(`Added ${product.name} to cart`);
+  
   };
+  
 
   const handleSearch = (query) => {
     setSearchQuery(query);
@@ -74,10 +80,8 @@ const Fruit = ({ cartItems, setCartItems }) => {
     product.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-   // Adjust items per page for small screens
    const isSmallScreen = window.innerWidth < 768; 
    const itemsPerPageForScreen = isSmallScreen ? 4 : 8;
-  // Get current posts
   const indexOfLastProduct = currentPage * itemsPerPageForScreen;
   const indexOfFirstProduct = indexOfLastProduct - itemsPerPageForScreen;
   const currentProducts = filteredProducts.slice(
@@ -85,7 +89,6 @@ const Fruit = ({ cartItems, setCartItems }) => {
     indexOfLastProduct
   );
 
-   // Create page numbers
    const pageNumbers = [];
    for (let i = 1; i <= Math.ceil(filteredProducts.length / itemsPerPageForScreen); i++) {
      pageNumbers.push(i);
@@ -133,16 +136,7 @@ const Fruit = ({ cartItems, setCartItems }) => {
                   <div className="flex space-x-12 mx-auto mb-2">
                     <h3 className="text-lg font-bold">
                       {product.name}
-                      {cartItems.some((item) => item.id === product.id) && (
-                        <span className="text-gray-500 ml-2">
-                          (
-                          {
-                            cartItems.find((item) => item.id === product.id)
-                              .quantity
-                          }
-                          )
-                        </span>
-                      )}
+                     
                     </h3>
                     <p className="text-gray-500">
                       {product.price.toFixed(2)}{" "}

@@ -9,13 +9,13 @@ const OurServicesPage = () => {
       title: 'Online Shopping',
       description: 'Shop for groceries online and have them delivered to your doorstep. Browse through a wide selection of products, create shopping lists, and enjoy convenient and contactless delivery.',
       icon: faShoppingCart,
-      bgColor: '#E5F0F9', // Light blue
+      bgColor: '#E6F0F9', // Light blue
     },
     {
       title: 'Fresh Produce',
       description: 'Explore a wide range of fresh fruits, vegetables, and herbs sourced directly from local farms. We prioritize quality and freshness to ensure you have access to the best produce.',
       icon: faLeaf,
-      bgColor: '#E7FCE5', // Light green
+      bgColor: '#E8FCE5', // Light green
     },
     {
       title: 'Bakery',
@@ -46,7 +46,7 @@ const OurServicesPage = () => {
   return (
     <>
    <Header/>
-    <div className="mx-6 py-12">
+    <div className=" mx-6 py-12">
       <h1 className="text-4xl md:text-4xl font-bold text-yellow-600 font-cursive mb-8 text-center">Discover Our Services</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {services.map((service, index) => (
