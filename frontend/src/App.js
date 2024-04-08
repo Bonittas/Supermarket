@@ -48,7 +48,6 @@ const App = () => {
 
   return (
     <Router>
-      <div>
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
@@ -134,7 +133,6 @@ const App = () => {
           {/* Route for handling 404 Not Found */}
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </div>
     </Router>
   );
 };
