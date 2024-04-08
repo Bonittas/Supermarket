@@ -46,7 +46,7 @@ const OurServicesPage = () => {
   return (
     <>
    <Header/>
-    <div className="container mx-auto py-12">
+    <div className="mx-6 py-12">
       <h1 className="text-4xl md:text-4xl font-bold text-yellow-600 font-cursive mb-8 text-center">Discover Our Services</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {services.map((service, index) => (

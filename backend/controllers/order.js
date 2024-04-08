@@ -32,21 +32,49 @@ const createOrder = (req, res) => {
       res.status(201).json(order);
     })
     .catch(error => {
-      console.error(error); // Log the error
+      console.error(error);
       res.status(500).json({ error: 'Failed to create order' });
     });
 };
 
 const getAllOrders = async (req, res) => {
   try {
-    const orders = await Order.find().populate('cartItems'); // Assuming 'cartItems' is the field name in your Order model
+    const { searchQuery, page, limit } = req.query;
+    let query = {};
 
-    res.status(200).json(orders);
+    if (searchQuery) {
+      query = { 
+        $or: [
+          { name: { $regex: searchQuery, $options: 'i' } },
+          { categoryName: { $regex: searchQuery, $options: 'i' } }
+        ]
+      };
+    }
+
+    // Pagination logic
+    const pageNumber = parseInt(page) || 1;
+    const pageSize = parseInt(limit) || 10;
+    const skip = (pageNumber - 1) * pageSize;
+
+    // Fetch orders with pagination and search query
+    const orders = await Order.find(query)
+      .populate('cartItems')
+      .skip(skip)
+      .limit(pageSize);
+
+    const totalOrdersCount = await Order.countDocuments(query);
+
+    res.status(200).json({
+      orders,
+      totalPages: Math.ceil(totalOrdersCount / pageSize),
+      currentPage: pageNumber,
+      totalOrders: totalOrdersCount
+    });
   } catch (error) {
     console.error('Error fetching orders:', error);
     res.status(500).json({ error: 'Internal server error' });
   }
-}
+};
   
 
 const getOrderById = (req, res) => {

@@ -32,7 +32,7 @@ const createProduct = async (req, res) => {
       quantity,
       categoryName,
       image: req.file.filename,
-      isFeatured: isFeatured === 'true',
+      isFeatured: isFeatured === "true",
     });
 
     const categoryPath = `uploads/${categoryName}`;
@@ -59,6 +59,43 @@ const getProduct = async (req, res) => {
     res.status(200).json(products);
   } catch (error) {
     res.status(400).json({ error: error });
+  }
+};
+
+const getProductsforadmin = async (req, res) => {
+  try {
+    const { searchQuery, page, limit } = req.query;
+    let query = {};
+
+    // Add search functionality if searchQuery exists
+    if (searchQuery) {
+      query = {
+        $or: [
+          { name: { $regex: searchQuery, $options: "i" } },
+          { categoryName: { $regex: searchQuery, $options: "i" } },
+        ],
+      };
+    }
+
+    // Pagination logic
+    const pageNumber = parseInt(page) || 1;
+    const pageSize = parseInt(limit) || 10;
+    const skip = (pageNumber - 1) * pageSize;
+
+    // Fetch products with pagination and search query
+    const products = await product.find(query).skip(skip).limit(pageSize);
+
+    // Count total number of products matching the search query
+    const totalProductsCount = await product.countDocuments(query);
+
+    res.status(200).json({
+      products,
+      totalPages: Math.ceil(totalProductsCount / pageSize),
+      currentPage: pageNumber,
+      totalProducts: totalProductsCount,
+    });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
 };
 
@@ -93,65 +130,68 @@ const deleteProduct = async (req, res) => {
   }
 };
 
-const updateProduct = (upload.single("image"), async (req, res) => {
-  const { id } = req.params;
-  const { categoryName: newCategoryName, ...updateData } = req.body;
+const updateProduct =
+  (upload.single("image"),
+  async (req, res) => {
+    const { id } = req.params;
+    const { categoryName: newCategoryName, ...updateData } = req.body;
 
-  try {
-    const existingProduct = await product.findById(id);
-    if (!existingProduct) {
-      return res.status(404).json({ error: "Product not found" });
+    try {
+      const existingProduct = await product.findById(id);
+      if (!existingProduct) {
+        return res.status(404).json({ error: "Product not found" });
+      }
+
+      const categoryExists = await Category.exists({
+        categoryName: newCategoryName,
+      });
+
+      if (!categoryExists) {
+        return res.status(400).json({ error: "New category does not exist" });
+      }
+
+      const oldCategoryPath = `uploads/${existingProduct.categoryName}`;
+      const newCategoryPath = `uploads/${newCategoryName}`;
+
+      let newFileName = existingProduct.image;
+      if (req.file) {
+        newFileName = `${Date.now()}-${Math.round(Math.random() * 1e9)}-${
+          req.file.originalname
+        }`;
+      }
+
+      const oldFilePath = `${oldCategoryPath}/${existingProduct.image}`;
+      const newFilePath = `${newCategoryPath}/${newFileName}`;
+
+      if (req.file && fs.existsSync(oldFilePath)) {
+        fs.unlinkSync(oldFilePath);
+      }
+
+      if (fs.existsSync(oldFilePath)) {
+        fs.renameSync(oldFilePath, newFilePath);
+      }
+
+      const updatedProduct = await product.findByIdAndUpdate(
+        id,
+        { ...updateData, categoryName: newCategoryName, image: newFileName },
+        { new: true }
+      );
+
+      if (req.file) {
+        fs.renameSync(req.file.path, `${newCategoryPath}/${newFileName}`);
+      }
+
+      res.status(200).json(updatedProduct);
+    } catch (error) {
+      res.status(400).json({ error: error.message });
     }
-
-    const categoryExists = await Category.exists({
-      categoryName: newCategoryName,
-    });
-
-    if (!categoryExists) {
-      return res.status(400).json({ error: "New category does not exist" });
-    }
-
-    const oldCategoryPath = `uploads/${existingProduct.categoryName}`;
-    const newCategoryPath = `uploads/${newCategoryName}`;
-
-    let newFileName = existingProduct.image;
-    if (req.file) {
-      newFileName = `${Date.now()}-${Math.round(Math.random() * 1e9)}-${
-        req.file.originalname
-      }`;
-    }
-
-    const oldFilePath = `${oldCategoryPath}/${existingProduct.image}`;
-    const newFilePath = `${newCategoryPath}/${newFileName}`;
-
-    if (req.file && fs.existsSync(oldFilePath)) {
-      fs.unlinkSync(oldFilePath);
-    }
-
-    if (fs.existsSync(oldFilePath)) {
-      fs.renameSync(oldFilePath, newFilePath);
-    }
-
-    const updatedProduct = await product.findByIdAndUpdate(
-      id,
-      { ...updateData, categoryName: newCategoryName, image: newFileName },
-      { new: true }
-    );
-
-    if (req.file) {
-      fs.renameSync(req.file.path, `${newCategoryPath}/${newFileName}`);
-    }
-
-    res.status(200).json(updatedProduct);
-  } catch (error) {
-    res.status(400).json({ error: error.message });
-  }
-});
+  });
 
 module.exports = {
   createProduct,
   updateProduct,
   deleteProduct,
+  getProductsforadmin,
   getProduct,
   upload,
   getFeaturedProducts,

@@ -5,6 +5,10 @@ import Header from "../../components/Header3";
 const ViewOrders = () => {
   const [orders, setOrders] = useState([]);
   const [editingOrder, setEditingOrder] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [totalPages, setTotalPages] = useState(1);
   const [editedData, setEditedData] = useState({
     quantity: "",
     email: "",
@@ -16,13 +20,38 @@ const ViewOrders = () => {
     shoppingExperience: "",
   });
 
+  useEffect(() => {
+    fetchOrders();
+  }, [page, limit, searchQuery]);
+
   const fetchOrders = async () => {
     try {
-      const response = await axios.get("/api/order/list");
-      setOrders(response.data);
+      const response = await axios.get("/api/order/list", {
+        params: { searchQuery, page, limit },
+      });
+      setOrders(response.data.orders);
+      setTotalPages(response.data.totalPages);
     } catch (error) {
       console.error("Error fetching orders:", error);
     }
+  };
+
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+    setPage(1);
+  };
+
+  const handleLimitChange = (e) => {
+    setLimit(parseInt(e.target.value));
+    setPage(1);
+  };
+
+  const handleNextPage = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
+
+  const handlePrevPage = () => {
+    setPage((prevPage) => prevPage - 1);
   };
 
   const handleDeleteOrder = async (orderId) => {
@@ -101,60 +130,104 @@ const ViewOrders = () => {
 
   return (
     <>
-       <div className="bg-green-50 h-auto px-4 w-full pb-6 pt-2 rounded-lg   my-2">
+      <div className="bg-green-50 h-auto px-4 w-full pb-6 pt-2 rounded-lg   my-2">
         <h2 className="text-3xl font-bold mb-8 text-center">View Orders</h2>
+        <div className="flex justify-end mb-4">
+          <input
+            type="text"
+            placeholder="Search orders"
+            value={searchQuery}
+            onChange={handleSearchChange}
+            className="border border-gray-400 rounded-md px-2 py-1 mr-2 focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors"
+          />
+          <select
+            value={limit}
+            onChange={handleLimitChange}
+            className="border border-gray-400 rounded-md px-2 py-1 focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors"
+          >
+            <option value={5}>5 per page</option>
+            <option value={10}>10 per page</option>
+            <option value={20}>20 per page</option>
+            <option value={50}>50 per page</option>
+            <option value={100}>100 per page</option>
+          </select>
+        </div>
         {orders.length > 0 ? (
-          <table className="min-w-full bg-white border border-gray-300">
-            <thead className="bg-gray-100 border-2 border-gray-300">
-              <tr>
-                <th className="py-2 px-2 border text-center">Quantity</th>
-                <th className="py-2 px-2 border text-center">Email</th>
-                <th className="py-2 px-2 border text-center">Address</th>
-                <th className="py-2 px-2 border text-center">Delivery Date</th>
-                <th className="py-2 px-2 border text-center">Delivery Time</th>
-                <th className="py-2 px-2 border text-center">Payment Method</th>
-                <th className="py-2 px-2 border text-center">Remark</th>
-                <th className="border px-4 py-2">Shopping Experience</th>
-                <th className="border px-4 py-2">Cart Items
+          <>
+            <table className="min-w-full bg-white border border-gray-300">
+              <thead className="bg-gray-100 border-2 border-gray-300">
+                <tr>
+                  <th className="py-2 px-2 border text-center">Quantity</th>
+                  <th className="py-2 px-2 border text-center">Email</th>
+                  <th className="py-2 px-2 border text-center">Address</th>
+                  <th className="py-2 px-2 border text-center">
+                    Delivery Date
+                  </th>
+                  <th className="py-2 px-2 border text-center">
+                    Delivery Time
+                  </th>
+                  <th className="py-2 px-2 border text-center">
+                    Payment Method
+                  </th>
+                  <th className="py-2 px-2 border text-center">Remark</th>
+                  <th className="border px-4 py-2">Shopping Experience</th>
+                  <th className="border px-4 py-2">
+                    Cart Items
                     <th className="px-4 py-2">Items Image</th>
                     <th className="px-4 py-2">Items </th>
                     <th className="px-4 py-2"> Items Price</th>
-                 </th>
-                {/* <th className="py-2 px-2 border-b text-center">Actions</th> */}
-              </tr> 
-            </thead>
-            <tbody>
-              {orders &&
-                orders.map((order) => (
-                  <tr key={order._id}>
-                    <td className="py-2 px-4 border text-left">{order.quantity}</td>
-                    <td className="py-2 px-4 border text-left">{order.email}</td>
-                    <td className="py-2 px-4 border text-left">{order.address}</td>
-                    <td className="py-2 px-4 border text-left">{order.deliveryDate}</td>
-                    <td className="py-2 px-4 border text-left">{order.deliveryTime}</td>
-                    <td className="py-2 px-4 border text-left">{order.paymentMethod}</td>
-                    <td className="py-2 px-4 border text-left">{order.remark}</td>
-                    <td className="py-2 px-4 border text-left">
-                      {order.shoppingExperience}
-                    </td>
-                    <td className="border px-4 py-2">
-                      {order.cartItems.map((item) => (
-                        <div key={item._id} className="flex items-left">
-                          <td className="py-2 px-2 border-r text-left">
-                            <img
-                              src={`/uploads/${item.categoryName}/${item.image}`}
-                              alt={item.name}
-                              className="w-10 h-8 object-cover"
-                            />
-                          </td>
-                          <td className=" py-2 px-2 border-r text-left">{item.name}</td>
-                          <td className="py-2 px-2  text-right">
+                  </th>
+                  {/* <th className="py-2 px-2 border-b text-center">Actions</th> */}
+                </tr>
+              </thead>
+              <tbody>
+                {orders &&
+                  orders.map((order) => (
+                    <tr key={order._id}>
+                      <td className="py-2 px-4 border text-left">
+                        {order.quantity}
+                      </td>
+                      <td className="py-2 px-4 border text-left">
+                        {order.email}
+                      </td>
+                      <td className="py-2 px-4 border text-left">
+                        {order.address}
+                      </td>
+                      <td className="py-2 px-4 border text-left">
+                        {order.deliveryDate}
+                      </td>
+                      <td className="py-2 px-4 border text-left">
+                        {order.deliveryTime}
+                      </td>
+                      <td className="py-2 px-4 border text-left">
+                        {order.paymentMethod}
+                      </td>
+                      <td className="py-2 px-4 border text-left">
+                        {order.remark}
+                      </td>
+                      <td className="py-2 px-4 border text-left">
+                        {order.shoppingExperience}
+                      </td>
+                      <td className="border px-4 py-2">
+                        {order.cartItems.map((item) => (
+                          <div key={item._id} className="flex items-left">
+                            <td className="py-2 px-2 border-r text-left">
+                              <img
+                                src={`/uploads/${item.categoryName}/${item.image}`}
+                                alt={item.name}
+                                className="w-10 h-8 object-cover"
+                              />
+                            </td>
+                            <td className=" py-2 px-2 border-r text-left">
+                              {item.name}
+                            </td>
+                            <td className="py-2 px-2  text-right">
                               <p>Price</p>${item.price.toFixed(2)}
-                          </td>
-                        </div>
-                      ))}
-                    </td> 
-                    {/* <td className="border px-4 py-2">
+                            </td>
+                          </div>
+                        ))}
+                      </td>
+                      {/* <td className="border px-4 py-2">
                       <div className="flex">
                         {editingOrder === order._id ? (
                           <>
@@ -189,10 +262,33 @@ const ViewOrders = () => {
                         </button>
                       </div>
                     </td> */}
-                  </tr>
-                ))}
-            </tbody>
-          </table>
+                    </tr>
+                  ))}
+              </tbody>
+            </table>
+            <div className="flex justify-between mt-4">
+              <button
+                onClick={handlePrevPage}
+                disabled={page === 1}
+                className={`${
+                  page === 1 ? "bg-gray-300 cursor-not-allowed hover:bg-gray-200" : "bg-green-500"
+                } text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors`}
+              >
+                Previous Page
+              </button>
+              <button
+                onClick={handleNextPage}
+                disabled={page === totalPages}
+                className={`${
+                  page === totalPages
+                    ? "bg-gray-300 cursor-not-allowed hover:bg-gray-200"
+                    : "bg-green-500"
+                } text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors`}
+              >
+                Next Page
+              </button>
+            </div>
+          </>
         ) : (
           <p className="text-gray-500 text-center">No orders available.</p>
         )}
