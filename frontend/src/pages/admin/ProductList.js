@@ -137,46 +137,67 @@ const EditProductForm = ({ product, onEdit }) => {
 const ProductList = () => {
   const [products, setProducts] = useState([]);
   const [editingProduct, setEditingProduct] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(10);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     fetchProducts();
-  }, []);
+  }, [page, limit, searchQuery]);
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get("/api/products/list");
-      setProducts(response.data);
+      const response = await axios.get("/api/products/lists", {
+        params: { searchQuery, page, limit },
+      });
+      setProducts(response.data.products);
+      setTotalPages(response.data.totalPages);
     } catch (error) {
       console.error("Error fetching products:", error);
     }
   };
 
+  const handleSearchChange = (e) => {
+    setSearchQuery(e.target.value);
+    setPage(1);
+  };
+
+  const handleLimitChange = (e) => {
+    setLimit(parseInt(e.target.value));
+    setPage(1);
+  };
+
+  const handleNextPage = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
+
+  const handlePrevPage = () => {
+    setPage((prevPage) => prevPage - 1);
+  };
+
   const handleEditProduct = (productId) => {
-    // Set the product being edited
     const productToEdit = products.find((product) => product._id === productId);
     setEditingProduct(productToEdit);
   };
 
   const handleCancelEdit = () => {
-    // Cancel the edit mode
     setEditingProduct(null);
   };
 
   const handleEditSave = (editedProduct) => {
-    // Update the products list with the edited product
     setProducts((prevProducts) =>
       prevProducts.map((product) =>
         product._id === editedProduct._id ? editedProduct : product
       )
     );
-    // Cancel the edit mode
     setEditingProduct(null);
   };
 
   const handleDeleteProduct = async (productId) => {
     try {
       await axios.delete(`/api/product/${productId}`);
-      fetchProducts(); // Refresh the product list after deletion
+      fetchProducts();
     } catch (error) {
       console.error("Error deleting product:", error);
     }
@@ -187,9 +208,31 @@ const ProductList = () => {
       <div className="bg-green-50 h-auto px-4 pb-6 pt-2 border rounded-lg shadow-lg mx-auto my-2">
         <div className="w-full mt-4">
           <h2 className="text-2xl font-bold mb-4 text-center">All Products</h2>
+          <div className="flex justify-end mb-4">
+            <input
+              type="text"
+              placeholder="Search products"
+              value={searchQuery}
+              onChange={handleSearchChange}
+              className="border border-gray-400 rounded-md px-2 py-1 mr-2 focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors"
+            />
+            <select
+              value={limit}
+              onChange={handleLimitChange}
+              className="border border-gray-400 rounded-md px-2 py-1 mr-2 focus:outline-none focus:ring-2 focus:ring-green-500 transition-colors"
+            >
+              <option value={5}>5 per page</option>
+              <option value={10}>10 per page</option>
+              <option value={20}>20 per page</option>
+              <option value={30}>30 per page</option>
+              <option value={50}>50 per page</option>
+              <option value={100}>100 per page</option>
+            </select>
+          </div>
           <table className="min-w-full bg-white border border-gray-300">
             <thead>
               <tr>
+                <th className="py-2 px-2 border-b text-left">No</th>
                 <th className="py-2 px-2 border-b text-left">Name</th>
                 <th className="py-2 px-2 border-b text-left">Price</th>
                 <th className="py-2 px-2 border-b text-left">Category</th>
@@ -199,8 +242,11 @@ const ProductList = () => {
               </tr>
             </thead>
             <tbody>
-              {products.map((product) => (
+              {products.map((product, index) => (
                 <tr key={product._id}>
+                  <td className="py-2 px-2 border-b text-left">
+                    {(page - 1) * limit + index + 1}
+                  </td>
                   <td className="py-2 px-2 border-b text-left">
                     {product.name}
                   </td>
@@ -260,6 +306,30 @@ const ProductList = () => {
               ))}
             </tbody>
           </table>
+          <div className="flex justify-between mt-4">
+            <button
+              onClick={handlePrevPage}
+              disabled={page === 1}
+              className={`${
+                page === 1
+                  ? "bg-gray-300 cursor-not-allowed hover:bg-gray-200"
+                  : "bg-green-500"
+              } text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors`}
+            >
+              Previous Page
+            </button>
+            <button
+              onClick={handleNextPage}
+              disabled={page === totalPages}
+              className={`${
+                page === totalPages
+                  ? "bg-gray-300 cursor-not-allowed hover:bg-gray-200"
+                  : "bg-green-500"
+              } text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors`}
+            >
+              Next Page
+            </button>
+          </div>
         </div>
       </div>
     </>

@@ -22,7 +22,7 @@ import { categories } from "./pages/categories/Category";
 import Fruit from "./pages/categories/Fruit";
 import Feedbacks from "./pages/admin/Feedback";
 import Services from "./pages/Ourservice";
-import NotFound from "./pages/404Page"; // Import the NotFound component
+import NotFound from "./pages/404Page";
 
 const App = () => {
   const [cartItems, setCartItems] = useState([]);
