@@ -157,7 +157,6 @@ const ViewOrders = () => {
             <table className="min-w-full bg-white border border-gray-300">
               <thead className="bg-gray-100 border-2 border-gray-300">
                 <tr>
-                  <th className="py-2 px-2 border text-center">No</th>
                   <th className="py-2 px-2 border text-center">Email</th>
                   <th className="py-2 px-2 border text-center">Address</th>
                   <th className="py-2 px-2 border text-center">
@@ -184,9 +183,6 @@ const ViewOrders = () => {
                 {orders &&
                   orders.map((order, index) => (
                     <tr key={order._id}>
-                      <td className="py-2 px-2 border-b text-left">
-                    {(page - 1) * limit + index + 1}
-                  </td>
                       <td className="py-2 px-4 border text-left">
                         {order.email}
                       </td>
@@ -227,41 +223,7 @@ const ViewOrders = () => {
                           </div>
                         ))}
                       </td>
-                      {/* <td className="border px-4 py-2">
-                      <div className="flex">
-                        {editingOrder === order._id ? (
-                          <>
-                            <div>
-                              <button
-                                className="bg-green-500 text-white rounded p-2"
-                                onClick={() => handleSaveEdit(order._id)}
-                              >
-                                Save
-                              </button>
-                            </div>
-                            <button
-                              className="bg-gray-500 text-white rounded p-2"
-                              onClick={handleCancelEdit}
-                            >
-                              Cancel
-                            </button>
-                          </>
-                        ) : (
-                          <button
-                          className="bg-yellow-500 text-white px-2 py-1 rounded-lg hover:bg-yellow-600 transition-colors"
-                            onClick={() => handleEditOrder(order._id)}
-                          >
-                            Edit
-                          </button>
-                        )}
-                        <button
-                          className="bg-red-500 text-white px-2 py-1 ml-2 rounded-lg hover:bg-red-600 transition-colors"
-                          onClick={() => handleDeleteOrder(order._id)}
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </td> */}
+
                     </tr>
                   ))}
               </tbody>
@@ -271,7 +233,7 @@ const ViewOrders = () => {
                 onClick={handlePrevPage}
                 disabled={page === 1}
                 className={`${
-                  page === 1 ? "bg-gray-600 cursor-not-allowed hover:bg-gray-200" : "bg-green-500"
+                  page === 1 ? "bg-gray-600 cursor-not-allowed hover:bg-gray-700" : "bg-green-500"
                 } text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors`}
               >
                 Previous Page
@@ -283,7 +245,7 @@ const ViewOrders = () => {
                   page === totalPages
                     ? "bg-gray-600 cursor-not-allowed hover:bg-gray-200"
                     : "bg-green-500"
-                } text-white px-4 py-2 rounded-lg hover:bg-green-600 transition-colors`}
+                } text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors`}
               >
                 Next Page
               </button>

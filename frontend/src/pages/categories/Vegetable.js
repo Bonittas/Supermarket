@@ -3,7 +3,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import Search from "../SearchBar";
 import Header from "../../components/Header3";
-import Cart from "../Cart";
+import Cart from "../Cart"; // Assuming the Cart component is correctly connected to Redux
 import { categories } from "./Category";
 import Footer from "../../components/Footer";
 
@@ -11,15 +11,13 @@ const Fruit = ({ cartItems, setCartItems }) => {
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  // const [itemsPerPage, setItemsPerPage] = useState(8);
 
   useEffect(() => {
     fetchFruitProducts();
   }, []);
 
   const handleDeleteItem = (itemId) => {
-    const updatedCartItems = cartItems.filter((item) => item.id !== itemId);
-    setCartItems(updatedCartItems);
+    setCartItems(cartItems.filter((item) => item._id !== itemId));
   };
 
   const fetchFruitProducts = async () => {
@@ -36,21 +34,18 @@ const Fruit = ({ cartItems, setCartItems }) => {
   };
 
   const handleAddToCart = (product) => {
-    console.log("Before adding to cart:", cartItems);
+    const existingItemIndex = cartItems.findIndex((item) => item.id === product._id);
+    let updatedCartItems = [];
 
-    const updatedCartItems = [...cartItems];
-    const existingItem = updatedCartItems.find(
-      (item) => item.id === product.id
-    );
-
-    if (existingItem) {
-      existingItem.quantity += 1;
-    } else {
-      updatedCartItems.push({
-        ...product,
-        quantity: 1,
-        id: product._id,
+    if (existingItemIndex !== -1) {
+      updatedCartItems = cartItems.map((item, index) => {
+        if (index === existingItemIndex) {
+          return { ...item, quantity: item.quantity + 1 };
+        }
+        return item;
       });
+    } else {
+      updatedCartItems = [...cartItems, { ...product, quantity: 1 }];
     }
 
     setCartItems(updatedCartItems);
@@ -74,10 +69,9 @@ const Fruit = ({ cartItems, setCartItems }) => {
     product.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-   // Adjust items per page for small screens
-   const isSmallScreen = window.innerWidth < 768; 
-   const itemsPerPageForScreen = isSmallScreen ? 4 : 8;
-  // Get current posts
+  const isSmallScreen = window.innerWidth < 768;
+  const itemsPerPageForScreen = isSmallScreen ? 4 : 8;
+
   const indexOfLastProduct = currentPage * itemsPerPageForScreen;
   const indexOfFirstProduct = indexOfLastProduct - itemsPerPageForScreen;
   const currentProducts = filteredProducts.slice(
@@ -85,22 +79,18 @@ const Fruit = ({ cartItems, setCartItems }) => {
     indexOfLastProduct
   );
 
-   // Create page numbers
-   const pageNumbers = [];
-   for (let i = 1; i <= Math.ceil(filteredProducts.length / itemsPerPageForScreen); i++) {
-     pageNumbers.push(i);
-   }
-    
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(filteredProducts.length / itemsPerPageForScreen); i++) {
+    pageNumbers.push(i);
+  }
+
   return (
     <>
       <Header />
       <div className="fixed top-4 left-48 lg:w-1/3 md:w-1/4 sm:w-1/4 z-20 my-2">
         <Search onSearch={handleSearch} />
       </div>
-      <section
-        id="Categories"
-        className="container mx-auto md:px-10 bg-white"
-      >
+      <section id="Categories" className="container mx-auto md:px-10 bg-white">
         <div className="flex flex-col md:flex-row">
           <div className="shadow-lg p-4 md:w-1/5 md:h-screen order-1 md:order-2">
             <h2 className="text-3xl font-bold mb-4 text-center">Categories</h2>

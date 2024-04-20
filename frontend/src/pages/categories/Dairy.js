@@ -6,20 +6,22 @@ import Header from "../../components/Header3";
 import Cart from "../Cart";
 import { categories } from "./Category";
 import Footer from "../../components/Footer";
+import { useDispatch, useSelector } from "react-redux"; // Import useDispatch and useSelector
+import { addToCart, removeFromCart } from "../../features/cart/cartSlice"; // Import addToCart and removeFromCart actions
 
-const Fruit = ({ cartItems, setCartItems }) => {
+const Fruit = () => {
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  // const [itemsPerPage, setItemsPerPage] = useState(8);
+  const dispatch = useDispatch(); // Get dispatch function from Redux store
+  const cartItems = useSelector((state) => state.cart.items); // Select cart items from Redux store
 
   useEffect(() => {
     fetchFruitProducts();
   }, []);
 
   const handleDeleteItem = (itemId) => {
-    const updatedCartItems = cartItems.filter((item) => item.id !== itemId);
-    setCartItems(updatedCartItems);
+    dispatch(removeFromCart(itemId)); // Dispatch removeFromCart action
   };
 
   const fetchFruitProducts = async () => {
@@ -36,26 +38,7 @@ const Fruit = ({ cartItems, setCartItems }) => {
   };
 
   const handleAddToCart = (product) => {
-    console.log("Before adding to cart:", cartItems);
-
-    const updatedCartItems = [...cartItems];
-    const existingItem = updatedCartItems.find(
-      (item) => item.id === product.id
-    );
-
-    if (existingItem) {
-      existingItem.quantity += 1;
-    } else {
-      updatedCartItems.push({
-        ...product,
-        quantity: 1,
-        id: product._id,
-      });
-    }
-
-    setCartItems(updatedCartItems);
-    console.log("After adding to cart:", updatedCartItems);
-    console.log(`Added ${product.name} to cart`);
+    dispatch(addToCart(product)); // Dispatch addToCart action with the product data
   };
 
   const handleSearch = (query) => {
@@ -74,10 +57,10 @@ const Fruit = ({ cartItems, setCartItems }) => {
     product.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-   // Adjust items per page for small screens
-   const isSmallScreen = window.innerWidth < 768; 
-   const itemsPerPageForScreen = isSmallScreen ? 4 : 8;
-  // Get current posts
+  // Adjust items per page for small screens
+  const isSmallScreen = window.innerWidth < 768;
+  const itemsPerPageForScreen = isSmallScreen ? 4 : 8;
+  // Get current products for the current page
   const indexOfLastProduct = currentPage * itemsPerPageForScreen;
   const indexOfFirstProduct = indexOfLastProduct - itemsPerPageForScreen;
   const currentProducts = filteredProducts.slice(
@@ -85,12 +68,16 @@ const Fruit = ({ cartItems, setCartItems }) => {
     indexOfLastProduct
   );
 
-   // Create page numbers
-   const pageNumbers = [];
-   for (let i = 1; i <= Math.ceil(filteredProducts.length / itemsPerPageForScreen); i++) {
-     pageNumbers.push(i);
-   }
-    
+  // Create page numbers
+  const pageNumbers = [];
+  for (
+    let i = 1;
+    i <= Math.ceil(filteredProducts.length / itemsPerPageForScreen);
+    i++
+  ) {
+    pageNumbers.push(i);
+  }
+
   return (
     <>
       <Header />
@@ -99,11 +86,13 @@ const Fruit = ({ cartItems, setCartItems }) => {
       </div>
       <section
         id="Categories"
-        className="container mx-auto md:px-10 bg-white"
+        className="container mx-auto md:px-5 bg-white"
       >
         <div className="flex flex-col md:flex-row">
           <div className="shadow-lg p-4 md:w-1/5 md:h-screen order-1 md:order-2">
-            <h2 className="text-3xl font-bold mb-4 text-center">Categories</h2>
+            <h2 className="text-3xl font-bold mb-4 text-center">
+              Categories
+            </h2>
             <ul className="flex flex-wrap md:flex-col md:space-x-2">
               {categories &&
                 categories.map((category, index) => (
@@ -117,24 +106,27 @@ const Fruit = ({ cartItems, setCartItems }) => {
             </ul>
           </div>
 
-          <div className="w-full md:w-4/5 py-4 pl-6 order-1 md:order-2">
+          <div className="w-full md:w-1/2 py-4 pl-6 order-1 md:order-2">
             <h2 className="text-2xl font-bold mb-4">Dairy Products</h2>
-            <div className={`grid grid-cols-2 md:grid-cols-4 lg:grid-cols-${isSmallScreen ? '2' : '4'}  gap-4`}>
+            <div
+              className={`grid grid-cols-2 md:grid-cols-4 lg:grid-cols-${
+                isSmallScreen ? "2" : "4"
+              }  gap-4`}
+            >
               {currentProducts.map((product) => (
-                 <div
-                 key={product._id}
-                 className={`border p-2 rounded-lg hover:shadow-lg transition-shadow text-center`}
-               >
-                    <img
-                      src={`/uploads/${product.categoryName}/${product.image}`}
-                      alt={product.name}
-                      className={`mb-2 ${isSmallScreen? 'h-16': 'md:h-36 lg:h-40'} mx-auto rounded-lg cursor-pointer`}
-                    />
+                <div
+                  key={product._id}
+                  className={`border p-2 rounded-lg hover:shadow-lg transition-shadow text-center`}
+                >
+                  <img
+                    src={`/uploads/${product.categoryName}/${product.image}`}
+                    alt={product.name}
+                    className={`mb-2 ${
+                      isSmallScreen ? "h-16" : "md:h-36 lg:h-40"
+                    } mx-auto rounded-lg cursor-pointer`}
+                  />
                   <div className="flex space-x-12 mx-auto mb-2">
-                    <h3 className="text-lg font-bold">
-                      {product.name}
-                     
-                    </h3>
+                    <h3 className="text-lg font-bold">{product.name}</h3>
                     <p className="text-gray-500">
                       {product.price.toFixed(2)}{" "}
                       <span className="font-bold">Birr</span>{" "}

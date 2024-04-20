@@ -99,6 +99,7 @@ const Home = () => {
         </div>
       </section>
 
+
       <section id="Categories" className="container bg-white py-2">
         <div className="flex flex-col md:flex-row space-y-0 md:space-y-0">
           
@@ -117,15 +118,15 @@ const Home = () => {
             </ul>
           </div> */}
 
-          <div className="w-full mx-auto md:w-3/4">
+          <div className="w-full mx-auto md:full  justify-center items-center">
             <h2 className="text-2xl text-center font-bold ">Top category</h2>
 
-            <div className="w-full p-4">
-              <div className="p-2 grid grid-cols-2 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+            <div className="w-full p-4 flex-cols justify-center items-center">
+              <div className="p-2 grid grid-cols-2 xs:grid-cols-1 justify-center items-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
                 {filteredcategory.map((category) => (
                   <div
                     key={category._id}
-                    className="relative overflow-hidden bg-white rounded-full m-2 shadow-lg transition-transform transform hover:scale-105 duration-300"
+                    className="relative overflow-hidden rounded-full m-2 shadow-lg transition-transform transform hover:scale-105 duration-300"
                     style={{
                       width: "200px",
                       height: "200px",
@@ -142,7 +143,7 @@ const Home = () => {
                         </Link>
                       </div>
                     </div>
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-green-700 to-transparent p-6">
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-green-700 to-transparent p-4">
                       <Link to={`/${category.categoryName}`}>
                         <p className="text-white text-center text-lg font-semibold">
                           {category.categoryName}
