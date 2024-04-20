@@ -125,8 +125,8 @@ const PurchasePage = ({ cartItems, setCartItems, onDeleteItem }) => {
   return (
     <>
       <Header />
-      <div className="container mx-auto my-6 flex">
-        <div className="max-w-md mx-auto bg-white p-4 rounded-md shadow-md">
+      <div className="container max-w-4xl mx-auto my-6 flex rounded-md shadow-md">
+        <div className=" bg-white p-4">
           <h2 className="text-xl font-semibold text-center mb-4">
             Purchase Form
           </h2>
@@ -273,6 +273,9 @@ const PurchasePage = ({ cartItems, setCartItems, onDeleteItem }) => {
               {loading ? "Processing..." : "Purchase"}
             </button>
           </form>
+          </div>
+
+          <div className="p-4">
           <div className="mt-4">
             {cartItems && cartItems.length > 0 && (
               <div>
