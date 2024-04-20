@@ -9,6 +9,7 @@ const category = require("./routes/category")
 const path = require("path");
 const order =require("./routes/order")
 const feedback = require("./routes/feedback")
+const payment = require("./routes/payment")
 app.use(express.json());
 
 
@@ -26,13 +27,18 @@ app.use('/uploads/', express.static(path.join(__dirname, 'uploads')));
  
 // Connect to the database
 connectToDatabase()
+// Routes middleware for products, categories, orders, and feedback
 app.use('/api',product)
 app.use('/api',category)
 app.use('/api',order)
 app.use('/api',feedback)
 
+// Routes middleware for payment
+app.use('/api',payment)
+
 // Routes middleware for signIn and SignUp
 app.use('/api/auth', userAuth);
+
   
   // Error handling middleware 
   app.use((err, req, res, next) => {

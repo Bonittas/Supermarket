@@ -6,22 +6,22 @@ import Header from "../../components/Header3";
 import Cart from "../Cart";
 import { categories } from "./Category";
 import Footer from "../../components/Footer";
-import { useDispatch, useSelector } from "react-redux"; // Import useDispatch and useSelector
-import { addToCart, removeFromCart } from "../../features/cart/cartSlice"; // Import addToCart and removeFromCart actions
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, removeFromCart } from "../../features/cart/cartSlice";
 
 const Fruit = () => {
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const dispatch = useDispatch(); // Get dispatch function from Redux store
-  const cartItems = useSelector((state) => state.cart.items); // Select cart items from Redux store
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state) => state.cart.items);
 
   useEffect(() => {
     fetchFruitProducts();
   }, []);
 
   const handleDeleteItem = (itemId) => {
-    dispatch(removeFromCart(itemId)); // Dispatch removeFromCart action
+    dispatch(removeFromCart(itemId));
   };
 
   const fetchFruitProducts = async () => {
