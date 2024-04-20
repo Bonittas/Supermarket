@@ -18,11 +18,13 @@ const cartItemSchema = new mongoose.Schema({
   },
 });
 
-
 const orderSchema = new mongoose.Schema({
-
-  quantity: {
-    type: Number,
+  fname: {
+    type: String,
+    required: true
+  },
+  lname: {
+    type: String,
     required: true
   },
   email: {
@@ -38,10 +40,6 @@ const orderSchema = new mongoose.Schema({
     required: true
   },
   deliveryTime: {
-    type: String,
-    required: true
-  },
-  paymentMethod: {
     type: String,
     required: true
   },

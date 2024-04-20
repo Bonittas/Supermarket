@@ -1,311 +1,309 @@
-import React, { useState, useEffect } from 'react';
-import Header from '../components/Header3';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import Header from "../components/Header3";
+import axios from "axios";
 
 const PurchasePage = ({ cartItems, setCartItems, onDeleteItem }) => {
-  const [quantity, setQuantity] = useState(1);
-  const [email, setEmail] = useState('');
-  const [address, setAddress] = useState('');
-  const [deliveryDate, setDeliveryDate] = useState('');
-  const [deliveryTime, setDeliveryTime] = useState('');
-  const [paymentMethod, setPaymentMethod] = useState('');
-  const [remark, setRemark] = useState('');
-  const [shoppingExperience, setShoppingExperience] = useState('');
+  const [formData, setFormData] = useState({
+    email: "",
+    fname: "",
+    lname: "",
+    address: "",
+    deliveryDate: "",
+    deliveryTime: "",
+    remark: "",
+    shoppingExperience: "",
+  });
   const [loading, setLoading] = useState(false);
-  const [purchaseSuccess, setPurchaseSuccess] = useState(false);
-  const [orders, setOrders] = useState([]);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [errorMessage, setErrorMessage] = useState("");
+  const currency = "ETB";
 
   useEffect(() => {
     fetchOrders();
   }, []);
 
-  const handleQuantityChange = (event) => {
-    setQuantity(parseInt(event.target.value, 10));
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
 
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  };
+  const handlePurchaseSubmit = async (e) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+    try {
+      setLoading(true);
+      
+      // Send order data to the server
+      await sendOrderData();
 
-  const handleAddressChange = (event) => {
-    setAddress(event.target.value);
-  };
-
-  const handleDeliveryDateChange = (event) => {
-    setDeliveryDate(event.target.value);
-  };
-
-  const handleDeliveryTimeChange = (event) => {
-    setDeliveryTime(event.target.value);
-  };
-
-  const handlePaymentMethodChange = (event) => {
-    setPaymentMethod(event.target.value);
-  };
-
-  const handleRemarkChange = (event) => {
-    setRemark(event.target.value);
-  };
-
-  const handleShoppingExperienceChange = (event) => {
-    setShoppingExperience(event.target.value);
-  };
-
-  const navigate = useNavigate();
-
-  const handlePurchaseSubmit = (event) => {
-    event.preventDefault();
-    if (!validateForm()) {
-      return;
-    }
-
-    setLoading(true);
-
-    const purchaseData = {
-      quantity: quantity,
-      email: email,
-      address: address,
-      deliveryDate: deliveryDate,
-      deliveryTime: deliveryTime,
-      paymentMethod: paymentMethod,
-      remark: remark,
-      shoppingExperience: shoppingExperience,
-      cartItems: cartItems,
-    };
-
-    fetch('/api/order', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(purchaseData),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setLoading(false);
-        setPurchaseSuccess(true);
-
-        // Use setTimeout to delay the redirection
-        setTimeout(() => {
-          fetchOrders();
-          navigate('/');
-        }, 2000);
-      })
-      .catch((error) => {
-        setLoading(false);
-        console.error('An error occurred during the purchase.');
-        console.log(error);
-        throw error;
+      // Initialize payment
+      const response = await axios.post("/api/payment/initialize", {
+        amount: getTotalPrice(),
+        currency: "ETB",
+        ...formData,
+        tx_ref: `TX${Math.floor(100000 + Math.random() * 900000)}`,
+        callback_url: "https://example.com/callback",
+        return_url: "http://localhost:3000/purchase",
+        customization: {
+          title: "Customer",
+          description: formData.remark,
+        },
       });
+      window.location.href = response.data.data.checkout_url;
+    } catch (error) {
+      console.error(error);
+      setErrorMessage("Error processing payment. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const sendOrderData = async () => {
+    try {
+      const purchaseData = {
+        fname: formData.fname,
+        lname: formData.lname,
+        email: formData.email,
+        address: formData.address,
+        deliveryDate: formData.deliveryDate,
+        deliveryTime: formData.deliveryTime,
+        remark: formData.remark,
+        shoppingExperience: formData.shoppingExperience,
+        cartItems: cartItems,
+      };
+      await axios.post("/api/order", purchaseData);
+    } catch (error) {
+      console.error("An error occurred while sending order data.");
+      throw error;
+    }
   };
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get('/api/order/list');
-      setOrders(response.data);
+      const response = await axios.get("/api/order/list");
     } catch (error) {
-      console.error('Error fetching products:', error);
+      console.error("Error fetching products:", error);
+      setErrorMessage("Failed to fetch orders. Please try again later.");
     }
   };
 
   const validateForm = () => {
-    if (!quantity || quantity < 1) {
-      setErrorMessage('Please enter a valid quantity.');
-      return false;
+    const requiredFields = [
+      "fname",
+      "lname",
+      "email",
+      "address",
+      "deliveryDate",
+      "deliveryTime",
+      "remark",
+      "shoppingExperience",
+    ];
+    for (const field of requiredFields) {
+      if (!formData[field].trim()) {
+        setErrorMessage(
+          `Please enter your ${
+            field === "fname"
+              ? "first name"
+              : field === "lname"
+              ? "last name"
+              : field
+          } field.`
+        );
+        return false;
+      }
     }
-    if (!email.trim()) {
-      setErrorMessage('Please enter your email address.');
-      return false;
-    }
-    if (!address.trim()) {
-      setErrorMessage('Please enter your address.');
-      return false;
-    }
-    if (!deliveryDate.trim()) {
-      setErrorMessage('Please select a delivery date.');
-      return false;
-    }
-    if (!deliveryTime.trim()) {
-      setErrorMessage('Please select a delivery time.');
-      return false;
-    }
-    if (!paymentMethod.trim()) {
-      setErrorMessage('Please select a payment method.');
-      return false;
-    }
-    if (!remark.trim()) {
-      setErrorMessage('Please enter a remark.');
-      return false;
-    }
-    if (!shoppingExperience.trim()) {
-      setErrorMessage('Please select a shopping experience.');
-      return false;
-    }
-
-    setErrorMessage('');
+    setErrorMessage("");
     return true;
+  };
+
+  const getTotalPrice = () => {
+    return cartItems.reduce((total, item) => total + item.price, 0).toFixed(2);
   };
 
   return (
     <>
       <Header />
-      <div className="justify-center relative left-48 top-4 container text-center flex items-center my-12 rounded-md">
-        <div className="px-16 p-4 border-1 border bg-green-100 border-gray-300 shadow-lg rounded-md">
-          <div>
-            <h2 className="text-xl font-bold mb-4">Purchase Form</h2>
-            <form onSubmit={handlePurchaseSubmit}>
-
-              <div className="mb-4">
-                <label htmlFor="email" className="block font-bold">
-                  Email Address:
+      <div className="container mx-auto my-6 flex">
+        <div className="max-w-md mx-auto bg-white p-4 rounded-md shadow-md">
+          <h2 className="text-xl font-semibold text-center mb-4">
+            Purchase Form
+          </h2>
+          <form onSubmit={handlePurchaseSubmit}>
+            <div className="mb-4 flex justify-between">
+              <div className="w-1/2 mr-2">
+                <label htmlFor="fname" className="block text-sm font-medium">
+                  First Name
+                </label>
+                <input
+                  type="text"
+                  id="fname"
+                  name="fname"
+                  placeholder="First Name"
+                  value={formData.fname}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded mt-1"
+                />
+              </div>
+              <div className="w-1/2 ml-2">
+                <label htmlFor="lname" className="block text-sm font-medium">
+                  Last Name
+                </label>
+                <input
+                  type="text"
+                  id="lname"
+                  name="lname"
+                  placeholder="Last Name"
+                  value={formData.lname}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded mt-1"
+                />
+              </div>
+            </div>
+            <div className="mb-4 flex justify-between">
+              <div className="w-1/2 mr-2">
+                <label htmlFor="email" className="block text-sm font-medium">
+                  Email
                 </label>
                 <input
                   type="email"
                   id="email"
-                  value={email}
-                  onChange={handleEmailChange}
-                  className="border border-gray-300 rounded p-2"
+                  name="email"
+                  placeholder="Email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded mt-1"
                 />
               </div>
-              <div className="mb-4">
-                <label htmlFor="address" className="block font-bold">
-                  Address:
-                </label>
-                <textarea
-                  id="address"
-                  value={address}
-                  onChange={handleAddressChange}
-                  className="border border-gray-300 rounded p-2"
-                ></textarea>
-              </div>
-              <div className="mb-4">
-                <label htmlFor="quantity" className="block font-bold">
-                  Quantity:
+              <div className="w-1/2 ml-2">
+                <label htmlFor="address" className="block text-sm font-medium">
+                  Address
                 </label>
                 <input
-                  type="number"
-                  id="quantity"
-                  value={quantity}
-                  onChange={handleQuantityChange}
-                  className="border border-gray-300 rounded p-2"
+                  type="text"
+                  id="address"
+                  name="address"
+                  placeholder="Address"
+                  value={formData.address}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded mt-1"
                 />
               </div>
-              <div className="mb-4">
-                <label htmlFor="deliveryDate" className="block font-bold">
-                  Delivery Date:
+            </div>
+            <div className="mb-4 flex justify-between">
+              <div className="w-1/2 mr-2">
+                <label
+                  htmlFor="deliveryDate"
+                  className="block text-sm font-medium"
+                >
+                  Delivery Date
                 </label>
                 <input
                   type="date"
                   id="deliveryDate"
-                  value={deliveryDate}
-                  onChange={handleDeliveryDateChange}
-                  className="border border-gray-300 rounded p-2"
+                  name="deliveryDate"
+                  value={formData.deliveryDate}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded mt-1"
                 />
               </div>
-              <div className="mb-4">
-                <label htmlFor="deliveryTime" className="block font-bold">
-                  Delivery Time:
+              <div className="w-1/2 ml-2">
+                <label
+                  htmlFor="deliveryTime"
+                  className="block text-sm font-medium"
+                >
+                  Delivery Time
                 </label>
                 <input
                   type="time"
                   id="deliveryTime"
-                  value={deliveryTime}
-                  onChange={handleDeliveryTimeChange}
-                  className="border border-gray-300 rounded p-2"
+                  name="deliveryTime"
+                  value={formData.deliveryTime}
+                  onChange={handleChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded mt-1"
                 />
               </div>
-              <div className="mb-4">
-                <label htmlFor="paymentMethod" className="block font-bold">
-                  Payment Method:
-                </label>
-                <select
-                  id="paymentMethod"
-                  value={paymentMethod}
-                  onChange={handlePaymentMethodChange}
-                  className="border border-gray-300 rounded p-2"
-                >
-                  <option value="">Select a payment method</option>
-                  <option value="creditCard">CBE Mobile Banking</option>
-
-                  <option value="creditCard">CBE BIRR</option>
-                  <option value="paypal">TeleBirr</option>
-                  <option value="paypalTeleBirr">Paypal</option>
-
-                </select>
-              </div>
-              <div className="mb-4">
-                <label htmlFor="remark" className="block font-bold">
-                  Remark:
-                </label>
-                <textarea
-                  id="remark"
-                  value={remark}
-                  onChange={handleRemarkChange}
-                  className="border border-gray-300 rounded p-2"
-                ></textarea>
-              </div>
-              <div className="mb-4">
-                <label htmlFor="shoppingExperience" className="block font-bold">
-                  Shopping Experience:
-                </label>
-                <select
-                  id="shoppingExperience"
-                  value={shoppingExperience}
-                  onChange={handleShoppingExperienceChange}
-                  className="border border-gray-300 rounded p-2"
-                >
-                  <option value="">Select a shopping experience</option>
-                  <option value="great">Great</option>
-                  <option value="good">Good</option>
-                  <option value="average">Average</option>
-                  <option value="poor">Poor</option>
-                </select>
-              </div>
-              {errorMessage && (
-                <div className="text-red-500 mb-4">{errorMessage}</div>
-              )}
-              <div>
-                <button
-                  type="submit"
-                  className="bg-green-600 text-white rounded p-2"
-                  disabled={loading}
-                >
-                  {loading ? 'Loading...' : 'Purchase'}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-        <div className='absolute bg-green-100 border p-10 top-1 left-10'>
-          {cartItems && cartItems.length > 0 && (
-            <div>
-              <h3 className="text-lg font-bold mb-2">Cart Items</h3>
-              <ul>
-                {cartItems.map((item) => (
-                  <li key={item.id} className="flex items-center">
-                    <img
-                      src={`/uploads/${item.categoryName}/${item.image}`}
-                      alt={item.name}
-                      className="w-32 h-20 object-cover mr-2"
-                    />
-                    <span>
-                      {item.name} - ${item.price.toFixed(2)}
-                    </span>
-                    <button
-                      className="ml-6 mb-6 text-red-600"
-                      onClick={() => onDeleteItem(item.id)}
-                    >
-                      <span className='absolute right-2 font-bold'>
-                        Delete
-                      </span>
-                    </button>
-                  </li>
-                ))}
-              </ul>
             </div>
-          )}
+            <div className="mb-4">
+              <label htmlFor="remark" className="block text-sm font-medium">
+                Remark
+              </label>
+              <textarea
+                id="remark"
+                name="remark"
+                value={formData.remark}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded mt-1"
+              />
+            </div>
+            <div className="mb-4">
+              <label
+                htmlFor="shoppingExperience"
+                className="block text-sm font-medium"
+              >
+                Your Shopping Experience
+              </label>
+              <select
+                id="shoppingExperience"
+                name="shoppingExperience"
+                value={formData.shoppingExperience}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded mt-1"
+              >
+                <option value="">Select an option</option>
+                <option value="Excellent">Excellent</option>
+                <option value="Good">Good</option>
+                <option value="Average">Average</option>
+                <option value="Poor">Poor</option>
+              </select>
+            </div>
+            <div className="flex items-center justify-between mt-4">
+              <span className="text-lg font-semibold">Total Price:</span>
+              <span className="text-lg font-semibold">{`${getTotalPrice()} ${currency}`}</span>
+            </div>
+            {errorMessage && (
+              <div className="text-red-500 text-sm mt-2">{errorMessage}</div>
+            )}
+            <button
+              type="submit"
+              className="w-full py-2 mt-4 bg-green-500 text-white rounded hover:bg-green-600"
+              displaced={loading}
+            >
+              {loading ? "Processing..." : "Purchase"}
+            </button>
+          </form>
+          <div className="mt-4">
+            {cartItems && cartItems.length > 0 && (
+              <div>
+                <h3 className="text-lg font-semibold mb-2">Cart Items</h3>
+                <ul>
+                  {cartItems.map((item) => (
+                    <li
+                      key={item.id}
+                      className="flex items-center justify-between mb-2"
+                    >
+                      <div className="flex items-center">
+                        <img
+                          src={`/uploads/${item.categoryName}/${item.image}`}
+                          alt={item.name}
+                          className="w-16 h-12 object-cover mr-2 rounded"
+                        />
+                        <span>{item.name}</span>
+                      </div>
+                      <span>${item.price.toFixed(2)}</span>
+                      <button
+                        className="text-red-600 ml-2"
+                        onClick={() => onDeleteItem(item.id)}
+                      >
+                        Delete
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </>

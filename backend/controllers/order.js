@@ -2,29 +2,27 @@ const Order = require('../models/Order');
 
 const createOrder = (req, res) => {
   const {
-    quantity,
+    fname,
+    lname,
     email,
     address,
     deliveryDate,
     deliveryTime,
-    paymentMethod,
     remark,
     shoppingExperience,
     cartItems
-
   } = req.body;
 
   const newOrder = new Order({
-    quantity,
+    fname,
+    lname,
     email,
     address,
     deliveryDate,
     deliveryTime,
-    paymentMethod,
     remark,
     shoppingExperience,
     cartItems
-
   });
 
   newOrder.save()
@@ -92,8 +90,6 @@ const getOrderById = (req, res) => {
       res.status(500).json({ error: 'Failed to fetch order' });
     });
 };
-
-
 
 const updateOrderById = async (req, res) => {
   const id = req.params.id;

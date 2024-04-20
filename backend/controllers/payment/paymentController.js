@@ -17,8 +17,9 @@ exports.initializePayment = (req, res) => {
   request(options, (error, response, body) => {
     if (error) {
       console.error(error);
-      return res.status(500).send("Internal Server Error");
+      return response.status(500).send("Internal Server Error");
     }
-    res.status(200).send(body);
+    response.status(200).send(body);
+    console.log(body);
   });
 };
