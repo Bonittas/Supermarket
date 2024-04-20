@@ -125,8 +125,8 @@ const PurchasePage = ({ cartItems, setCartItems, onDeleteItem }) => {
   return (
     <>
       <Header />
-      <div className="container max-w-4xl mx-auto my-6 flex rounded-md shadow-md">
-        <div className=" bg-white p-4">
+      <div className="container w-full md:max-w-4xl mx-auto my-6 flex rounded-md shadow-md">
+      <div className="bg-white p-4 w-full md:w-1/2">
           <h2 className="text-xl font-semibold text-center mb-4">
             Purchase Form
           </h2>
@@ -275,11 +275,11 @@ const PurchasePage = ({ cartItems, setCartItems, onDeleteItem }) => {
           </form>
           </div>
 
-          <div className="p-4">
+          <div className="p-4 w-full md:w-1/2">
           <div className="mt-4">
             {cartItems && cartItems.length > 0 && (
               <div>
-                <h3 className="text-lg font-semibold mb-2">Cart Items</h3>
+              <h3 className="text-xl font-semibold text-center mb-4">Cart Items</h3>
                 <ul>
                   {cartItems.map((item) => (
                     <li
