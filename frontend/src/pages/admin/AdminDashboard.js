@@ -19,13 +19,15 @@ import {
   FaCross,
   FaOpencart,
 } from "react-icons/fa";
+import { faClose } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const DrawerComponent = ({ open, onClose, onSelectSection }) => {
   const handleDrawerToggle = () => onClose(!open);
 
   return (
     <div
-      className={`fixed inset-y-0 left-0 bg-gray-800 transition-all duration-200 ease-in-out transform ${
+      className={`fixed inset-y-0 left-0 bg-gray-700 transition-all duration-200 ease-in-out transform ${
         open ? "w-64" : "w-20"
       }`}
     >
@@ -35,7 +37,10 @@ const DrawerComponent = ({ open, onClose, onSelectSection }) => {
             className="text-white text-xl px-4 py-2 text-left hover:text-green-500 transition-all duration-200 ease-in-out"
             onClick={handleDrawerToggle}
           >
-            {open ? <FaOpencart /> : <FaBars />}
+            {open ? <FontAwesomeIcon
+                      icon={faClose}
+                      className=" text-gray-200 font-thin text-2xl hover:text-red-500 text-center cursor-pointer focus:outline-none"
+                    /> : <FaBars />}
           </button>
           <nav className="flex flex-col justify-between mt-8">
             {[
@@ -129,7 +134,7 @@ const Admin = () => {
   return (
     <div className="flex flex-col justify-between space-y-16">
       <header
-        className={`bg-gray-800 py-4 fixed top-0 right-0 h-16 px-4 shadow-md ${
+        className={`bg-gray-700 py-4 fixed top-0 right-0 h-16 px-4 shadow-md ${
           openDrawer
             ? "left-64 transition-all duration-200"
             : "left-20 transition-all duration-200"

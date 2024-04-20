@@ -105,7 +105,7 @@ const Fruit = ({ cartItems, setCartItems }) => {
         className="container mx-auto md:px-10 bg-white"
       >
         <div className="flex flex-col md:flex-row">
-          <div className="shadow-lg p-4 md:w-1/5 md:h-screen order-1 md:order-2">
+        <div className="shadow-lg p-4 md:w-1/5 md:h-screen order-1 md:order-2">
             <h2 className="text-3xl font-bold mb-4 text-center">Categories</h2>
             <ul className="flex flex-wrap md:flex-col md:space-x-2">
               {categories &&

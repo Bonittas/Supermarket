@@ -125,7 +125,7 @@ const Home = () => {
                 {filteredcategory.map((category) => (
                   <div
                     key={category._id}
-                    className="relative overflow-hidden bg-yellow-50 rounded-full m-2 shadow-lg transition-transform transform hover:scale-105 duration-300"
+                    className="relative overflow-hidden bg-white rounded-full m-2 shadow-lg transition-transform transform hover:scale-105 duration-300"
                     style={{
                       width: "200px",
                       height: "200px",
@@ -142,7 +142,7 @@ const Home = () => {
                         </Link>
                       </div>
                     </div>
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-green-600 to-transparent p-6">
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-green-700 to-transparent p-6">
                       <Link to={`/${category.categoryName}`}>
                         <p className="text-white text-center text-lg font-semibold">
                           {category.categoryName}
