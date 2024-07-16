@@ -99,7 +99,7 @@ const Fruit = ({ cartItems, setCartItems }) => {
       </div>
       <section
         id="Categories"
-        className="container mx-auto md:px-10 bg-white"
+        className="md:px-5 bg-green-50"
       >
         <div className="flex flex-col md:flex-row">
           <div className="shadow-lg p-4 md:w-1/5 md:h-screen order-1 md:order-2">
@@ -109,7 +109,7 @@ const Fruit = ({ cartItems, setCartItems }) => {
                 categories.map((category, index) => (
                   <li
                     key={index}
-                    className="cursor-pointer p-4 font-cursive font-semibold text-lg hover:bg-green-200 transition-colors"
+                    className="cursor-pointer p-4 font-cursive font-semibold text-gray-900 text-lg hover:bg-green-200 transition-colors"
                   >
                     <Link to={`/${category.name}`}>{category.name}</Link>
                   </li>

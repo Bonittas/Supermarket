@@ -11,6 +11,7 @@ const Fruit = ({ cartItems, setCartItems }) => {
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  // const [itemsPerPage, setItemsPerPage] = useState(8);
 
   useEffect(() => {
     fetchFruitProducts();
@@ -25,7 +26,7 @@ const Fruit = ({ cartItems, setCartItems }) => {
     try {
       const response = await axios.get("/api/products/list");
       const fruitProducts = response.data
-        .filter((product) => product.categoryName.toLowerCase() === "fruits")
+        .filter((product) => product.categoryName.toLowerCase() === "fruit")
         .map((product) => ({ ...product, id: product._id }));
 
       setProducts(fruitProducts);
@@ -36,14 +37,14 @@ const Fruit = ({ cartItems, setCartItems }) => {
 
   const handleAddToCart = (product) => {
     console.log("Before adding to cart:", cartItems);
-  
+
     const updatedCartItems = [...cartItems];
-    const existingItemIndex = updatedCartItems.findIndex(
+    const existingItem = updatedCartItems.find(
       (item) => item.id === product.id
     );
-  
-    if (existingItemIndex !== -1) {
-      updatedCartItems[existingItemIndex].quantity += 1;
+
+    if (existingItem) {
+      existingItem.quantity += 1;
     } else {
       updatedCartItems.push({
         ...product,
@@ -51,18 +52,11 @@ const Fruit = ({ cartItems, setCartItems }) => {
         id: product._id,
       });
     }
-  
-    const totalPrice = updatedCartItems.reduce(
-      (total, item) => total + item.price * item.quantity,
-      0
-    );
-  
-    setCartItems(updatedCartItems); // Update cart items
+
+    setCartItems(updatedCartItems);
     console.log("After adding to cart:", updatedCartItems);
     console.log(`Added ${product.name} to cart`);
-  
   };
-  
 
   const handleSearch = (query) => {
     setSearchQuery(query);
@@ -80,8 +74,10 @@ const Fruit = ({ cartItems, setCartItems }) => {
     product.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
+   // Adjust items per page for small screens
    const isSmallScreen = window.innerWidth < 768; 
    const itemsPerPageForScreen = isSmallScreen ? 4 : 8;
+  // Get current posts
   const indexOfLastProduct = currentPage * itemsPerPageForScreen;
   const indexOfFirstProduct = indexOfLastProduct - itemsPerPageForScreen;
   const currentProducts = filteredProducts.slice(
@@ -89,6 +85,7 @@ const Fruit = ({ cartItems, setCartItems }) => {
     indexOfLastProduct
   );
 
+   // Create page numbers
    const pageNumbers = [];
    for (let i = 1; i <= Math.ceil(filteredProducts.length / itemsPerPageForScreen); i++) {
      pageNumbers.push(i);
@@ -102,17 +99,17 @@ const Fruit = ({ cartItems, setCartItems }) => {
       </div>
       <section
         id="Categories"
-        className="container mx-auto md:px-10 bg-white"
+        className="md:px-5 bg-green-50"
       >
         <div className="flex flex-col md:flex-row">
-        <div className="shadow-lg p-4 md:w-1/5 md:h-screen order-1 md:order-2">
+          <div className="shadow-lg p-4 md:w-1/5 md:h-screen order-1 md:order-2">
             <h2 className="text-3xl font-bold mb-4 text-center">Categories</h2>
             <ul className="flex flex-wrap md:flex-col md:space-x-2">
               {categories &&
                 categories.map((category, index) => (
                   <li
                     key={index}
-                    className="cursor-pointer p-4 font-cursive font-semibold text-lg hover:bg-green-200 transition-colors"
+                    className="cursor-pointer p-4 font-cursive font-semibold text-gray-900 text-lg hover:bg-green-200 transition-colors"
                   >
                     <Link to={`/${category.name}`}>{category.name}</Link>
                   </li>
@@ -121,7 +118,7 @@ const Fruit = ({ cartItems, setCartItems }) => {
           </div>
 
           <div className="w-full md:w-4/5 py-4 pl-6 order-1 md:order-2">
-            <h2 className="text-2xl font-bold mb-4">Fruit Products</h2>
+            <h2 className="text-2xl font-bold mb-4">Fruits</h2>
             <div className={`grid grid-cols-2 md:grid-cols-4 lg:grid-cols-${isSmallScreen ? '2' : '4'}  gap-4`}>
               {currentProducts.map((product) => (
                  <div

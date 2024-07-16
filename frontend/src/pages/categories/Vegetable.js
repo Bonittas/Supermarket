@@ -7,6 +7,7 @@ import Header from "../../components/Header3";
 import Cart from "../Cart"; // Assuming the Cart component is correctly connected to Redux
 import { removeFromCart } from "../../features/cart/cartSlice"; // Import removeFromCart action
 import { useDispatch } from 'react-redux'; // Import useDispatch
+import { categories } from "./Category";
 
 const Fruit = ({ cartItems, setCartItems }) => {
   const [products, setProducts] = useState([]);
@@ -97,12 +98,20 @@ const Fruit = ({ cartItems, setCartItems }) => {
       <div className="fixed top-4 left-48 lg:w-1/3 md:w-1/4 sm:w-1/4 z-20 my-2">
         <Search onSearch={handleSearch} />
       </div>
-      <section id="Categories" className="container mx-auto md:px-10 bg-white">
+      <section id="Categories" className="md:px-5 bg-green-50">
         <div className="flex flex-col md:flex-row">
-          <div className="shadow-lg p-4 md:w-1/5 md:h-screen order-1 md:order-2">
+        <div className="shadow-lg p-4 md:w-1/5 md:h-screen order-1 md:order-2">
             <h2 className="text-3xl font-bold mb-4 text-center">Categories</h2>
             <ul className="flex flex-wrap md:flex-col md:space-x-2">
-              {/* Categories rendering code */}
+              {categories &&
+                categories.map((category, index) => (
+                  <li
+                    key={index}
+                    className="cursor-pointer p-4 font-cursive font-semibold text-gray-900 text-lg hover:bg-green-200 transition-colors"
+                  >
+                    <Link to={`/${category.name}`}>{category.name}</Link>
+                  </li>
+                ))}
             </ul>
           </div>
 

@@ -294,7 +294,7 @@ const PurchasePage = ({ cartItems, setCartItems, onDeleteItem }) => {
                         />
                         <span>{item.name}</span>
                       </div>
-                      <span>${item.price.toFixed(2)}</span>
+                      <span>{item.price.toFixed(2)} Birr</span>
                       <button
                         className="text-red-600 ml-2"
                         onClick={() => onDeleteItem(item.id)}

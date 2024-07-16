@@ -18,7 +18,7 @@ app.use("/", (req, res, next) => {
   next();
 });
 app.use(cors({
-  origin: ["https://deploy-mern-lwhq.vercel.app"],
+  origin: ["http:localhost:3000"],
   methods:["POST","GET"],
   credentials:true,
 }))
