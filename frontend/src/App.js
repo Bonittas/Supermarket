@@ -16,7 +16,6 @@ import Login from "./pages/SignIn";
 import Signup from "./pages/Signup";
 import Purchase from "./pages/Purchase";
 import Admin from "./pages/admin/AdminDashboard";
-import ProductListByCategory from "./pages/admin/ProductListByCategory";
 import FruitDetail from "./pages/admin/productDetail";
 import { categories } from "./pages/categories/Category";
 import Fruit from "./pages/categories/Fruit";
