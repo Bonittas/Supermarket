@@ -1,5 +1,5 @@
 {
-"proxy": "http://ishop-1-wppp.onrender.com",
+  "proxy": "http://localhost:5000",
   "name": "ecomm",
   "version": "0.1.0",
   "private": true,
