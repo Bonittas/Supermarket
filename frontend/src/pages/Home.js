@@ -118,8 +118,8 @@ const Home = () => {
                   >
                     <div className="aspect-w-1 aspect-h-1 m-4">
                       <div className="rounded-full overflow-hidden">
-                        <Link to={`/${category.categoryName}`}>
-                          <img
+                      <Link to={`/${category.categoryName}`}>
+                      <img
                             src={`/uploads/category/${category.categoryImage}`}
                             alt={category.categoryName}
                             className="object-cover w-full h-full"
