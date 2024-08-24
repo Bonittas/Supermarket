@@ -26,11 +26,18 @@ const Home = () => {
   const fetchcategory = async () => {
     try {
       const response = await axios.get("/api/category/list");
-      setcategory(response.data);
+      if (Array.isArray(response.data)) {
+        setcategory(response.data);
+      } else {
+        console.error("Unexpected API response structure:", response.data);
+        setcategory([]); // Set to empty array to avoid errors
+      }
     } catch (error) {
       console.error("Error fetching category:", error);
+      setcategory([]); // Handle the error by setting an empty array
     }
   };
+  
 
   const fetchFeaturedProducts = async () => {
     try {
@@ -41,12 +48,15 @@ const Home = () => {
     }
   };
 
-  const filteredcategory = category.filter((category) => {
-    return (
-      category.categoryName &&
-      category.categoryName.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  });
+  const filteredcategory = Array.isArray(category)
+  ? category.filter((category) => {
+      return (
+        category.categoryName &&
+        category.categoryName.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    })
+  : [];
+
 
   const toggleModal = () => {
     setShowModal(!showModal);
