@@ -18,7 +18,7 @@ app.use("/", (req, res, next) => {
   next();
 });
 app.use(cors({
-  origin: ["https://ishopl.onrender.com"],
+  origin: ["https://easyshop-njks.onrender.com/"],
   methods:["POST","GET"],
   credentials:true,
 }))
