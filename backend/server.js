@@ -18,7 +18,7 @@ app.use("/", (req, res, next) => {
   next();
 });
 app.use(cors({
-  origin: ["http:localhost:3000"],
+  origin: ["https://ishopl.onrender.com"],
   methods:["POST","GET"],
   credentials:true,
 }))
