@@ -26,18 +26,11 @@ const Home = () => {
   const fetchcategory = async () => {
     try {
       const response = await axios.get("/api/category/list");
-      if (Array.isArray(response.data)) {
-        setcategory(response.data);
-      } else {
-        console.error("Unexpected API response structure:", response.data);
-        setcategory([]); // Set to empty array to avoid errors
-      }
+      setcategory(response.data);
     } catch (error) {
       console.error("Error fetching category:", error);
-      setcategory([]); // Handle the error by setting an empty array
     }
   };
-  
 
   const fetchFeaturedProducts = async () => {
     try {
@@ -48,15 +41,12 @@ const Home = () => {
     }
   };
 
-  const filteredcategory = Array.isArray(category)
-  ? category.filter((category) => {
-      return (
-        category.categoryName &&
-        category.categoryName.toLowerCase().includes(searchQuery.toLowerCase())
-      );
-    })
-  : [];
-
+  const filteredcategory = category.filter((category) => {
+    return (
+      category.categoryName &&
+      category.categoryName.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  });
 
   const toggleModal = () => {
     setShowModal(!showModal);
@@ -128,8 +118,8 @@ const Home = () => {
                   >
                     <div className="aspect-w-1 aspect-h-1 m-4">
                       <div className="rounded-full overflow-hidden">
-                      <Link to={`/${category.categoryName}`}>
-                      <img
+                        <Link to={`/${category.categoryName}`}>
+                          <img
                             src={`/uploads/category/${category.categoryImage}`}
                             alt={category.categoryName}
                             className="object-cover w-full h-full"

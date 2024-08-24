@@ -29,7 +29,7 @@ const App = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("https://supermarket-2.onrender.com/api/products/list");
+        const response = await axios.get("/api/products/list");
         setProducts(response.data);
         console.log("Fetched products:", response.data);
       } catch (error) {
