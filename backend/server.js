@@ -17,11 +17,12 @@ app.use("/", (req, res, next) => {
   console.log(req.method, req.path);
   next();
 });
-app.use(cors({
-  origin: ["https://easyshop-njks.onrender.com/"],
-  methods:["POST","GET"],
-  credentials:true,
-}))
+ app.use(cors())
+// {
+  //   origin: ["https://easyshop-njks.onrender.com/"],
+  //   methods:["POST","GET"],
+  //   credentials:true,
+  // }
 app.use('/uploads/', express.static(path.join(__dirname, 'uploads')));
 
  
