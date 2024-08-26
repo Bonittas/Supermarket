@@ -12,17 +12,13 @@ const feedback = require("./routes/feedback")
 const payment = require("./routes/payment")
 app.use(express.json());
 
-
+app.use(express.static(path.join(__dirname,'/frontend/build')))
+app.get('*',(req,res)=> res.sendFile(path.join(__dirname,'/frontend/build/index.html')))
 app.use("/", (req, res, next) => {
   console.log(req.method, req.path);
   next();
 });
- app.use(cors({
-
-    origin: ["http://localhost:3000","https://easyshop-njks.onrender.com/"],
-    methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials:true,
-  }))
+ app.use(cors())
 app.use('/uploads/', express.static(path.join(__dirname, 'uploads')));
 
  
