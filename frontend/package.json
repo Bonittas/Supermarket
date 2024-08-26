@@ -1,5 +1,5 @@
 {
-  "proxy": "https://supermarket-backend-o9i9.onrender.com",
+  "proxy": "https://dalas-backend.onrender.com",
   "name": "ecomm",
   "version": "0.1.0",
   "private": true,
