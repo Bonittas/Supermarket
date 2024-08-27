@@ -30,8 +30,8 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start --allowed-hosts=supermarket-backend-o9i9.onrender.com",
-    "build": "react-scripts build --allowedHosts=supermarket-backend-o9i9.onrender.com",  
+    "start": "react-scripts start --allowed-hosts=dalas-backend.onrender.com",
+    "build": "react-scripts build --allowedHosts=dalas-backend.onrender.com",  
         "test": "react-scripts test",
         "eject": "react-scripts eject"
   },
