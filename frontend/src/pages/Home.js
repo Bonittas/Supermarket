@@ -131,10 +131,12 @@ const Home = () => {
         </div>
       </section>
 
-      <section id="Categories" className="container bg-white py-2">
+      <section id="Categories" className="w-full bg-green-50 py-2">
+      <h2 className=" text-2xl  text-center font-cursive font-bold">Top category</h2>
+
         <div className="flex flex-col md:flex-row space-y-0 md:space-y-0">
-          <div className="w-full mx-auto md:full justify-center items-center">
-            <h2 className="text-2xl text-center font-bold">Top category</h2>
+
+          <div className="w-full mx-auto md:full flex justify-center items-center">
 
             <div className="w-full p-4 flex-cols justify-center items-center">
               <div className="p-2 grid grid-cols-2 xs:grid-cols-1 justify-center items-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
