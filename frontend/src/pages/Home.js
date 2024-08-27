@@ -9,7 +9,11 @@ import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { categories } from "./categories/Category";
 import Search from "./SearchBar";
 import Footer from "../components/Footer";
+import '../App.css'
+import {
 
+  faUser, // Import the faUser icon
+} from "@fortawesome/free-solid-svg-icons";
 const Home = () => {
   const [category, setcategory] = useState([]);
   const [featuredProducts, setFeaturedProducts] = useState([]);
@@ -63,7 +67,13 @@ const Home = () => {
 
   return (
     <>
+          <div className="absolute right-4 top-8 z-30">
+      <Link to="/login">
+          <FontAwesomeIcon icon={faUser} className="w-6 h-6 text-yellow-600 hover:text-green-600" />
+        </Link>
+        </div>
       <Header />
+
       {loading ? (
       <div className="flex justify-center items-center h-screen">
         <FontAwesomeIcon

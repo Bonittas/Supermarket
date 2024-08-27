@@ -51,8 +51,8 @@ function Header({ handleMenuToggle, isMenuOpen }) {
       <div className="">
         <Link to="/">
           <p className="flex flex-col text-xl text-center font-cursive">
-            <FontAwesomeIcon icon={faCartShopping} className="w-12 h-12" />
-            iShop
+            <FontAwesomeIcon icon={faCartShopping} className="w-10 h-10" />
+            <span className=""></span>iShop
           </p>
         </Link>
       </div>
@@ -109,10 +109,7 @@ function Header({ handleMenuToggle, isMenuOpen }) {
           </Link>
         </nav>
 
-        {/* Profile icon */}
-        <Link to="/login">
-          <FontAwesomeIcon icon={faUser} className="w-6 h-6 text-yellow-600 hover:text-green-600" />
-        </Link>
+   
 
         <div className="sm:hidden">
           <button
