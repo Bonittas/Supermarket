@@ -16,6 +16,7 @@ const PurchasePage = ({ cartItems, setCartItems, onDeleteItem }) => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const currency = "ETB";
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     fetchOrders();
@@ -39,7 +40,7 @@ const PurchasePage = ({ cartItems, setCartItems, onDeleteItem }) => {
       await sendOrderData();
 
       // Initialize payment
-      const response = await axios.post("/api/payment/initialize", {
+      const response = await axios.post(`${apiUrl}/api/payment/initialize`, {
         amount: getTotalPrice(),
         currency: "ETB",
         ...formData,
@@ -73,7 +74,7 @@ const PurchasePage = ({ cartItems, setCartItems, onDeleteItem }) => {
         shoppingExperience: formData.shoppingExperience,
         cartItems: cartItems,
       };
-      await axios.post("/api/order", purchaseData);
+      await axios.post(`${apiUrl}/api/order`, purchaseData);
     } catch (error) {
       console.error("An error occurred while sending order data.");
       throw error;
@@ -82,7 +83,7 @@ const PurchasePage = ({ cartItems, setCartItems, onDeleteItem }) => {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get("/api/order/list");
+      const response = await axios.get(`${apiUrl}/api/order/list`);
     } catch (error) {
       console.error("Error fetching products:", error);
       setErrorMessage("Failed to fetch orders. Please try again later.");

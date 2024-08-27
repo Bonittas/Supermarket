@@ -22,9 +22,11 @@ const Fruit = ({ cartItems, setCartItems }) => {
     setCartItems(updatedCartItems);
   };
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   const fetchFruitProducts = async () => {
     try {
-      const response = await axios.get("/api/products/list");
+      const response = await axios.get(`${apiUrl}/api/products/list`);
       const fruitProducts = response.data
         .filter((product) => product.categoryName.toLowerCase() === "dairy")
         .map((product) => ({ ...product, id: product._id }));

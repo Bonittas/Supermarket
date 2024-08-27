@@ -26,10 +26,12 @@ import NotFound from "./pages/404Page";
 const App = () => {
   const [cartItems, setCartItems] = useState([]);
   const [products, setProducts] = useState([]);
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("/api/products/list");
+        const response = await axios.get(`${apiUrl}/api/products/list`);
         setProducts(response.data);
         console.log("Fetched products:", response.data);
       } catch (error) {

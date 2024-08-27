@@ -8,6 +8,7 @@ function SignIn() {
   const [formData, setFormData] = useState({});
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const handleChange = (e) => {
     setFormData({
@@ -19,7 +20,7 @@ function SignIn() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("/api/auth/signIn", formData, {
+      .post(`${apiUrl}/api/auth/signIn`, formData, {
         headers: {
           "Content-Type": "application/json",
         },

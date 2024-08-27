@@ -22,10 +22,11 @@ const Home = () => {
     fetchcategory();
     fetchFeaturedProducts();
   }, []);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const fetchcategory = async () => {
     try {
-      const response = await axios.get("/api/category/list");
+      const response = await axios.get(`${apiUrl}/api/category/list`);
       setcategory(response.data);
     } catch (error) {
       console.error("Error fetching category:", error);
@@ -34,7 +35,7 @@ const Home = () => {
 
   const fetchFeaturedProducts = async () => {
     try {
-      const response = await axios.get("/api/products/featured");
+      const response = await axios.get(`${apiUrl}/api/products/featured`);
       setFeaturedProducts(response.data);
     } catch (error) {
       console.error("Error fetching featured products:", error);
@@ -120,7 +121,7 @@ const Home = () => {
                       <div className="rounded-full overflow-hidden">
                         <Link to={`/${category.categoryName}`}>
                           <img
-                            src={`/uploads/category/${category.categoryImage}`}
+                            src={`${apiUrl}/uploads/category/${category.categoryImage}`}
                             alt={category.categoryName}
                             className="object-cover w-full h-full"
                           />
@@ -152,7 +153,7 @@ const Home = () => {
               <div key={product._id} className="w-full" timeout={300}>
                 <div className="p-2 rounded-lg shadow-md transition-transform transform hover:scale-105 duration-300">
                   <img
-                    src={`/uploads/${product.categoryName}/${product.image}`}
+                    src={`${apiUrl}/uploads/${product.categoryName}/${product.image}`}
                     alt={product.name}
                     className="mb-2 sm:h-16 md:h-36 lg:h-40 mx-auto rounded-lg cursor-pointer"
                   />
