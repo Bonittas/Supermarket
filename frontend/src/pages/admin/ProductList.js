@@ -9,7 +9,6 @@ const EditProductForm = ({ product, onEdit }) => {
   const handleEditChange = (e) => {
     setEditedProduct({ ...editedProduct, [e.target.name]: e.target.value });
   };
-  const apiUrl = process.env.REACT_APP_API_URL;
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -142,6 +141,7 @@ const ProductList = () => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     fetchProducts();
