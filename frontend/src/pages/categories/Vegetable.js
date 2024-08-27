@@ -126,7 +126,7 @@ const Fruit = ({ cartItems, setCartItems }) => {
                  className={`border p-2 rounded-lg hover:shadow-lg transition-shadow text-center`}
                >
                     <img
-                      src={`/uploads/${product.categoryName}/${product.image}`}
+                      src={`${apiUrl}/uploads/${product.categoryName}/${product.image}`}
                       alt={product.name}
                       className={`mb-2 ${isSmallScreen? 'h-16': 'md:h-36 lg:h-40'} mx-auto rounded-lg cursor-pointer`}
                     />

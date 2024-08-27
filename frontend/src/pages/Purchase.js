@@ -289,7 +289,7 @@ const PurchasePage = ({ cartItems, setCartItems, onDeleteItem }) => {
                     >
                       <div className="flex items-center">
                         <img
-                          src={`/uploads/${item.categoryName}/${item.image}`}
+                          src={`${apiUrl}/uploads/${item.categoryName}/${item.image}`}
                           alt={item.name}
                           className="w-16 h-12 object-cover mr-2 rounded"
                         />

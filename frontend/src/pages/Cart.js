@@ -13,6 +13,7 @@ class ItemNotFoundError extends Error {
 
 const Cart = ({ cartItems }) => {
   const dispatch = useDispatch();
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const handleDeleteItem = (itemName) => {
     try {
@@ -61,7 +62,7 @@ const Cart = ({ cartItems }) => {
               <li key={item._id} className="flex items-center">
                 <div className="relative mr-2">
                   <img
-                    src={`/uploads/${item.categoryName}/${item.image}`}
+                    src={`${apiUrl}/uploads/${item.categoryName}/${item.image}`}
                     alt={item.name}
                     className="w-10 h-10 object-cover"
                   />

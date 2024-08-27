@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import myImage from "../img/bg/p2.png";
 import Header from "../components/Header3";
 import "../styles/animation.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { categories } from "./categories/Category";
 import Search from "./SearchBar";
 import Footer from "../components/Footer";
@@ -13,7 +15,7 @@ const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [showModal, setShowModal] = useState(false); // State to manage modal visibility
-
+  const [loading, setLoading] = useState(true); 
   const handleSearch = (query) => {
     setSearchQuery(query);
   };
@@ -26,22 +28,28 @@ const Home = () => {
 
   const fetchcategory = async () => {
     try {
+      setLoading(true);  // Start loading
       const response = await axios.get(`${apiUrl}/api/category/list`);
       setcategory(response.data);
     } catch (error) {
       console.error("Error fetching category:", error);
+    } finally {
+      setLoading(false);  // End loading
     }
   };
-
+  
   const fetchFeaturedProducts = async () => {
     try {
+      setLoading(true);  // Start loading
       const response = await axios.get(`${apiUrl}/api/products/featured`);
       setFeaturedProducts(response.data);
     } catch (error) {
       console.error("Error fetching featured products:", error);
+    } finally {
+      setLoading(false);  // End loading
     }
   };
-
+  
   const filteredcategory = category.filter((category) => {
     return (
       category.categoryName &&
@@ -56,6 +64,18 @@ const Home = () => {
   return (
     <>
       <Header />
+      {loading ? (
+      <div className="flex justify-center items-center h-screen">
+        <FontAwesomeIcon
+          icon={faSpinner}
+          spin
+          size="3x"
+          className="text-yellow-500"
+        />
+      </div>
+    ) : (
+      <>
+
       <section
         id="hero"
         className="h-screen bg-gradient-to-r from-yellow-50 to-green-200"
@@ -107,7 +127,7 @@ const Home = () => {
             <h2 className="text-2xl text-center font-bold">Top category</h2>
 
             <div className="w-full p-4 flex-cols justify-center items-center">
-              <div className="p-2 grid grid-cols-2 xs:grid-cols-1 justify-center items-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+              <div className="p-2 grid grid-cols-2 xs:grid-cols-1 justify-center items-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
                 {filteredcategory.map((category) => (
                   <div
                     key={category._id}
@@ -148,8 +168,8 @@ const Home = () => {
           <h2 className="text-2xl font-bold mb-4 text-center">
             Featured Products
           </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {featuredProducts.slice(0, 4).map((product) => (
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {featuredProducts.slice(0, 5).map((product) => (
               <div key={product._id} className="w-full" timeout={300}>
                 <div className="p-2 rounded-lg shadow-md transition-transform transform hover:scale-105 duration-300">
                   <img
@@ -171,7 +191,7 @@ const Home = () => {
           <div className="text-center mt-6">
             <button
               onClick={toggleModal}
-              className="px-4 py-2 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
+              className="px-4 py-2 bg-yellow-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
             >
               Show More
             </button>
@@ -181,7 +201,7 @@ const Home = () => {
 
       {showModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white w-11/12 md:w-2/3 lg:w-1/2 p-6 rounded-lg overflow-y-auto max-h-screen relative">
+          <div className="bg-white w-11/12 md:w-2/3 lg:w-2/3 p-6 rounded-lg overflow-y-auto max-h-screen relative">
             <button
               onClick={toggleModal}
               className="absolute top-4 right-4 text-gray-600 hover:text-gray-800"
@@ -196,7 +216,7 @@ const Home = () => {
                 <div key={product._id} className="w-full" timeout={300}>
                   <div className="p-2 rounded-lg shadow-md transition-transform transform hover:scale-105 duration-300">
                     <img
-                      src={`/uploads/${product.categoryName}/${product.image}`}
+                      src={`${apiUrl}/uploads/${product.categoryName}/${product.image}`}
                       alt={product.name}
                       className="mb-2 sm:h-16 md:h-36 lg:h-40 mx-auto rounded-lg cursor-pointer"
                     />
@@ -222,7 +242,8 @@ const Home = () => {
           </div>
         </div>
       )}
-
+      </>
+    )}
       <Footer />
     </>
   );

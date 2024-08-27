@@ -209,7 +209,7 @@ const ViewOrders = () => {
                           <div key={item._id} className="flex items-left">
                             <td className="py-2 px-2 border-r text-left">
                               <img
-                                src={`/uploads/${item.categoryName}/${item.image}`}
+                                src={`${apiUrl}/uploads/${item.categoryName}/${item.image}`}
                                 alt={item.name}
                                 className="w-10 h-8 object-cover"
                               />

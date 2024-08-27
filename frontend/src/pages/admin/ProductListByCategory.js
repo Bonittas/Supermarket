@@ -29,7 +29,7 @@ const ProductListByCategory = () => {
           {products.map((product) => (
             <div key={product._id} className="border p-4 rounded-lg hover:shadow-lg transition-shadow">
               <img
-                src={`/uploads/${product.categoryName}/${product.image}`}
+                src={`${apiUrl}/uploads/${product.categoryName}/${product.image}`}
                 alt={product.name}
                 className="mb-2 h-56 rounded-lg cursor-pointer"
               />
