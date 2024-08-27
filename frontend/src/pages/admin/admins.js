@@ -16,6 +16,7 @@ const Admin = ({ cartItems, setCartItems }) => {
   });
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     fetchCategories();

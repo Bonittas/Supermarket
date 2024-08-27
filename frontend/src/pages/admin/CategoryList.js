@@ -12,6 +12,7 @@ const CategoryList = () => {
   useEffect(() => {
     fetchCategories();
   }, [page, limit, searchQuery]);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const fetchCategories = async () => {
     try {

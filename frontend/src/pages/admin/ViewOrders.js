@@ -19,6 +19,7 @@ const ViewOrders = () => {
     remark: "",
     shoppingExperience: "",
   });
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     fetchOrders();

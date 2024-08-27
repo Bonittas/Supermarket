@@ -9,6 +9,7 @@ import { categories } from '../categories/Category';
 const Fruit = ({ cartItems, setCartItems }) => {
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     fetchFruitProducts();
