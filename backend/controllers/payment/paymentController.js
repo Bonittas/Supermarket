@@ -19,7 +19,7 @@ exports.initializePayment = (req, res) => {
       console.error(error);
       return response.status(500).send("Internal Server Error");
     }
-    response.status(200).send(body);
+    res.status(200).send(body);
     console.log(body);
   });
 };
