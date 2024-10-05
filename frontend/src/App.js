@@ -16,7 +16,6 @@ import Login from "./pages/SignIn";
 import Signup from "./pages/Signup";
 import Purchase from "./pages/Purchase";
 import Admin from "./pages/admin/AdminDashboard";
-import ProductListByCategory from "./pages/admin/ProductListByCategory";
 import FruitDetail from "./pages/admin/productDetail";
 import { categories } from "./pages/categories/Category";
 import Fruit from "./pages/categories/Fruit";
@@ -27,10 +26,12 @@ import NotFound from "./pages/404Page";
 const App = () => {
   const [cartItems, setCartItems] = useState([]);
   const [products, setProducts] = useState([]);
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("/api/products/list");
+        const response = await axios.get(`${apiUrl}/api/products/list`);
         setProducts(response.data);
         console.log("Fetched products:", response.data);
       } catch (error) {
@@ -69,7 +70,7 @@ const App = () => {
           <Route path="/feedback" element={<Feedbacks />} />
           <Route path="/services" element={<Services />} />
           <Route
-            path="/fruits"
+            path="/fruit"
             element={
               <FruitsPage cartItems={cartItems} setCartItems={setCartItems} />
             }

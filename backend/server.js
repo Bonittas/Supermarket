@@ -12,14 +12,16 @@ const feedback = require("./routes/feedback")
 const payment = require("./routes/payment")
 app.use(express.json());
 
-
+// app.use(express.static(path.join(__dirname,'/frontend/build')))
+// app.get('*',(req,res)=> res.sendFile(path.join(__dirname,'/frontend/build/index.html')))
 app.use("/", (req, res, next) => {
   console.log(req.method, req.path);
   next();
 });
 app.use(cors({
-  origin: ["https://deploy-mern-lwhq.vercel.app"],
-  methods:["POST","GET"],
+
+  origin: ["http://localhost:3000","https://dalas-supermarket.onrender.com/"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials:true,
 }))
 app.use('/uploads/', express.static(path.join(__dirname, 'uploads')));

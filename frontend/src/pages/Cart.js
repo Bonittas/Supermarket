@@ -3,7 +3,9 @@ import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import { removeFromCart } from '../features/cart/cartSlice';
-import {Link} from "react-router-dom"
+import { Link } from 'react-router-dom';
+
+// Custom Error class for item not found
 class ItemNotFoundError extends Error {
   constructor(message) {
     super(message);
@@ -13,17 +15,21 @@ class ItemNotFoundError extends Error {
 
 const Cart = ({ cartItems }) => {
   const dispatch = useDispatch();
+  const apiUrl = process.env.REACT_APP_API_URL;
 
-  const handleDeleteItem = (itemName) => {
+  const handleDeleteItem = (itemId) => {
+    console.log('Deleting item with ID:', itemId); // Debugging log
     try {
-      dispatch(removeFromCart(itemName.trim())); // Trimming whitespace from itemName
+      const itemExists = cartItems.some(item => item._id === itemId);
+      if (!itemExists) {
+        throw new ItemNotFoundError('Item not found in cart');
+      }
+      dispatch(removeFromCart(itemId));
     } catch (error) {
       if (error instanceof ItemNotFoundError) {
         console.error(error.message);
-        // Handle the error (e.g., display a message to the user)
       } else {
-        console.error(error);
-        // Handle other errors
+        console.error('Failed to delete item:', error);
       }
     }
   };
@@ -61,7 +67,7 @@ const Cart = ({ cartItems }) => {
               <li key={item._id} className="flex items-center">
                 <div className="relative mr-2">
                   <img
-                    src={`/uploads/${item.categoryName}/${item.image}`}
+                    src={`${apiUrl}/uploads/${item.categoryName}/${item.image}`}
                     alt={item.name}
                     className="w-10 h-10 object-cover"
                   />
@@ -75,11 +81,11 @@ const Cart = ({ cartItems }) => {
                   )}
                 </span>
                 <span className="ml-2 text-gray-500">
-                  {(item.price * item.quantity).toFixed(2)}Birr)
+                  {(item.price * item.quantity).toFixed(2)} Birr
                 </span>
                 <button
                   className="ml-8 font-bold text-xl text-red-600"
-                  onClick={() => handleDeleteItem(item.name)} // Use itemName for delete
+                  onClick={() => handleDeleteItem(item._id)}
                 >
                   Delete
                 </button>
@@ -88,15 +94,15 @@ const Cart = ({ cartItems }) => {
           </ul>
 
           <div className="my-4">
-                <p className="font-bold">
-                  Total Price: {totalPrice.toFixed(2)}Birr{' '}
-                  <Link to="/purchase">
-                    <button className="bg-green-700 p-2 text-white rounded-md">
-                      Purchase
-                    </button>
-                  </Link>
-                </p>
-              </div>
+            <p className="font-bold">
+              Total Price: {totalPrice.toFixed(2)} Birr{' '}
+              <Link to="/purchase">
+                <button className="bg-green-700 p-2 text-white rounded-md">
+                  Purchase
+                </button>
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
     </div>

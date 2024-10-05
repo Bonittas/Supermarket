@@ -141,6 +141,7 @@ const ProductList = () => {
   const [page, setPage] = useState(1);
   const [limit, setLimit] = useState(10);
   const [totalPages, setTotalPages] = useState(1);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     fetchProducts();
@@ -262,7 +263,7 @@ const ProductList = () => {
                   <td className="py-2 px-2 border-b text-left">
                     {product.image ? (
                       <img
-                        src={`/uploads/${product.categoryName}/${product.image}`}
+                        src={`${apiUrl}/uploads/${product.categoryName}/${product.image}`}
                         alt={`Product ${product.name}`}
                         className="max-h-20 max-w-20"
                         onError={(e) => console.error("Image load error:", e)}

@@ -8,6 +8,7 @@ function SignIn() {
   const [formData, setFormData] = useState({});
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const handleChange = (e) => {
     setFormData({
@@ -19,7 +20,7 @@ function SignIn() {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("/api/auth/signIn", formData, {
+      .post(`${apiUrl}/api/auth/signIn`, formData, {
         headers: {
           "Content-Type": "application/json",
         },
@@ -41,16 +42,16 @@ function SignIn() {
       });
   };
   return (
-    <div className="z-20 bg-gradient-to-r from-yellow-50 to-green-200">
+    <div className="z-20 bg-gray-200">
       <div
         className="w-full h-screen bg-cover bg-center"
         // style={{ backgroundImage: `url(${myImage})` }}
       >
         <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center" />
 
-        <Header2 />
+        {/* <Header2 /> */}
         <div className="flex justify-center items-center mx-2  ">
-          <div className="w-full max-w-md mx-2 p-8 py-10 bg-gray-100 shadow-lg rounded-lg absolute top-32 ">
+          <div className="w-full max-w-md mx-2 p-8 py-10  bg-gradient-to-r from-yellow-50 to-green-200 shadow-lg rounded-lg absolute top-32 ">
             <h2 className="text-2xl font-bold mb-3 text-center text-black">
               Sign In
             </h2>
@@ -65,7 +66,7 @@ function SignIn() {
                 Email
               </label>
               <input
-                className="w-full px-3 py-2 rounded border border-white-300 text-black bg-green-600 bg-opacity-10 focus:outline-none focus:border-white-500"
+                className="w-full px-3 py-2 rounded border border-white-300 text-black bg-white focus:outline-none focus:border-white-500"
                 id="email"
                 type="email"
                 name="email"
@@ -79,7 +80,7 @@ function SignIn() {
                 Password
               </label>
               <input
-                className="w-full px-3 py-2 rounded border border-white-300 text-black bg-green-600 bg-opacity-10 focus:outline-none focus:border-white-500"
+                className="w-full px-3 py-2 rounded border border-white-300 text-black bg-white focus:outline-none focus:border-white-500"
                 id="password"
                 type="password"
                 name="password"

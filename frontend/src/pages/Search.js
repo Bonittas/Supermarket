@@ -6,10 +6,11 @@ const Search = () => {
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredCategory, setFilteredCategory] = useState([]);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const fetchCategory = async (searchQuery) => {
     try {
-      const response = await axios.get(`/api/category/list?searchQuery=${searchQuery}`);
+      const response = await axios.get(`${apiUrl}/api/category/list?searchQuery=${searchQuery}`);
       setCategory(response.data);
     } catch (error) {
       console.error("Error fetching category:", error);
@@ -18,7 +19,7 @@ const Search = () => {
 
   const fetchFeaturedProducts = async () => {
     try {
-      const response = await axios.get("/api/products/featured");
+      const response = await axios.get(`${apiUrl}/api/products/featured`);
       setFeaturedProducts(response.data);
     } catch (error) {
       console.error("Error fetching featured products:", error);

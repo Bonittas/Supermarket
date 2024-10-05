@@ -16,6 +16,7 @@ const PurchasePage = ({ cartItems, setCartItems, onDeleteItem }) => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const currency = "ETB";
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     fetchOrders();
@@ -39,13 +40,13 @@ const PurchasePage = ({ cartItems, setCartItems, onDeleteItem }) => {
       await sendOrderData();
 
       // Initialize payment
-      const response = await axios.post("/api/payment/initialize", {
+      const response = await axios.post(`${apiUrl}/api/payment/initialize`, {
         amount: getTotalPrice(),
         currency: "ETB",
         ...formData,
         tx_ref: `TX${Math.floor(100000 + Math.random() * 900000)}`,
         callback_url: "https://example.com/callback",
-        return_url: "http://localhost:3000/purchase",
+        return_url: "https://dalas-market.onrender.com/purchase",
         customization: {
           title: "Customer",
           description: formData.remark,
@@ -73,7 +74,7 @@ const PurchasePage = ({ cartItems, setCartItems, onDeleteItem }) => {
         shoppingExperience: formData.shoppingExperience,
         cartItems: cartItems,
       };
-      await axios.post("/api/order", purchaseData);
+      await axios.post(`${apiUrl}/api/order`, purchaseData);
     } catch (error) {
       console.error("An error occurred while sending order data.");
       throw error;
@@ -82,7 +83,7 @@ const PurchasePage = ({ cartItems, setCartItems, onDeleteItem }) => {
 
   const fetchOrders = async () => {
     try {
-      const response = await axios.get("/api/order/list");
+      const response = await axios.get(`${apiUrl}/api/order/list`);
     } catch (error) {
       console.error("Error fetching products:", error);
       setErrorMessage("Failed to fetch orders. Please try again later.");
@@ -288,13 +289,13 @@ const PurchasePage = ({ cartItems, setCartItems, onDeleteItem }) => {
                     >
                       <div className="flex items-center">
                         <img
-                          src={`/uploads/${item.categoryName}/${item.image}`}
+                          src={`${apiUrl}/uploads/${item.categoryName}/${item.image}`}
                           alt={item.name}
                           className="w-16 h-12 object-cover mr-2 rounded"
                         />
                         <span>{item.name}</span>
                       </div>
-                      <span>${item.price.toFixed(2)}</span>
+                      <span>{item.price.toFixed(2)} Birr</span>
                       <button
                         className="text-red-600 ml-2"
                         onClick={() => onDeleteItem(item.id)}

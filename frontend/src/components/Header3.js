@@ -6,6 +6,7 @@ import {
   faTimes,
   faCartShopping,
   faChevronDown,
+  faUser, // Import the faUser icon
 } from "@fortawesome/free-solid-svg-icons";
 
 function Header({ handleMenuToggle, isMenuOpen }) {
@@ -48,10 +49,12 @@ function Header({ handleMenuToggle, isMenuOpen }) {
       }`}
     >
       <div className="">
-        <Link to="/"><p className="flex flex-col text-xl text-center font-cursive">
-          <FontAwesomeIcon icon={faCartShopping} className="w-12 h-12" />
-          iShop
-        </p></Link>
+        <Link to="/">
+          <p className="flex flex-col text-xl text-center font-cursive">
+            <FontAwesomeIcon icon={faCartShopping} className="w-10 h-10" />
+            <span className=""></span>Dalas
+          </p>
+        </Link>
       </div>
       <div className="flex items-center ml-auto space-x-4 z-20">
         <nav className="z-20 hidden sm:flex sm:justify-between space-x-4 text-sm">
@@ -78,22 +81,13 @@ function Header({ handleMenuToggle, isMenuOpen }) {
           {/* Products dropdown */}
           <div className="relative inline-block text-sm">
             <span className="cursor-pointer" onClick={toggleDropdown}>
-              Products <FontAwesomeIcon icon={faChevronDown} />
+              <Link to="/" className="block text-yellow hover:text-green-400">
+                Products
+              </Link>
             </span>
             {isDropdownOpen && (
               <div className="absolute bg-white w-40 h-20 mt-2 px-3 space-y-2">
-                <Link
-                  to="/"
-                  className="block text-black hover:text-green-400"
-                >
-                  Featured Products
-                </Link>
-                <Link
-                  to="/products"
-                  className="block text-black hover:text-green-400"
-                >
-                  New Offers
-                </Link>
+                {/* Add your dropdown links here */}
               </div>
             )}
           </div>
@@ -114,6 +108,9 @@ function Header({ handleMenuToggle, isMenuOpen }) {
             Our Services
           </Link>
         </nav>
+
+   
+
         <div className="sm:hidden">
           <button
             className="hover:text-white focus:outline-none"

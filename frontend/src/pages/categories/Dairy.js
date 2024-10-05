@@ -6,27 +6,27 @@ import Header from "../../components/Header3";
 import Cart from "../Cart";
 import { categories } from "./Category";
 import Footer from "../../components/Footer";
-import { useDispatch, useSelector } from "react-redux";
-import { addToCart, removeFromCart } from "../../features/cart/cartSlice";
 
-const Fruit = () => {
+const Fruit = ({ cartItems, setCartItems }) => {
   const [products, setProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const dispatch = useDispatch();
-  const cartItems = useSelector((state) => state.cart.items);
+  // const [itemsPerPage, setItemsPerPage] = useState(8);
 
   useEffect(() => {
     fetchFruitProducts();
   }, []);
 
   const handleDeleteItem = (itemId) => {
-    dispatch(removeFromCart(itemId));
+    const updatedCartItems = cartItems.filter((item) => item.id !== itemId);
+    setCartItems(updatedCartItems);
   };
+
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const fetchFruitProducts = async () => {
     try {
-      const response = await axios.get("/api/products/list");
+      const response = await axios.get(`${apiUrl}/api/products/list`);
       const fruitProducts = response.data
         .filter((product) => product.categoryName.toLowerCase() === "dairy")
         .map((product) => ({ ...product, id: product._id }));
@@ -38,7 +38,26 @@ const Fruit = () => {
   };
 
   const handleAddToCart = (product) => {
-    dispatch(addToCart(product)); // Dispatch addToCart action with the product data
+    console.log("Before adding to cart:", cartItems);
+
+    const updatedCartItems = [...cartItems];
+    const existingItem = updatedCartItems.find(
+      (item) => item.id === product.id
+    );
+
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      updatedCartItems.push({
+        ...product,
+        quantity: 1,
+        id: product._id,
+      });
+    }
+
+    setCartItems(updatedCartItems);
+    console.log("After adding to cart:", updatedCartItems);
+    console.log(`Added ${product.name} to cart`);
   };
 
   const handleSearch = (query) => {
@@ -57,10 +76,10 @@ const Fruit = () => {
     product.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  // Adjust items per page for small screens
-  const isSmallScreen = window.innerWidth < 768;
-  const itemsPerPageForScreen = isSmallScreen ? 4 : 8;
-  // Get current products for the current page
+   // Adjust items per page for small screens
+   const isSmallScreen = window.innerWidth < 768; 
+   const itemsPerPageForScreen = isSmallScreen ? 4 : 8;
+  // Get current posts
   const indexOfLastProduct = currentPage * itemsPerPageForScreen;
   const indexOfFirstProduct = indexOfLastProduct - itemsPerPageForScreen;
   const currentProducts = filteredProducts.slice(
@@ -68,16 +87,12 @@ const Fruit = () => {
     indexOfLastProduct
   );
 
-  // Create page numbers
-  const pageNumbers = [];
-  for (
-    let i = 1;
-    i <= Math.ceil(filteredProducts.length / itemsPerPageForScreen);
-    i++
-  ) {
-    pageNumbers.push(i);
-  }
-
+   // Create page numbers
+   const pageNumbers = [];
+   for (let i = 1; i <= Math.ceil(filteredProducts.length / itemsPerPageForScreen); i++) {
+     pageNumbers.push(i);
+   }
+    
   return (
     <>
       <Header />
@@ -86,19 +101,17 @@ const Fruit = () => {
       </div>
       <section
         id="Categories"
-        className="container mx-auto md:px-5 bg-white"
+        className="md:px-5 bg-green-50"
       >
         <div className="flex flex-col md:flex-row">
           <div className="shadow-lg p-4 md:w-1/5 md:h-screen order-1 md:order-2">
-            <h2 className="text-3xl font-bold mb-4 text-center">
-              Categories
-            </h2>
+            <h2 className="text-3xl font-bold mb-4 text-center">Categories</h2>
             <ul className="flex flex-wrap md:flex-col md:space-x-2">
               {categories &&
                 categories.map((category, index) => (
                   <li
                     key={index}
-                    className="cursor-pointer p-4 font-cursive font-semibold text-lg hover:bg-green-200 transition-colors"
+                    className="cursor-pointer p-4 font-cursive font-semibold text-gray-900 text-lg hover:bg-green-200 transition-colors"
                   >
                     <Link to={`/${category.name}`}>{category.name}</Link>
                   </li>
@@ -106,27 +119,24 @@ const Fruit = () => {
             </ul>
           </div>
 
-          <div className="w-full md:w-1/2 py-4 pl-6 order-1 md:order-2">
+          <div className="w-full md:w-4/5 py-4 pl-6 order-1 md:order-2">
             <h2 className="text-2xl font-bold mb-4">Dairy Products</h2>
-            <div
-              className={`grid grid-cols-2 md:grid-cols-4 lg:grid-cols-${
-                isSmallScreen ? "2" : "4"
-              }  gap-4`}
-            >
+            <div className={`grid grid-cols-2 md:grid-cols-4 lg:grid-cols-${isSmallScreen ? '2' : '4'}  gap-4`}>
               {currentProducts.map((product) => (
-                <div
-                  key={product._id}
-                  className={`border p-2 rounded-lg hover:shadow-lg transition-shadow text-center`}
-                >
-                  <img
-                    src={`/uploads/${product.categoryName}/${product.image}`}
-                    alt={product.name}
-                    className={`mb-2 ${
-                      isSmallScreen ? "h-16" : "md:h-36 lg:h-40"
-                    } mx-auto rounded-lg cursor-pointer`}
-                  />
+                 <div
+                 key={product._id}
+                 className={`border p-2 rounded-lg hover:shadow-lg transition-shadow text-center`}
+               >
+                    <img
+                      src={`${apiUrl}/uploads/${product.categoryName}/${product.image}`}
+                      alt={product.name}
+                      className={`mb-2 ${isSmallScreen? 'h-16': 'md:h-36 lg:h-40'} mx-auto rounded-lg cursor-pointer`}
+                    />
                   <div className="flex space-x-12 mx-auto mb-2">
-                    <h3 className="text-lg font-bold">{product.name}</h3>
+                    <h3 className="text-lg font-bold">
+                      {product.name}
+                     
+                    </h3>
                     <p className="text-gray-500">
                       {product.price.toFixed(2)}{" "}
                       <span className="font-bold">Birr</span>{" "}

@@ -22,9 +22,11 @@ const Fruit = ({ cartItems, setCartItems }) => {
     setCartItems(updatedCartItems);
   };
 
+  const apiUrl = process.env.REACT_APP_API_URL;
+
   const fetchFruitProducts = async () => {
     try {
-      const response = await axios.get("/api/products/list");
+      const response = await axios.get(`${apiUrl}/api/products/list`);
       const fruitProducts = response.data
         .filter((product) => product.categoryName.toLowerCase() === "snacks")
         .map((product) => ({ ...product, id: product._id }));
@@ -99,7 +101,7 @@ const Fruit = ({ cartItems, setCartItems }) => {
       </div>
       <section
         id="Categories"
-        className="container mx-auto md:px-10 bg-white"
+        className="md:px-5 bg-green-50"
       >
         <div className="flex flex-col md:flex-row">
           <div className="shadow-lg p-4 md:w-1/5 md:h-screen order-1 md:order-2">
@@ -109,7 +111,7 @@ const Fruit = ({ cartItems, setCartItems }) => {
                 categories.map((category, index) => (
                   <li
                     key={index}
-                    className="cursor-pointer p-4 font-cursive font-semibold text-lg hover:bg-green-200 transition-colors"
+                    className="cursor-pointer p-4 font-cursive font-semibold text-gray-900 text-lg hover:bg-green-200 transition-colors"
                   >
                     <Link to={`/${category.name}`}>{category.name}</Link>
                   </li>
@@ -126,7 +128,7 @@ const Fruit = ({ cartItems, setCartItems }) => {
                  className={`border p-2 rounded-lg hover:shadow-lg transition-shadow text-center`}
                >
                     <img
-                      src={`/uploads/${product.categoryName}/${product.image}`}
+                      src={`${apiUrl}/uploads/${product.categoryName}/${product.image}`}
                       alt={product.name}
                       className={`mb-2 ${isSmallScreen? 'h-16': 'md:h-36 lg:h-40'} mx-auto rounded-lg cursor-pointer`}
                     />

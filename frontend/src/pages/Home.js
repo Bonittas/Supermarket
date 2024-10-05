@@ -4,15 +4,22 @@ import { Link } from "react-router-dom";
 import myImage from "../img/bg/p2.png";
 import Header from "../components/Header3";
 import "../styles/animation.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { categories } from "./categories/Category";
 import Search from "./SearchBar";
 import Footer from "../components/Footer";
+import '../App.css'
+import {
 
+  faUser, // Import the faUser icon
+} from "@fortawesome/free-solid-svg-icons";
 const Home = () => {
   const [category, setcategory] = useState([]);
   const [featuredProducts, setFeaturedProducts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-
+  const [showModal, setShowModal] = useState(false); // State to manage modal visibility
+  const [loading, setLoading] = useState(true); 
   const handleSearch = (query) => {
     setSearchQuery(query);
   };
@@ -21,25 +28,32 @@ const Home = () => {
     fetchcategory();
     fetchFeaturedProducts();
   }, []);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const fetchcategory = async () => {
     try {
-      const response = await axios.get("/api/category/list");
+      setLoading(true);  // Start loading
+      const response = await axios.get(`${apiUrl}/api/category/list`);
       setcategory(response.data);
     } catch (error) {
       console.error("Error fetching category:", error);
+    } finally {
+      setLoading(false);  // End loading
     }
   };
-
+  
   const fetchFeaturedProducts = async () => {
     try {
-      const response = await axios.get("/api/products/featured");
+      setLoading(true);  // Start loading
+      const response = await axios.get(`${apiUrl}/api/products/featured`);
       setFeaturedProducts(response.data);
     } catch (error) {
       console.error("Error fetching featured products:", error);
+    } finally {
+      setLoading(false);  // End loading
     }
   };
-
+  
   const filteredcategory = category.filter((category) => {
     return (
       category.categoryName &&
@@ -47,13 +61,31 @@ const Home = () => {
     );
   });
 
-  const featuredProductsHeight = {
-    height: `${Math.ceil(featuredProducts.length / 4) * 400}px`, // Assuming 4 products per row and 320px height per product card
+  const toggleModal = () => {
+    setShowModal(!showModal);
   };
 
   return (
     <>
+          <div className="absolute right-4 top-8 z-30">
+      <Link to="/login">
+          <FontAwesomeIcon icon={faUser} className="w-6 h-6 text-yellow-600 hover:text-green-600" />
+        </Link>
+        </div>
       <Header />
+
+      {loading ? (
+      <div className="flex justify-center items-center h-screen">
+        <FontAwesomeIcon
+          icon={faSpinner}
+          spin
+          size="3x"
+          className="text-yellow-500"
+        />
+      </div>
+    ) : (
+      <>
+
       <section
         id="hero"
         className="h-screen bg-gradient-to-r from-yellow-50 to-green-200"
@@ -78,7 +110,7 @@ const Home = () => {
               <div className="container flex flex-row justify-center">
                 <Link
                   to="#"
-                  className="px-6 p-3 bg-yellow-600 my-4 mx-4 font-bold  rounded-md text-white "
+                  className="px-6 p-3 bg-yellow-600 my-4 mx-4 font-bold rounded-md text-white "
                 >
                   Shop with Us
                 </Link>
@@ -99,30 +131,15 @@ const Home = () => {
         </div>
       </section>
 
+      <section id="Categories" className="w-full bg-green-50 py-2">
+      <h2 className=" text-2xl  text-center font-cursive font-bold">Top category</h2>
 
-      <section id="Categories" className="container bg-white py-2">
         <div className="flex flex-col md:flex-row space-y-0 md:space-y-0">
-          
-          {/* <div className="px-4 shadow-lg md:w-1/5 max-h-screen">
-            <h2 className="text-3xl font-bold mb-4">Categories</h2>
-            <ul className="flex flex-wrap justify-center md:flex-col">
-              {categories &&
-                categories.map((category, index) => (
-                  <li
-                    key={index}
-                    className="cursor-pointer p-4 font-cursive font-semibold text-lg hover:bg-green-200 transition-colors"
-                  >
-                    <Link to={`/${category.name}`}>{category.name}</Link>
-                  </li>
-                ))}
-            </ul>
-          </div> */}
 
-          <div className="w-full mx-auto md:full  justify-center items-center">
-            <h2 className="text-2xl text-center font-bold ">Top category</h2>
+          <div className="w-full mx-auto md:full flex justify-center items-center">
 
             <div className="w-full p-4 flex-cols justify-center items-center">
-              <div className="p-2 grid grid-cols-2 xs:grid-cols-1 justify-center items-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+              <div className="p-2 grid grid-cols-2 xs:grid-cols-1 justify-center items-center sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
                 {filteredcategory.map((category) => (
                   <div
                     key={category._id}
@@ -136,7 +153,7 @@ const Home = () => {
                       <div className="rounded-full overflow-hidden">
                         <Link to={`/${category.categoryName}`}>
                           <img
-                            src={`/uploads/category/${category.categoryImage}`}
+                            src={`${apiUrl}/uploads/category/${category.categoryImage}`}
                             alt={category.categoryName}
                             className="object-cover w-full h-full"
                           />
@@ -158,38 +175,87 @@ const Home = () => {
         </div>
       </section>
 
-      <section
-        id="featuredProduct"
-        className="border shadow-lg py-2 px-6"
-      >
+      <section id="featuredProduct" className="border shadow-lg py-2 px-6">
         <div className="container mx-auto py-6">
           <h2 className="text-2xl font-bold mb-4 text-center">
             Featured Products
           </h2>
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {featuredProducts.map((product) => (
-              <div key={product._id} classNames="w-full" timeout={300}>
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+            {featuredProducts.slice(0, 5).map((product) => (
+              <div key={product._id} className="w-full" timeout={300}>
                 <div className="p-2 rounded-lg shadow-md transition-transform transform hover:scale-105 duration-300">
-                <img
-                      src={`/uploads/${product.categoryName}/${product.image}`}
-                      alt={product.name}
-                      className="mb-2 sm:h-16 md:h-36 lg:h-40 mx-auto rounded-lg cursor-pointer"
-                    />
+                  <img
+                    src={`${apiUrl}/uploads/${product.categoryName}/${product.image}`}
+                    alt={product.name}
+                    className="mb-2 sm:h-16 md:h-36 lg:h-40 mx-auto rounded-lg cursor-pointer"
+                  />
                   <div className="flex space-x-10 mb-2">
-                    <h3 className="text-lg font-bold">
-                      {product.name}
-                    </h3>
+                    <h3 className="text-lg font-bold">{product.name}</h3>
                     <p className="text-gray-500">
                       {product.price.toFixed(2)}{" "}
-                      <span className="font-bold">Birr</span>{" "}
+                      <span className="font-bold">Birr</span>
                     </p>
                   </div>
                 </div>
               </div>
             ))}
           </div>
+          <div className="text-center mt-6">
+            <button
+              onClick={toggleModal}
+              className="px-4 py-2 bg-yellow-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
+            >
+              Show More
+            </button>
+          </div>
         </div>
       </section>
+
+      {showModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white w-11/12 md:w-2/3 lg:w-2/3 p-6 rounded-lg overflow-y-auto max-h-screen relative">
+            <button
+              onClick={toggleModal}
+              className="absolute top-4 right-4 text-gray-600 hover:text-gray-800"
+            >
+              ✕
+            </button>
+            <h2 className="text-2xl font-bold mb-4 text-center">
+              All Featured Products
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              {featuredProducts.map((product) => (
+                <div key={product._id} className="w-full" timeout={300}>
+                  <div className="p-2 rounded-lg shadow-md transition-transform transform hover:scale-105 duration-300">
+                    <img
+                      src={`${apiUrl}/uploads/${product.categoryName}/${product.image}`}
+                      alt={product.name}
+                      className="mb-2 sm:h-16 md:h-36 lg:h-40 mx-auto rounded-lg cursor-pointer"
+                    />
+                    <div className="flex space-x-10 mb-2">
+                      <h3 className="text-lg font-bold">{product.name}</h3>
+                      <p className="text-gray-500">
+                        {product.price.toFixed(2)}{" "}
+                        <span className="font-bold">Birr</span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="text-center mt-6">
+              <button
+                onClick={toggleModal}
+                className="px-4 py-2 bg-red-500 text-white rounded-lg shadow-md hover:bg-red-700 transition duration-300"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      </>
+    )}
       <Footer />
     </>
   );

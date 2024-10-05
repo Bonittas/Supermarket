@@ -12,6 +12,7 @@ const CategoryForm = () => {
   const handleCategoryChange = (e) => {
     setNewCategory({ ...newCategory, [e.target.name]: e.target.value });
   };
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];

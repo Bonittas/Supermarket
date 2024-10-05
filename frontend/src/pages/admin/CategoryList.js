@@ -12,6 +12,7 @@ const CategoryList = () => {
   useEffect(() => {
     fetchCategories();
   }, [page, limit, searchQuery]);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   const fetchCategories = async () => {
     try {
@@ -185,7 +186,7 @@ const CategoryList = () => {
                       ) : (
                         <img
                           key={category._id}
-                          src={`/uploads/category/${category.categoryImage}`}
+                          src={`${apiUrl}/uploads/category/${category.categoryImage}`}
                           alt={category.categoryName}
                           className="max-h-24 max-w-24"
                         />
