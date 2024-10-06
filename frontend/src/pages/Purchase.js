@@ -46,7 +46,7 @@ const PurchasePage = ({ cartItems, setCartItems, onDeleteItem }) => {
         ...formData,
         tx_ref: `TX${Math.floor(100000 + Math.random() * 9000000)}`,
         callback_url: "https://example.com/callback",
-        return_url: "https://dalas-backend.onrender.com/",
+        return_url: "https://dalas-market.onrender.com/",
         customization: {
           title: "Customer",
           description: formData.remark,
