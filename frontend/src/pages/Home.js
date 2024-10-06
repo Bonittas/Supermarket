@@ -203,7 +203,7 @@ const Home = () => {
           <div className="text-center mt-6">
             <button
               onClick={toggleModal}
-              className="px-4 py-2 bg-yellow-600 text-white rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
+              className="px-4 py-2 bg-yellow-600 text-white rounded-lg shadow-md hover:bg-yellow -700 transition duration-300"
             >
               Show More
             </button>
